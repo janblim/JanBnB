@@ -2,6 +2,8 @@
 
 ## Database Schema Design
 
+![Screenshot 2024-04-11 at 5 05 30 PM](https://github.com/janblim/JanBnB/assets/15952839/53f5e544-de54-47dd-b891-3d875c497617)
+
 ## API Documentation
 
 ## USER AUTHENTICATION/AUTHORIZATION
