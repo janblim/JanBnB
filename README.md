@@ -2,7 +2,8 @@
 
 ## Database Schema Design
 
-![Screenshot 2024-04-11 at 5 05 30 PM](https://github.com/janblim/JanBnB/assets/15952839/53f5e544-de54-47dd-b891-3d875c497617)
+![Screenshot 2024-04-15 at 11 36 05 AM](https://github.com/janblim/JanBnB/assets/15952839/60179faf-4a60-40af-9d38-a49bf06a8c87)
+
 
 ## API Documentation
 
@@ -1454,5 +1455,66 @@ Return spots filtered by query parameters.
         "minPrice": "Minimum price must be greater than or equal to 0",
         "maxPrice": "Maximum price must be greater than or equal to 0"
       }
+
+
+Database Schema Script
+
+Table spots {
+  id integer [primary key]
+  ownerId integer
+  address varchar
+  city varchar
+  state varchar
+  lat decimal
+  lng decimal
+  name varchar
+  description varchar
+  price decimal
+  createdAt datetime
+  updatedAt datetime
+  avgRating decimal
+  previewImage image
+}
+
+Table users {
+  id integer [primary key]
+  firstName varchar
+  lastName varchar
+  email varchar
+  username varchar
+}
+
+Table reviews {
+  id integer [primary key]
+  userId integer
+  spotId integer
+  review varchar
+  stars integer
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table bookings {
+  id integer [primary key]
+  spotId integer
+  startDate date
+  endDate date
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table images {
+  id integer [primary key]
+  imageableId integer
+  imageableType varchar
+  url varchar
+}
+
+Ref: spots.ownerId > users.id
+Ref: reviews.userId > users.id
+Ref: reviews.spotId > spots.id
+Ref: bookings.spotId > spots.id
+Ref: spots.id > images.imageableId
+Ref: reviews.id > images.imageableId
     }
     ```
