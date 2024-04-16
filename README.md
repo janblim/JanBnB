@@ -2,8 +2,7 @@
 
 ## Database Schema Design
 
-![Screenshot 2024-04-15 at 3 48 59 PM](https://github.com/janblim/JanBnB/assets/15952839/bcf5b05e-c850-4f7f-8562-910251912377)
-
+![Screenshot 2024-04-16 at 12 55 34 PM](https://github.com/janblim/JanBnB/assets/15952839/6bca61e5-c929-4762-a12b-369829a89d06)
 
 
 ## API Documentation
@@ -1462,6 +1461,7 @@ Database Schema Script
 
 Table spots {
   id integer [primary key]
+  ownerId integer
   address varchar
   city varchar
   state varchar
@@ -1472,8 +1472,6 @@ Table spots {
   price decimal
   createdAt datetime
   updatedAt datetime
-  avgRating decimal
-  previewImage image
 }
 
 Table users {
@@ -1486,6 +1484,8 @@ Table users {
 
 Table reviews {
   id integer [primary key]
+  userId integer
+  spotId integer
   review varchar
   stars integer
   createdAt timestamp
@@ -1494,23 +1494,33 @@ Table reviews {
 
 Table bookings {
   id integer [primary key]
+  spotId integer
+  userId integer
   startDate date
   endDate date
   createdAt timestamp
   updatedAt timestamp
 }
 
-Table images {
+Table spotImages {
   id integer [primary key]
+  spotId integer
   url varchar
+  previewImage image
 }
 
-Ref: spots.id > users.id
-Ref: reviews.id < users.id
-Ref: images.id > spots.id
-Ref: images.id > reviews.id 
-Ref: users.id < bookings.id
-Ref: spots.id < reviews.id
-Ref: spots.id < bookings.id
+Table reviewImages {
+  id integer [primary key]
+  reviewId integer
+  url varchar
+  previewImage image
+}
 
 
+Ref: spots.ownerId > users.id
+Ref: reviews.userId > users.id
+Ref: reviews.spotId > spots.id
+Ref: users.id < bookings.userId
+Ref: bookings.spotId > spots.id
+Ref: reviewImages.reviewId > reviews.id
+Ref: spots.id < spotImages.spotId
