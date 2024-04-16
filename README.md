@@ -2,7 +2,8 @@
 
 ## Database Schema Design
 
-![Screenshot 2024-04-16 at 12 55 34 PM](https://github.com/janblim/JanBnB/assets/15952839/6bca61e5-c929-4762-a12b-369829a89d06)
+![Screenshot 2024-04-16 at 3 56 29 PM](https://github.com/janblim/JanBnB/assets/15952839/506831bf-da1b-4be3-bea2-48d88397f2da)
+
 
 
 ## API Documentation
