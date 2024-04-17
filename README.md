@@ -52,7 +52,7 @@ Returns the information about the current user that is logged in.
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: /api/currentUser
+  * URL: /api/users/current
   * Body: none
 
 * Successful Response when there is a logged in user
@@ -160,7 +160,7 @@ user's information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: /api/users/newUser
+  * URL: /api/users
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1457,7 +1457,7 @@ Return spots filtered by query parameters.
         "maxPrice": "Maximum price must be greater than or equal to 0"
       }
     ```
-    
+
 Database Schema Script
 
 Table spots {
