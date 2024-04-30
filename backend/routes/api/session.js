@@ -69,6 +69,8 @@ router.delete('/', (_req, res) => {
     }
   );
 
+
+
 // Restore session user
 router.get('/', (req, res) => {
       const { user } = req;
