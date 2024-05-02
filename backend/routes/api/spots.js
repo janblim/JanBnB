@@ -2,7 +2,7 @@ const express = require('express');
 // const bcrypt = require('bcryptjs');
 
 // const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Spot } = require('../../db/models');
+const { Spot, Review, SpotImage } = require('../../db/models');
 
 // const { check } = require('express-validator');
 // const { handleValidationErrors } = require('../../utils/validation');
@@ -40,6 +40,66 @@ router.get(
             return res.status(200).json({"Spots": spots})
         }
 )
+
+// Get all Spots from current user
+router.get(
+    '/current',
+    async (req, res) => {
+        const { user } = req;
+        const spots = await Spot.findAll(
+            {where: {'ownerId': user.id}}
+        )
+        return res.status(200).json({"Spots": spots})
+    }
+)
+
+// Get details of a Spot from an id
+
+router.get(
+    '/:spotId',
+    async (req, res) => {
+        const id = req.params.spotId;
+
+        const spot = await Spot.findByPk(id)
+
+          if(!spot){
+            return res.status(404).json({
+              "message": "Spot couldn't be found"
+            });
+          } else {
+
+            const numReviews = await Review.count({where:{spotId:id}});
+
+            const sumRatings = await Review.sum('stars', {where:{spotId:id}});
+            const avgStarRating = sumRatings/numReviews;
+
+            const spotImages = await SpotImage.findAll({
+                where: {spotId:id}
+            })
+
+
+            const spotData = {
+                id: spot.id,
+                ownerId: spot.ownerId,
+                address: spot.address,
+                city: spot.city,
+                state: spot.state,
+                country: spot.country,
+                lat: spot.lat,
+                lng: spot.lng,
+                name: spot.name,
+                description: spot.description,
+                price: spot.price,
+                numReviews: numReviews,
+                avgStarRating: avgStarRating,
+                SpotImages: spotImages
+            }
+            return res.status(200).json(spotData)
+          }
+    }
+)
+
+
 
 // Add Spot
 // router.post(

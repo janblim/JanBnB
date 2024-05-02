@@ -11,6 +11,54 @@ module.exports = {
 
     await Review.bulkCreate([
       {
+        spotId: 1,
+        userId: 1,
+        review: 'asdfasdf',
+        stars: 5
+      },
+      {
+        spotId: 1,
+        userId: 2,
+        review: 'asdgfasdfdfs ',
+        stars: 4
+      },
+      {
+        spotId: 1,
+        userId: 1,
+        review: 'csasdfasdfsd',
+        stars: 4
+      },
+      {
+        spotId: 1,
+        userId: 3,
+        review: 'sadfsdf',
+        stars: 5
+      },
+      {
+        spotId: 2,
+        userId: 1,
+        review: 'asd',
+        stars: 2
+      },
+      {
+        spotId: 2,
+        userId: 2,
+        review: 'usadfasdfasdf',
+        stars: 2
+      },
+      {
+        spotId: 2,
+        userId: 1,
+        review: 'gasdf',
+        stars: 1
+      },
+      {
+        spotId: 2,
+        userId: 3,
+        review: 'Tddda',
+        stars: 4
+      },
+      {
         spotId: 3,
         userId: 1,
         review: 'And the waving wheat, it sure smells sweet!',
@@ -57,7 +105,7 @@ module.exports = {
         userId: 3,
         review: 'Thats what Googling means? Here I thought it meant the other thing!',
         stars: 4
-      },
+      }
 
     ], { validate: true });
   },
@@ -66,7 +114,7 @@ module.exports = {
     options.tableName = 'Reviews';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      spotId: { [Op.in]: [3, 4] }
+      spotId: { [Op.in]: [1, 2, 3, 4] }
     }, {});
   }
 };
