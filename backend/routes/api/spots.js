@@ -4,8 +4,8 @@ const express = require('express');
 // const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { Spot, Review, SpotImage } = require('../../db/models');
 
-// const { check } = require('express-validator');
-// const { handleValidationErrors } = require('../../utils/validation');
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
@@ -99,60 +99,78 @@ router.get(
     }
 )
 
+//Spot validator
+
+const validateSpot = [
+    check('address')
+      .exists({ checkFalsy: true })
+      .withMessage("Street address is required"),
+    check('city')
+      .exists({ checkFalsy: true })
+      .withMessage("City is required"),
+    check('state')
+      .exists({checkFalsy: true})
+      .withMessage("State is required"),
+    check('country')
+      .exists({ checkFalsy: true })
+      .withMessage("Country is required"),
+    check('lat')
+      .exists({ checkFalsy: true })
+      .isFloat({min: -90, max: 90})
+      .withMessage("Latitude must be within -90 and 90"),
+    check('lng')
+      .exists({ checkFalsy: true })
+      .isFloat({min: -180, max: 180})
+      .withMessage("Longitude must be within -180 and 180"),
+    check('name')
+      .exists({ checkFalsy: true })
+      .isLength({ max: 50 })
+      .withMessage("Name must be less than 50 characters"),
+    check('description')
+        .exists({ checkFalsy: true })
+        .withMessage("Description is required"),
+    check('price')
+        .exists({ checkFalsy: true })
+        .isFloat({min: 0})
+        .withMessage("Price per day must be a positive number"),
+    handleValidationErrors
+  ];
 
 
-// Add Spot
-// router.post(
-//     '/',
-//     validateSpot,
-//     async (req, res) => {
-//       const { email, password, firstName, lastName, username } = req.body;
-//       const hashedPassword = bcrypt.hashSync(password);
+//Create a Spot
 
-//       const nameCheck = await User.findOne({
-//         where: { username: username }
-//       });
+router.post(
+    '/',
+    validateSpot,
+    async (req, res) => {
+      const {
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price
+        } = req.body;
 
-//       const emailCheck = await User.findOne({
-//         where: { email: email }
-//       })
+        const user = await Spot.create({
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price
+        });
 
-//       if( emailCheck !== null ){
-//         return res.status(500).json({
-//           "message": "User already exists",
-//           errors:{
-//             "email": "User with that email already exists"
-//           }
-//         });
-//       } else if (nameCheck !== null) {
-//         return res.status(500).json({
-//         "message": "User already exists",
-//         errors: {
-//           "username": "User with that username already exists"
-//         }
-//       });
+        return res.json(user)
 
-//     } else {
-
-//         const user = await User.create({ username, firstName, lastName, email, hashedPassword });
-
-//         const safeUser = {
-//           id: user.id,
-//           firstName: user.firstName,
-//           lastName: user.lastName,
-//           email: user.email,
-//           username: user.username,
-//         };
-
-//         await setTokenCookie(res, safeUser);
-
-//         return res.json({
-//           user: safeUser
-//         })
-
-//       }
-//     }
-// );
+      }
+);
 
 
 module.exports = router;
