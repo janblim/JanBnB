@@ -2,7 +2,7 @@ const express = require('express');
 // const bcrypt = require('bcryptjs');
 
 // const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Booking } = require('../../db/models');
+const { Booking, Spot } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -19,6 +19,11 @@ router.get(
         const bookings = await Booking.findAll(
             {where: {'userId': user.id}}
         )
+        // bookings.forEach( async (booking) => {
+        //     const spot = await Spot.findByPk(booking.spotId)
+        //     console.log(spot)
+        //     booking.Spot = spot;
+        // })
         return res.status(200).json({"Bookings": bookings})
     }
 )
