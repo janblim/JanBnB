@@ -9,28 +9,6 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
-//validator
-
-// const validateSpot = [
-//     check('email')
-//       .exists({ checkFalsy: true })
-//       .isEmail()
-//       .withMessage('Please provide a valid email.'),
-//     check('username')
-//       .exists({ checkFalsy: true })
-//       .isLength({ min: 4 })
-//       .withMessage('Please provide a username with at least 4 characters.'),
-//     check('username')
-//       .not()
-//       .isEmail()
-//       .withMessage('Username cannot be an email.'),
-//     check('password')
-//       .exists({ checkFalsy: true })
-//       .isLength({ min: 6 })
-//       .withMessage('Password must be 6 characters or more.'),
-//     handleValidationErrors
-//   ];
-
 // Get all Spots
 
 router.get(
@@ -204,6 +182,7 @@ router.post(
 );
 
 //Edit Spot
+
 router.put(
     '/:spotId',
     validateSpot,
@@ -250,8 +229,30 @@ router.put(
     }
 );
 
+//Delete Spot
 
+router.delete(
+    '/:spotId',
+    async (req, res) => {
 
+        const spotId = req.params.spotId;
+        const spot = await Spot.findByPk(spotId);
 
+        if (!spot){
+            return res.status(404).json({
+                message: "Spot couldn't be found"
+            })
+        } else {
+
+        await Spot.destroy({
+            where: { id: spotId }
+        });
+
+        return res.status(200).json({
+            message: "Successfully deleted"
+        })
+    }
+    }
+);
 
 module.exports = router;
