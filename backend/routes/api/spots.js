@@ -329,5 +329,29 @@ router.post(
 }
 );
 
+// Get all bookings for a spot --not finished
+router.get(
+    '/:spotId/bookings',
+    requireAuth,
+    async (req, res) => {
+        const { user } = req;
+        const bookings = await Booking.findAll(
+            {where: {'spotId': user.id}}
+        )
+
+        return res.status(200).json({"Bookings": bookings})
+    }
+)
+
+//Create a booking based on spotid -- not finished
+
+router.post(
+    '/:spotId/bookings',
+    requireAuth,
+    async (req, res) => {
+        const { startDate, endDate } = req.body;
+
+    }
+)
 
 module.exports = router;
