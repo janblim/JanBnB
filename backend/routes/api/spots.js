@@ -167,10 +167,91 @@ router.post(
             price
         });
 
-        return res.json(user)
-
+        return res.status(200).json(user)
       }
 );
+
+//Add Image to Spot
+
+router.post(
+    '/:spotId/Images',
+    async (req, res) => {
+        const { url, preview } = req.body;
+        const spotId = req.params.spotId;
+
+        const spot = await Spot.findByPk(spotId)
+        console.log('spot', spot)
+        if(!spot){
+
+            return res.status(404).json({
+                message: "Spot couldn't be found"
+            })
+        } else {
+
+        const image = await SpotImage.create({
+            spotId: spotId,
+            url: url,
+            preview: preview
+        })
+
+        res.status(200).json({
+            id: image.id,
+            url: image.url,
+            preview: image.preview
+        })
+    }
+    }
+);
+
+//Edit Spot
+router.put(
+    '/:spotId',
+    validateSpot,
+    async (req, res) => {
+
+        const spotId = req.params.spotId;
+        const spotCheck = await Spot.findByPk(spotId)
+
+        if (!spotCheck){
+            return res.status(404).json({
+                message: "Spot couldn't be found"
+            })
+        } else {
+
+        const {
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price
+        } = req.body;
+
+        await Spot.update({
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price
+        },
+        { where: { id: spotId }}
+        );
+
+        const spot = await Spot.findByPk(spotId)
+        return res.status(200).json(spot)
+      }
+    }
+);
+
+
+
 
 
 module.exports = router;
