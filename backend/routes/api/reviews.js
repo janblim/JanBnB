@@ -2,10 +2,11 @@ const express = require('express');
 // const bcrypt = require('bcryptjs');
 
 // const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Review } = require('../../db/models');
+const { Review, ReviewImage } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
 
@@ -21,176 +22,116 @@ router.get(
     }
 )
 
-
-//Spot validator
-
-const validateSpot = [
-    check('address')
-      .exists({ checkFalsy: true })
-      .withMessage("Street address is required"),
-    check('city')
-      .exists({ checkFalsy: true })
-      .withMessage("City is required"),
-    check('state')
-      .exists({checkFalsy: true})
-      .withMessage("State is required"),
-    check('country')
-      .exists({ checkFalsy: true })
-      .withMessage("Country is required"),
-    check('lat')
-      .exists({ checkFalsy: true })
-      .isFloat({min: -90, max: 90})
-      .withMessage("Latitude must be within -90 and 90"),
-    check('lng')
-      .exists({ checkFalsy: true })
-      .isFloat({min: -180, max: 180})
-      .withMessage("Longitude must be within -180 and 180"),
-    check('name')
-      .exists({ checkFalsy: true })
-      .isLength({ max: 50 })
-      .withMessage("Name must be less than 50 characters"),
-    check('description')
-        .exists({ checkFalsy: true })
-        .withMessage("Description is required"),
-    check('price')
-        .exists({ checkFalsy: true })
-        .isFloat({min: 0})
-        .withMessage("Price per day must be a positive number"),
-    handleValidationErrors
-  ];
-
-
-//Create a Spot
+//Add Image to Review
 
 router.post(
-    '/',
-    validateSpot,
+    '/:reviewId/Images',
+    requireAuth,
     async (req, res) => {
-      const {
-        address,
-        city,
-        state,
-        country,
-        lat,
-        lng,
-        name,
-        description,
-        price
-        } = req.body;
+        const { url } = req.body;
+        const { user } = req;
+        const reviewId = req.params.reviewId;
 
-        const user = await Spot.create({
-            address,
-            city,
-            state,
-            country,
-            lat,
-            lng,
-            name,
-            description,
-            price
-        });
+        const review = await Review.findByPk(reviewId)
+        const imageCount = await ReviewImage.count({where: {reviewId: reviewId}})
 
-        return res.status(200).json(user)
-      }
-);
+        // if(review.userId !== user.id ){
+        //     return res.json(404).json({
+        //         message: "Review must belong to current user"
+        //     })
+        // }
+        // else
 
-//Add Image to Spot
-
-router.post(
-    '/:spotId/Images',
-    async (req, res) => {
-        const { url, preview } = req.body;
-        const spotId = req.params.spotId;
-
-        const spot = await Spot.findByPk(spotId)
-        console.log('spot', spot)
-        if(!spot){
+        if(!review){
 
             return res.status(404).json({
-                message: "Spot couldn't be found"
+                message: "Review couldn't be found"
+            })
+        }
+        else if(imageCount > 10){
+            return res.status(403).json({
+                message: "Maximum number of images for this resource was reached"
             })
         } else {
 
-        const image = await SpotImage.create({
-            spotId: spotId,
-            url: url,
-            preview: preview
+        const image = await ReviewImage.create({
+            reviewId: reviewId,
+            url: url
         })
 
         res.status(200).json({
             id: image.id,
-            url: image.url,
-            preview: image.preview
+            url: image.url
         })
-    }
+        }
     }
 );
 
-//Edit Spot
+//validate Review
+
+const validateReview = [
+    check('review')
+      .exists({ checkFalsy: true })
+      .withMessage("Review text is required"),
+    check('stars')
+        .isInt({min: 1, max: 5})
+        .withMessage("Stars must be an integer from 1 to 5"),
+    handleValidationErrors
+  ];
+
+//Edit Review
 
 router.put(
-    '/:spotId',
-    validateSpot,
+    '/:reviewId',
+    validateReview,
+    requireAuth,
     async (req, res) => {
 
-        const spotId = req.params.spotId;
-        const spotCheck = await Spot.findByPk(spotId)
+        // if(reviewId !== user.id ){
+        //     return res.json(404).json({
+        //         message: "Review must belong to current user"
+        //     })
+        // }
+        const { review, stars } = req.body;
+        const reviewId= req.params.reviewId;
+        const reviewCheck = await Review.findByPk(reviewId)
 
-        if (!spotCheck){
+        if (!reviewCheck){
             return res.status(404).json({
-                message: "Spot couldn't be found"
+                message: "Review couldn't be found"
             })
         } else {
 
-        const {
-            address,
-            city,
-            state,
-            country,
-            lat,
-            lng,
-            name,
-            description,
-            price
-        } = req.body;
-
-        await Spot.update({
-            address,
-            city,
-            state,
-            country,
-            lat,
-            lng,
-            name,
-            description,
-            price
+        await Review.update({
+            review,
+            stars
         },
-        { where: { id: spotId }}
+        { where: { id: reviewId }}
         );
 
-        const spot = await Spot.findByPk(spotId)
-        return res.status(200).json(spot)
+        const editedReview = await Review.findByPk(reviewId)
+        return res.status(200).json(editedReview)
       }
     }
 );
 
-//Delete Spot
+//Delete Review
 
 router.delete(
-    '/:spotId',
+    '/:reviewId',
     async (req, res) => {
 
-        const spotId = req.params.spotId;
-        const spot = await Spot.findByPk(spotId);
+        const reviewId = req.params.reviewId;
+        const review = await Review.findByPk(reviewId);
 
-        if (!spot){
+        if (!review){
             return res.status(404).json({
-                message: "Spot couldn't be found"
+                message: "Review couldn't be found"
             })
         } else {
 
-        await Spot.destroy({
-            where: { id: spotId }
+        await Review.destroy({
+            where: { id: reviewId }
         });
 
         return res.status(200).json({
