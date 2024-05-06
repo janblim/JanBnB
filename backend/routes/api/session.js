@@ -21,6 +21,12 @@ const validateLogin = [
     check('password')
       .exists({ checkFalsy: true })
       .withMessage('Please provide a password.'),
+    check('firstName')
+      .exists({ checkFalsy: true })
+      .withMessage('First Name is required'),
+    check('lastName')
+      .exists({ checkFalsy: true })
+      .withMessage('Last Name is required'),
     handleValidationErrors
   ];
 
@@ -50,6 +56,8 @@ router.post(
 
       const safeUser = {
         id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
         username: user.username,
       };
@@ -77,6 +85,8 @@ router.get('/', (req, res) => {
       if (user) {
         const safeUser = {
           id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
           email: user.email,
           username: user.username,
         };
