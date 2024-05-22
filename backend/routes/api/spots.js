@@ -37,8 +37,7 @@ router.get(
                     return obj.spotId === currentId
                 })
 
-                const avgRating = starSum/reviewCount
-                // const spotImage = spot.SpotImages[1]
+                const avgRating = starSum/reviewCount;
 
                 newSpots.push({
                     id: spot.id,
@@ -68,34 +67,57 @@ router.get(
     '/current',
     requireAuth,
     async (req, res) => {
+
         const { user } = req;
+
         const spots = await Spot.findAll({
-            attributes: [
-                'id',
-                'ownerid',
-                'address',
-                'city',
-                'state',
-                'country',
-                'lat',
-                'lng',
-                'name',
-                'description',
-                'price',
-                'createdAt',
-                'updatedAt',
-                [Review.sequelize.fn('AVG', Review.sequelize.col('stars')), 'avgRating'],
-                [SpotImage.sequelize.col('url'), 'preview']
-            ],
             include: [
-                {model: Review,
-                attributes:[]},
-                {model: SpotImage,
-                attributes:[]}
+                {model: Review},
             ],
             where: {'ownerId': user.id}
+        });
+
+        const spotImages = await SpotImage.findAll()
+
+        let newSpots = [];
+
+        spots.forEach((spot) => {
+
+            const reviewCount = spot.Reviews.length;
+            let starSum = 0
+            spot.Reviews.forEach((review) => {
+                starSum += review.stars
+            })
+
+            currentId = spot.id;
+            const image = spotImages.find((obj) => {
+                return obj.spotId === currentId
+            })
+
+            const avgRating = starSum/reviewCount;
+
+            newSpots.push({
+                id: spot.id,
+                ownerid: spot.ownerid,
+                address: spot.address,
+                city: spot.city,
+                state: spot.state,
+                country: spot.country,
+                lat: spot.lat,
+                lng: spot.lng,
+                name: spot.name,
+                description: spot.description,
+                price: spot.price,
+                createdAt: spot.createdAt,
+                updatedAt: spot.updatedAt,
+                avgRating: avgRating,
+                previewImage: image.url
+            })
         })
-        return res.status(200).json({"Spots": spots})
+
+
+
+        return res.status(200).json({"Spots": newSpots})
     }
 )
 
