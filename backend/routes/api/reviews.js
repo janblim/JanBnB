@@ -72,7 +72,7 @@ router.post(
         const imageCount = await ReviewImage.count({where: {reviewId: reviewId}})
 
         if(review.userId !== user.id ){
-            return res.json(404).json({
+            return res.status(404).json({
                 message: "Review must belong to current user"
             })
         }
@@ -122,23 +122,26 @@ router.put(
     requireAuth,
     async (req, res) => {
 
-        // if(reviewId !== user.id ){
-        //     return res.json(404).json({
-        //         message: "Review must belong to current user"
-        //     })
-        // }
-        const { review, stars } = req.body;
-        const reviewId= req.params.reviewId;
-        const reviewCheck = await Review.findByPk(reviewId)
 
-        if (!reviewCheck){
+        const { reviewEdits, stars } = req.body;
+        const { user } = req;
+        const reviewId= req.params.reviewId;
+        const review = await Review.findByPk(reviewId)
+
+        if(review.userId !== user.id ){
+            return res.status(404).json({
+                message: "Review must belong to current user"
+            })
+        }
+
+        if (!review){
             return res.status(404).json({
                 message: "Review couldn't be found"
             })
         } else {
 
         await Review.update({
-            review,
+            reviewEdits,
             stars
         },
         { where: { id: reviewId }}
@@ -154,14 +157,20 @@ router.put(
 
 router.delete(
     '/:reviewId',
+    requireAuth,
     async (req, res) => {
 
+        const { user } = req;
         const reviewId = req.params.reviewId;
         const review = await Review.findByPk(reviewId);
 
         if (!review){
             return res.status(404).json({
                 message: "Review couldn't be found"
+            })
+        } else if (review.userId !== user.id) {
+            return res.status(404).json({
+                message: "Review must belong to current user"
             })
         } else {
 

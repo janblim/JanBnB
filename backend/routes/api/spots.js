@@ -2,7 +2,7 @@ const express = require('express');
 // const bcrypt = require('bcryptjs');
 
 const { requireAuth } = require('../../utils/auth');
-const { Spot, Review, SpotImage, User } = require('../../db/models');
+const { Spot, Review, SpotImage, ReviewImage, User } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -387,9 +387,15 @@ router.get(
             })
         } else {
 
-        const reviews = await Review.findAll(
-            {where: {'spotId': spotId}}
-        )
+        const reviews = await Review.findAll({
+            where: {'spotId': spotId},
+            include: [
+                {model: User,
+                attributes: ['id', 'firstName', 'lastName']},
+                {model: ReviewImage,
+                attributes: ['id', 'url']}
+            ]
+        })
         return res.status(200).json({"Reviews": reviews})
         }
     }
@@ -420,6 +426,7 @@ router.post(
     const spotCheck = await Spot.findByPk(spotId);
     const userCheck = await Review.findAll({
         where: { userId: userId}
+
     })
 
     if(!spotCheck){
