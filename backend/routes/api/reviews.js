@@ -2,7 +2,7 @@ const express = require('express');
 // const bcrypt = require('bcryptjs');
 
 // const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Review, ReviewImage } = require('../../db/models');
+const { Review, Spot, User, ReviewImage, SpotImage } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -13,11 +13,47 @@ const router = express.Router();
 // Get all Reviews from current user
 router.get(
     '/current',
+    requireAuth,
     async (req, res) => {
         const { user } = req;
-        const reviews = await Review.findAll(
-            {where: {'userId': user.id}}
-        )
+
+        const spotImages = await SpotImage.findAll();
+        const reviews = await Review.findAll({
+            where: {'userId': user.id},
+            include: [
+                {model: User,
+                attributes: ['id', 'firstName', 'lastName']},
+
+                {model: Spot,
+                attributes: { exclude: ['description', 'createdAt', 'updatedAt']}},
+
+                {model: ReviewImage,
+                attributes: ['id', 'url']}
+            ]
+        })
+
+
+        // // having trouble getting preview Images to add to spot
+        // const newReviews = reviews.map((review) => {
+
+        //     let res = review
+
+        //     console.log(res.Spot)
+
+        //     const previewImageData = spotImages.find((spotImage) => {
+        //         spotImage.spotId === review.spotId
+        //     })
+
+        //     if (previewImageData){
+        //         res.Spot.previewImage = previewImageData.previewImage
+        //     } else {
+        //         res.Spot.previewImage = null
+        //     }
+
+        //     return res
+        // })
+
+
         return res.status(200).json({"Reviews": reviews})
     }
 )
@@ -35,12 +71,11 @@ router.post(
         const review = await Review.findByPk(reviewId)
         const imageCount = await ReviewImage.count({where: {reviewId: reviewId}})
 
-        // if(review.userId !== user.id ){
-        //     return res.json(404).json({
-        //         message: "Review must belong to current user"
-        //     })
-        // }
-        // else
+        if(review.userId !== user.id ){
+            return res.status(404).json({
+                message: "Review must belong to current user"
+            })
+        }
 
         if(!review){
 
@@ -87,23 +122,26 @@ router.put(
     requireAuth,
     async (req, res) => {
 
-        // if(reviewId !== user.id ){
-        //     return res.json(404).json({
-        //         message: "Review must belong to current user"
-        //     })
-        // }
-        const { review, stars } = req.body;
-        const reviewId= req.params.reviewId;
-        const reviewCheck = await Review.findByPk(reviewId)
 
-        if (!reviewCheck){
+        const { reviewEdits, stars } = req.body;
+        const { user } = req;
+        const reviewId= req.params.reviewId;
+        const review = await Review.findByPk(reviewId)
+
+        if(review.userId !== user.id ){
+            return res.status(404).json({
+                message: "Review must belong to current user"
+            })
+        }
+
+        if (!review){
             return res.status(404).json({
                 message: "Review couldn't be found"
             })
         } else {
 
         await Review.update({
-            review,
+            reviewEdits,
             stars
         },
         { where: { id: reviewId }}
@@ -119,14 +157,20 @@ router.put(
 
 router.delete(
     '/:reviewId',
+    requireAuth,
     async (req, res) => {
 
+        const { user } = req;
         const reviewId = req.params.reviewId;
         const review = await Review.findByPk(reviewId);
 
         if (!review){
             return res.status(404).json({
                 message: "Review couldn't be found"
+            })
+        } else if (review.userId !== user.id) {
+            return res.status(404).json({
+                message: "Review must belong to current user"
             })
         } else {
 

@@ -2,7 +2,7 @@ const express = require('express');
 // const bcrypt = require('bcryptjs');
 
 const { requireAuth } = require('../../utils/auth');
-const { Spot, Review, SpotImage } = require('../../db/models');
+const { Spot, Review, SpotImage, ReviewImage, User } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -130,6 +130,7 @@ router.get(
 
         const spot = await Spot.findByPk(id)
 
+
           if(!spot){
             return res.status(404).json({
               "message": "Spot couldn't be found"
@@ -142,8 +143,11 @@ router.get(
             const avgStarRating = sumRatings/numReviews;
 
             const spotImages = await SpotImage.findAll({
-                where: {spotId:id}
+                where: {spotId:id},
+                attributes: ["id", "url", "preview"]
             })
+
+            const owner = await User.findByPk(spot.ownerId)
 
 
             const spotData = {
@@ -158,9 +162,16 @@ router.get(
                 name: spot.name,
                 description: spot.description,
                 price: spot.price,
+                createdAt: spot.createdAt,
+                updatedAt: spot.updatedAt,
                 numReviews: numReviews,
-                avgRating: avgStarRating,
-                SpotImages: spotImages
+                avgStarRating: avgStarRating,
+                SpotImages: spotImages,
+                Owner: {
+                    id: owner.id,
+                    firstName: owner.firstName,
+                    lastName: owner.lastName
+                }
             }
             return res.status(200).json(spotData)
           }
@@ -209,6 +220,7 @@ const validateSpot = [
 
 router.post(
     '/',
+    requireAuth,
     validateSpot,
     async (req, res) => {
       const {
@@ -223,7 +235,10 @@ router.post(
         price
         } = req.body;
 
-        const user = await Spot.create({
+        const { user } = req
+
+        const spot = await Spot.findOrCreate({
+            ownerId: user.id,
             address,
             city,
             state,
@@ -235,7 +250,11 @@ router.post(
             price
         });
 
-        return res.status(200).json(user)
+        // const spot = await Spot.findOne({
+        //     where: { address: address}
+        // })
+
+        return res.status(201).json(spot)
       }
 );
 
@@ -280,6 +299,7 @@ router.put(
     async (req, res) => {
 
         const spotId = req.params.spotId;
+        const { user } = req;
         const spotCheck = await Spot.findByPk(spotId)
 
         if (!spotCheck){
@@ -329,10 +349,15 @@ router.delete(
 
         const spotId = req.params.spotId;
         const spot = await Spot.findByPk(spotId);
+        const { user } = req;
 
         if (!spot){
             return res.status(404).json({
                 message: "Spot couldn't be found"
+            })
+        } else if (user.id !== spot.ownerId){
+            return res.status(404).json({
+                message: "Spot must belong to the current user"
             })
         } else {
 
@@ -362,9 +387,15 @@ router.get(
             })
         } else {
 
-        const reviews = await Review.findAll(
-            {where: {'spotId': spotId}}
-        )
+        const reviews = await Review.findAll({
+            where: {'spotId': spotId},
+            include: [
+                {model: User,
+                attributes: ['id', 'firstName', 'lastName']},
+                {model: ReviewImage,
+                attributes: ['id', 'url']}
+            ]
+        })
         return res.status(200).json({"Reviews": reviews})
         }
     }
@@ -395,6 +426,7 @@ router.post(
     const spotCheck = await Spot.findByPk(spotId);
     const userCheck = await Review.findAll({
         where: { userId: userId}
+
     })
 
     if(!spotCheck){
