@@ -32,29 +32,27 @@ router.get(
             ]
         })
 
+        //add previewImages to Spot object within Review
 
-        // // having trouble getting preview Images to add to spot
-        // const newReviews = reviews.map((review) => {
+        const newReviews = reviews.map((review) => {
 
-        //     let res = review
+            const reviewObj = review.toJSON();
 
-        //     console.log(res.Spot)
+            const previewImageData = spotImages.find((spotImage) => {
+                return spotImage.spotId === review.spotId
+            })
 
-        //     const previewImageData = spotImages.find((spotImage) => {
-        //         spotImage.spotId === review.spotId
-        //     })
+            if (previewImageData){
+                reviewObj.Spot.previewImage = previewImageData.url
+            } else {
+                reviewObj.Spot.previewImage = null
+            }
 
-        //     if (previewImageData){
-        //         res.Spot.previewImage = previewImageData.previewImage
-        //     } else {
-        //         res.Spot.previewImage = null
-        //     }
-
-        //     return res
-        // })
+            return reviewObj
+        })
 
 
-        return res.status(200).json({"Reviews": reviews})
+        return res.status(200).json({"Reviews": newReviews})
     }
 )
 

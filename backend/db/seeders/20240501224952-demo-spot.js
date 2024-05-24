@@ -20,8 +20,7 @@ module.exports = {
         lng: -23.333221145,
         name: 'Cabin',
         description: 'Check out this quaint lil cabin, foo',
-        price: 50,
-        previewImage: 'image url'
+        price: 50
       },
       {
         ownerId: 2,
@@ -33,8 +32,7 @@ module.exports = {
         lng: -4.333221145,
         name: 'Haunted House',
         description: 'Stay here if you daaaaare!',
-        price: 60,
-        previewImage: 'image url'
+        price: 60
       },
       {
         ownerId: 2,
@@ -46,8 +44,7 @@ module.exports = {
         lng: -46.3245,
         name: 'Farmhouse',
         description: 'Where the wind comes sweeping round the plain',
-        price: 15,
-        previewImage: 'image url'
+        price: 15
       },
       {
         ownerId: 3,
@@ -59,8 +56,7 @@ module.exports = {
         lng: -86.3245,
         name: 'Google',
         description: 'We sell YOU',
-        price: 30,
-        previewImage: 'image url'
+        price: 30
       },
 
     ], { validate: true });

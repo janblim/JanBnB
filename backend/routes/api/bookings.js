@@ -17,7 +17,10 @@ router.get(
     async (req, res) => {
         const { user } = req;
         const bookings = await Booking.findAll(
-            {where: {'userId': user.id}}
+            {where: {'userId': user.id}},
+            {include: [{
+                model: Spot
+            }]}
         )
         // bookings.forEach( async (booking) => {
         //     const spot = await Spot.findByPk(booking.spotId)
