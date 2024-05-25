@@ -2,7 +2,7 @@ const express = require('express');
 // const bcrypt = require('bcryptjs');
 
 const { requireAuth } = require('../../utils/auth');
-const { Spot, Review, SpotImage, ReviewImage, User } = require('../../db/models');
+const { Spot, Review, SpotImage, ReviewImage, User, Booking } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -457,11 +457,61 @@ router.get(
     requireAuth,
     async (req, res) => {
         const { user } = req;
+        const spotId = req.params.spotId;
+
         const bookings = await Booking.findAll(
-            {where: {'spotId': user.id}}
+            {where: {'spotId': spotId}}
         )
 
-        return res.status(200).json({"Bookings": bookings})
+        console.log(bookings)
+
+        if (!bookings || bookings.length === 0){
+            return res.status(404).json({
+                message: "Spot couldn't be found"
+            })
+        }
+
+        const users = await User.findAll()
+
+        let resBookings = []
+        let bookingObj = {}
+        bookings.forEach((booking) => {
+
+            console.log(booking.startDate)
+            if(user.id === booking.userId){
+                bookingObj = {
+                    spotId: parseInt(spotId),
+                    startDate: booking.startDate,
+                    endDate: booking.endDate
+                }
+            } else {
+
+                const userBooking = users.find((user) => {
+                    return user.id === booking.userId
+                })
+
+                bookingObj = {
+                    User: {
+                        id: booking.userId,
+                        firstName: userBooking.firstName,
+                        lastName: userBooking.lastName
+                    },
+                    id: booking.id,
+                    spotId: parseInt(spotId),
+                    userId: user.id,
+                    startDate: booking.startDate,
+                    endDate: booking.endDate,
+                    createdAt: booking.createdAt,
+                    updatedAt: booking.updatedAt
+                }
+            }
+            resBookings.push(bookingObj)
+        })
+
+
+
+
+        return res.status(200).json({"Bookings": resBookings})
     }
 )
 
