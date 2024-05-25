@@ -2,7 +2,7 @@ const express = require('express');
 // const bcrypt = require('bcryptjs');
 
 // const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Booking, Spot } = require('../../db/models');
+const { Booking, Spot, SpotImage } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -16,18 +16,33 @@ router.get(
     requireAuth,
     async (req, res) => {
         const { user } = req;
-        const bookings = await Booking.findAll(
-            {where: {'userId': user.id}},
-            {include: [{
-                model: Spot
-            }]}
-        )
-        // bookings.forEach( async (booking) => {
-        //     const spot = await Spot.findByPk(booking.spotId)
-        //     console.log(spot)
-        //     booking.Spot = spot;
-        // })
-        return res.status(200).json({"Bookings": bookings})
+        const spotImages = await SpotImage.findAll();
+        const bookings = await Booking.findAll({
+            where: {'userId': user.id},
+            include: [
+                {model: Spot,
+                attributes: {exclude: ['description', 'createdAt', 'updatedAt']}}
+            ]
+    })
+
+    const newBookings = bookings.map((booking) => {
+
+        const bookingObj = booking.toJSON();
+
+        const previewImageData = spotImages.find((spotImage) => {
+            return spotImage.spotId === bookingObj.spotId
+        })
+
+        if (previewImageData){
+            bookingObj.Spot.previewImage = previewImageData.url
+        } else {
+            bookingObj.Spot.previewImage = null
+        }
+
+        return bookingObj
+    })
+
+        return res.status(200).json({"Bookings": newBookings})
     }
 )
 
