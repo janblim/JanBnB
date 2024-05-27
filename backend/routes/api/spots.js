@@ -451,7 +451,7 @@ router.post(
 }
 );
 
-// Get all bookings for a spot --not finished
+// Get all bookings for a spot
 router.get(
     '/:spotId/bookings',
     requireAuth,
@@ -515,7 +515,7 @@ router.get(
     }
 )
 
-//Create a booking based on spotid -- not finished
+//Create a booking based on spotid
 
 const validateBooking = [
     check('startDate')
@@ -551,6 +551,12 @@ router.post(
             })
         }
 
+        if(spotCheck.ownerId === user.id){
+            return res.status(403).json({
+                "message": "Spot must not belong to the current user"
+            })
+        }
+
         //checks if booking conflict
 
         const bookingConf = await Booking.findAll({
@@ -571,11 +577,16 @@ router.post(
             if(endDate > bookingObj.startDate && endDate <= bookingObj.endDate){
                 error.errors.endDate = "End date conflicts with an existing booking"
             }
+
+            //only returns error if either of the ifs above add their error with key in errors
+
             if( Object.keys(error.errors).length !== 0 ){
                 return res.status(403).json({error})
             }
 
         })
+
+        //creates booking
 
         const booking = await Booking.create({
             spotId: spotId,
@@ -587,7 +598,6 @@ router.post(
 
         return res.status(200).json({booking})
     }
-
 )
 
 module.exports = router;
