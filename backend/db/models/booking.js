@@ -17,8 +17,30 @@ module.exports = (sequelize, DataTypes) => {
   Booking.init({
     spotId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
-    startDate: DataTypes.DATEONLY,
-    endDate: DataTypes.DATEONLY
+    startDate: {
+      type: DataTypes.DATEONLY,
+      validate: {
+        inPast(value){
+          let startDate = new Date(value)
+          let today = new Date()
+          if(startDate < today){
+            throw new Error ('startDate cannot be in the past')
+          }
+        }
+      }
+    },
+    endDate: {
+      type: DataTypes.DATEONLY,
+      validate: {
+        isBefore(value){
+          let endDate = new Date(value)
+          let startDate = new Date(this.startDate)
+          if(endDate <= startDate){
+            throw new Error ('endDate cannot be on or before startDate')
+          }
+        }
+      }
+    },
   }, {
     sequelize,
     modelName: 'Booking',

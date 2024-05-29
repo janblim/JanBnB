@@ -6,19 +6,91 @@ const { Spot, Review, SpotImage, ReviewImage, User, Booking } = require('../../d
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const { Op } = require("sequelize")
 
 const router = express.Router();
 
 // Get all Spots
 
+const validateSpotQuery = [
+    check('address')
+      .exists({ checkFalsy: true })
+      .withMessage("Street address is required"),
+    check('city')
+      .exists({ checkFalsy: true })
+      .withMessage("City is required"),
+    check('state')
+      .exists({checkFalsy: true})
+      .withMessage("State is required"),
+    check('country')
+      .exists({ checkFalsy: true })
+      .withMessage("Country is required"),
+    check('lat')
+      .exists({ checkFalsy: true })
+      .isFloat({min: -90, max: 90})
+      .withMessage("Latitude must be within -90 and 90"),
+    check('lng')
+      .exists({ checkFalsy: true })
+      .isFloat({min: -180, max: 180})
+      .withMessage("Longitude must be within -180 and 180"),
+    check('name')
+      .exists({ checkFalsy: true })
+      .isLength({ max: 50 })
+      .withMessage("Name must be less than 50 characters"),
+    check('description')
+        .exists({ checkFalsy: true })
+        .withMessage("Description is required"),
+    check('price')
+        .exists({ checkFalsy: true })
+        .isFloat({min: 0})
+        .withMessage("Price per day must be a positive number"),
+    handleValidationErrors
+  ];
+
 router.get(
         '/',
         async (req, res) => {
-            const spots = await Spot.findAll({
-                include: [
-                    {model: Review},
-                ]
-            });
+
+            //get query params
+
+            let query = {
+                where: {},
+                include: [{model: Review}]
+            };
+
+            const page = req.query.page === undefined ? 1 : parseInt(req.query.page);
+            const size = req.query.size === undefined ? 20 : parseInt(req.query.size);
+            if (page >= 1 && size >= 1) {
+                query.limit = size;
+                query.offset = size * (page - 1);
+            }
+
+            if (req.query.minLat !== undefined) {
+                query.where.lat = {[Op.gte]: req.query.minLat};
+            }
+
+            if (req.query.maxLat !== undefined) {
+                query.where.lat = {[Op.lte]: req.query.maxLat};
+            }
+
+            if (req.query.minLng !== undefined) {
+                query.where.lng = {[Op.gte]: req.query.minLng};
+            }
+
+            if (req.query.maxLng !== undefined) {
+                query.where.lng = {[Op.gte]: req.query.maxLng};
+            }
+
+            if (req.query.minPrice !== undefined) {
+                query.where.price = {[Op.gte]: req.query.minPrice};
+            }
+
+            if (req.query.maxPrice !== undefined) {
+                query.where.price = {[Op.lte]: req.query.maxPrice};
+            }
+
+            //run the query
+            const spots = await Spot.findAll(query);
 
             const spotImages = await SpotImage.findAll()
 
@@ -302,6 +374,12 @@ router.put(
         const { user } = req;
         const spotCheck = await Spot.findByPk(spotId)
 
+        if (user.id !== spotCheck.ownerId){
+            return res.status(404).json({
+                message: "Spot must belong to the current user"
+            })
+        }
+
         if (!spotCheck){
             return res.status(404).json({
                 message: "Spot couldn't be found"
@@ -517,22 +595,10 @@ router.get(
 
 //Create a booking based on spotid
 
-const validateBooking = [
-    check('startDate')
-      .exists({ checkFalsy: true })
-      .isAfter(Date())
-      .withMessage("startDate cannot be in the past"),
-    check('endDate')
-      .exists({ checkFalsy: true })
-      .isAfter(Date('startDate'))
-      .withMessage("endDate cannot be on or before startDate"),
-    handleValidationErrors
-  ];
 
 router.post(
     '/:spotId/bookings',
     requireAuth,
-    validateBooking,
 
     async (req, res) => {
 

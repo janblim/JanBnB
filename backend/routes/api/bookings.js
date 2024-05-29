@@ -47,22 +47,10 @@ router.get(
 
 //Edit a booking
 
-const validateBooking = [
-    check('startDate')
-      .exists({ checkFalsy: true })
-      .isAfter(Date())
-      .withMessage("startDate cannot be in the past"),
-    check('endDate')
-      .exists({ checkFalsy: true })
-      .isAfter(Date('startDate'))      //BROKEN
-        .withMessage("endDate cannot be on or before startDate"),
-    handleValidationErrors
-  ];
 
 router.put(
     '/:bookingId',
     requireAuth,
-    validateBooking,
 
     async (req, res) => {
 
@@ -86,7 +74,7 @@ router.put(
             })
         }
 
-        //checks if booking is in the past //BROKEN
+        //checks if booking is in the past
 
 
         if ( Date.parse(Date()) > Date.parse(booking.endDate)) {
