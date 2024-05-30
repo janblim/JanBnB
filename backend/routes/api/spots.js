@@ -143,11 +143,13 @@ router.get(
                 })
 
                 currentId = spot.id;
-                let image = null
-
-                image = spotImages.find((obj) => {
+                let image = {url: 'no image found'}
+                imageObj = spotImages.find((obj) => {
                     return obj.spotId === currentId
                 })
+                if (imageObj !== undefined) {
+                    image = imageObj
+                }
 
                 const avgRating = starSum/reviewCount;
 
