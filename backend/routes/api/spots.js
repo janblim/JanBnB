@@ -47,6 +47,10 @@ const validateSpotQuery = [
     handleValidationErrors
   ];
 
+function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 router.get(
         '/',
         async (req, res) => {
@@ -58,35 +62,69 @@ router.get(
                 include: [{model: Review}]
             };
 
+            let error = {
+                "message": "Bad Request",
+                "errors":{}
+            }
+
             const page = req.query.page === undefined ? 1 : parseInt(req.query.page);
             const size = req.query.size === undefined ? 20 : parseInt(req.query.size);
-            if (page >= 1 && size >= 1) {
+            if (page >= 1 && size >= 1 && size <=20) {
                 query.limit = size;
                 query.offset = size * (page - 1);
+            } else {
+                error.errors.page = "Page must be greater than or equal to 1"
+                error.errors.size = "Size must be between 1 and 20"
             }
 
             if (req.query.minLat !== undefined) {
-                query.where.lat = {[Op.gte]: req.query.minLat};
+                if (isNumeric(req.query.minLat)){
+                    query.where.lat = {[Op.gte]: req.query.minLat};
+                }else{
+                    error.errors.minLat = "Minimum latitude is invalid"
+                }
             }
 
             if (req.query.maxLat !== undefined) {
-                query.where.lat = {[Op.lte]: req.query.maxLat};
+                if (isNumeric(req.query.maxLat)){
+                    query.where.lat = {[Op.lte]: req.query.maxLat};
+                }else{
+                    error.errors.maxLat = "Maximum latitude is invalid"
+                }
             }
 
             if (req.query.minLng !== undefined) {
-                query.where.lng = {[Op.gte]: req.query.minLng};
+                if (isNumeric(req.query.minLng)){
+                    query.where.lng = {[Op.gte]: req.query.minLng};
+                }else{
+                    error.errors.minLng = "Minimum longitude is invalid"
+                }
+
             }
 
             if (req.query.maxLng !== undefined) {
-                query.where.lng = {[Op.gte]: req.query.maxLng};
+                if (isNumeric(req.query.maxLng)){
+                    query.where.lng = {[Op.gte]: req.query.maxLng};
+                }else{
+                    error.errors.maxLng = "Maximum longitude is invalid"
+                }
+
             }
 
             if (req.query.minPrice !== undefined) {
-                query.where.price = {[Op.gte]: req.query.minPrice};
+                if(req.query.minPrice >= 0){
+                    query.where.price = {[Op.gte]: req.query.minPrice};
+                }else{
+                    error.errors.minPrice = "Minimum price must be greater than or queal to 0"
+                }
             }
 
             if (req.query.maxPrice !== undefined) {
-                query.where.price = {[Op.lte]: req.query.maxPrice};
+                if(req.query.maxPrice >= 0){
+                    query.where.price = {[Op.lte]: req.query.maxPrice};
+                }else{
+                    error.errors.maxPrice = "Maximum price must be greater than or equal to 0"
+                }
             }
 
             //run the query
@@ -130,7 +168,15 @@ router.get(
                 })
             })
 
-            return res.status(200).json({"Spots": newSpots})
+            if(Object.keys(error.errors).length !== 0){
+                return res.status(400).json(error)
+            }
+
+            return res.status(200).json({
+                "Spots": newSpots,
+            "page": page,
+            "size": size
+            })
         }
 )
 
