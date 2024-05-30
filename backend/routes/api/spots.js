@@ -378,7 +378,7 @@ router.post(
         //     where: { address: address}
         // })
 
-        return res.status(201).json(spot)
+        return res.status(201).json(spot[0])
       }
 );
 
