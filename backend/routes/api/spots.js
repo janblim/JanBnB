@@ -143,7 +143,9 @@ router.get(
                 })
 
                 currentId = spot.id;
-                const image = spotImages.find((obj) => {
+                let image = null
+
+                image = spotImages.find((obj) => {
                     return obj.spotId === currentId
                 })
 
