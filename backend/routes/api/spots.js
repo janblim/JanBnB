@@ -676,7 +676,7 @@ router.post(
         //checks if booking conflict
 
         const bookingConf = await Booking.findAll({
-            where: {'spotid': spotId}
+            where: {'spotId': spotId}
         })
 
         let error = {
