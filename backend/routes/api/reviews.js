@@ -69,23 +69,24 @@ router.post(
         const review = await Review.findByPk(reviewId)
         const imageCount = await ReviewImage.count({where: {reviewId: reviewId}})
 
-        if(review.userId !== user.id ){
-            return res.status(404).json({
-                message: "Review must belong to current user"
-            })
-        }
-
         if(!review){
 
             return res.status(404).json({
                 message: "Review couldn't be found"
             })
         }
-        else if(imageCount > 10){
+
+        if(review.userId !== user.id ){
+            return res.status(404).json({
+                message: "Review must belong to current user"
+            })
+        }
+
+        if(imageCount > 10){
             return res.status(403).json({
                 message: "Maximum number of images for this resource was reached"
             })
-        } else {
+        }
 
         const image = await ReviewImage.create({
             reviewId: reviewId,
@@ -96,7 +97,7 @@ router.post(
             id: image.id,
             url: image.url
         })
-        }
+
     }
 );
 
