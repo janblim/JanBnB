@@ -360,16 +360,18 @@ router.post(
         const { user } = req
 
         const spot = await Spot.findOrCreate({
-            ownerId: user.id,
-            address,
-            city,
-            state,
-            country,
-            lat,
-            lng,
-            name,
-            description,
-            price
+            where: {ownerId: user.id},
+            defaults: {
+                address,
+                city,
+                state,
+                country,
+                lat,
+                lng,
+                name,
+                description,
+                price,
+            },
         });
 
         // const spot = await Spot.findOne({
