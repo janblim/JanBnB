@@ -32,7 +32,7 @@ router.get(
             return spotImage.spotId === bookingObj.spotId
         })
 
-        if (previewImageData){
+        if (previewImageData && bookingObj){
             bookingObj.Spot.previewImage = previewImageData.url
         } else {
             bookingObj.Spot.previewImage = null
@@ -86,7 +86,7 @@ router.put(
         //checks if booking conflict
 
         const bookingConf = await Booking.findAll({
-            where: {'spotid': booking.spotId}
+            where: {'spotId': booking.spotId}
         })
 
         let error = {
