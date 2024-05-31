@@ -378,7 +378,7 @@ router.post(
         //     where: { address: address}
         // })
 
-        return res.status(201).json(spot[0])
+        return res.status(201).json(spot[0]) //[0] is for removing the boolean output of findOrCreate
       }
 );
 
