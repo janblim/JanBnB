@@ -85,18 +85,6 @@ module.exports = {
       {
         spotId: 4,
         userId: 1,
-        review: 'Eww gross',
-        stars: 2
-      },
-      {
-        spotId: 4,
-        userId: 2,
-        review: 'use DuckDuckGo instead',
-        stars: 2
-      },
-      {
-        spotId: 4,
-        userId: 1,
         review: 'I felt Googled',
         stars: 1
       },

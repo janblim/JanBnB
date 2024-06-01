@@ -591,10 +591,14 @@ router.post(
 
     const { review, stars } = req.body;
     const spotId = parseInt(req.params.spotId);
-    const userId = req.user.id;
+    const { user } = req;
+    const userId = user.id;
     const spotCheck = await Spot.findByPk(spotId);
-    const userCheck = await Review.findAll({
-        where: { userId: userId}
+    const reviewCheck = await Review.findAll({
+        where: {
+            userId: userId,
+            spotId: spotId
+        }
 
     })
 
@@ -603,7 +607,8 @@ router.post(
             message: "Spot couldn't be found"
         })
     }
-    if (userCheck){
+
+    if (reviewCheck[0]){
         return res.status(500).json({
             message: "User already has a review for this spot"
         })
