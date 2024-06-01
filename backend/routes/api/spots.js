@@ -375,19 +375,19 @@ router.post(
         });
 
         const output = {
-            id: spot.id,
-            ownerId: spot.ownerId,
-            address: spot.address,
-            city: spot.city,
-            state: spot.state,
-            country: spot.country,
-            lat: parseFloat(spot.lat),
-            lng: parseFloat(spot.lng),
-            name: spot.name,
-            description: spot.description,
+            id: spot[0].id,
+            ownerId: spot[0].ownerId,
+            address: spot[0].address,
+            city: spot[0].city,
+            state: spot[0].state,
+            country: spot[0].country,
+            lat: parseFloat(lat),
+            lng: parseFloat(lng),
+            name: spot[0].name,
+            description: spot[0].description,
             price: parseFloat(price),
-            createdAt: spot.createdAt,
-            updatedAt: spot.updatedAt,
+            createdAt: spot[0].createdAt,
+            updatedAt: spot[0].updatedAt,
         }
 
         return res.status(201).json(output)
