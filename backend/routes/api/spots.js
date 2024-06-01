@@ -155,16 +155,16 @@ router.get(
 
                 newSpots.push({
                     id: spot.id,
-                    ownerid: spot.ownerid,
+                    ownerId: spot.ownerId,
                     address: spot.address,
                     city: spot.city,
                     state: spot.state,
                     country: spot.country,
-                    lat: spot.lat,
-                    lng: spot.lng,
+                    lat: parseFloat(spot.lat),
+                    lng: parseFloat(spot.lng),
                     name: spot.name,
                     description: spot.description,
-                    price: spot.price,
+                    price: parseFloat(spot.price),
                     createdAt: spot.createdAt,
                     updatedAt: spot.updatedAt,
                     avgRating: avgRating,
@@ -196,7 +196,7 @@ router.get(
             include: [
                 {model: Review},
             ],
-            where: {'ownerId': user.id}
+            where: {'ownerId': parseInt(user.id)}
         });
 
         const spotImages = await SpotImage.findAll()
@@ -220,16 +220,16 @@ router.get(
 
             newSpots.push({
                 id: spot.id,
-                ownerid: spot.ownerid,
+                ownerId: spot.ownerId,
                 address: spot.address,
                 city: spot.city,
                 state: spot.state,
                 country: spot.country,
-                lat: spot.lat,
-                lng: spot.lng,
+                lat: parseFloat(spot.lat),
+                lng: parseFloat(spot.lng),
                 name: spot.name,
                 description: spot.description,
-                price: spot.price,
+                price: parseFloat(spot.price),
                 createdAt: spot.createdAt,
                 updatedAt: spot.updatedAt,
                 avgRating: avgRating,
@@ -248,7 +248,7 @@ router.get(
 router.get(
     '/:spotId',
     async (req, res) => {
-        const id = req.params.spotId;
+        const id = parseInt(req.params.spotId);
 
         const spot = await Spot.findByPk(id)
 
@@ -274,16 +274,16 @@ router.get(
 
             const spotData = {
                 id: spot.id,
-                ownerId: spot.ownerId,
+                ownerId: parseInt(spot.ownerId),
                 address: spot.address,
                 city: spot.city,
                 state: spot.state,
                 country: spot.country,
-                lat: spot.lat,
-                lng: spot.lng,
+                lat: parseFloat(spot.lat),
+                lng: parseFloat(spot.lng),
                 name: spot.name,
                 description: spot.description,
-                price: spot.price,
+                price: praseFloat(spot.price),
                 createdAt: spot.createdAt,
                 updatedAt: spot.updatedAt,
                 numReviews: numReviews,
@@ -318,11 +318,11 @@ const validateSpot = [
     check('lat')
       .exists({ checkFalsy: true })
       .isFloat({min: -90, max: 90})
-      .withMessage("Latitude must be within -90 and 90"),
+      .withMessage("Latitude is not valid"),
     check('lng')
       .exists({ checkFalsy: true })
       .isFloat({min: -180, max: 180})
-      .withMessage("Longitude must be within -180 and 180"),
+      .withMessage("Longitude is not valid"),
     check('name')
       .exists({ checkFalsy: true })
       .isLength({ max: 50 })
@@ -333,7 +333,7 @@ const validateSpot = [
     check('price')
         .exists({ checkFalsy: true })
         .isFloat({min: 0})
-        .withMessage("Price per day must be a positive number"),
+        .withMessage("Price per day is required"),
     handleValidationErrors
   ];
 
@@ -366,19 +366,31 @@ router.post(
                 city,
                 state,
                 country,
-                lat,
-                lng,
+                lat: parseFloat(lat),
+                lng: parseFloat(lng),
                 name,
                 description,
-                price,
+                price: parseFloat(price),
             },
         });
 
-        // const spot = await Spot.findOne({
-        //     where: { address: address}
-        // })
+        const output = {
+            id: spot.id,
+            ownerId: spot.ownerId,
+            address: spot.address,
+            city: spot.city,
+            state: spot.state,
+            country: spot.country,
+            lat: parseFloat(spot.lat),
+            lng: parseFloat(spot.lng),
+            name: spot.name,
+            description: spot.description,
+            price: parseFloat(price),
+            createdAt: spot.createdAt,
+            updatedAt: spot.updatedAt,
+        }
 
-        return res.status(201).json(spot[0]) //[0] is for removing the boolean output of findOrCreate
+        return res.status(201).json(output)
       }
 );
 
@@ -386,18 +398,26 @@ router.post(
 
 router.post(
     '/:spotId/Images',
+    requireAuth,
     async (req, res) => {
         const { url, preview } = req.body;
         const spotId = req.params.spotId;
+        const { user } = req
 
         const spot = await Spot.findByPk(spotId)
-        console.log('spot', spot)
+
         if(!spot){
 
             return res.status(404).json({
                 message: "Spot couldn't be found"
             })
-        } else {
+        }
+
+        if(parseInt(spot.ownerId) !== parseInt(user.id)){
+            return res.status(404).json({
+                message: "Spot must belong to the current user"
+            })
+        }
 
         const image = await SpotImage.create({
             spotId: spotId,
@@ -405,12 +425,11 @@ router.post(
             preview: preview
         })
 
-        res.status(200).json({
+        res.status(201).json({
             id: image.id,
             url: image.url,
             preview: image.preview
         })
-    }
     }
 );
 
@@ -455,11 +474,11 @@ router.put(
             city,
             state,
             country,
-            lat,
-            lng,
+            lat: parseFloat(lat),
+            lng: parseFloat(lng),
             name,
             description,
-            price
+            price: parseFloat(price)
         },
         { where: { id: spotId }}
         );
