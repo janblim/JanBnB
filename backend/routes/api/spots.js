@@ -485,6 +485,7 @@ router.put(
 
         const spot = await Spot.findByPk(spotId)
 
+        console.log(typeof spot.lat)
         const output = {
             id: spot.id,
             ownerId: spot.ownerId,
@@ -492,11 +493,11 @@ router.put(
             city: spot.city,
             state: spot.state,
             country: spot.country,
-            lat: parseInt(spot.lat),
-            lng: parseInt(spot.lng),
+            lat: parseFloat(spot.lat),
+            lng: parseFloat(spot.lng),
             name: spot.name,
             description: spot.description,
-            price: parseInt(spot.price),
+            price: parseFloat(spot.price),
             createdAt: spot.createdAt,
             updatedAt: spot.updatedAt,
         }
