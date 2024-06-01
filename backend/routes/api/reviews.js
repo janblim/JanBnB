@@ -97,8 +97,8 @@ router.post(
             url: url
         })
 
-        res.status(200).json({
-            id: image.id,
+        res.status(201).json({
+            id: parseInt(image.id),
             url: image.url
         })
 

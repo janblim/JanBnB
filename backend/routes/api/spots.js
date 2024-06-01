@@ -601,11 +601,12 @@ router.post(
         return res.status(404).json({
             message: "Spot couldn't be found"
         })
-    } else if (userCheck){
+    }
+    if (userCheck){
         return res.status(500).json({
             message: "User already has a review for this spot"
         })
-    } else {
+    }
 
     const newReview = await Review.create({
         userId: userId,
@@ -615,7 +616,7 @@ router.post(
 
     return res.status(201).json(newReview)
 
-    }
+
 }
 );
 
