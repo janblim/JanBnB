@@ -283,7 +283,7 @@ router.get(
                 lng: parseFloat(spot.lng),
                 name: spot.name,
                 description: spot.description,
-                price: praseFloat(spot.price),
+                price: parseFloat(spot.price),
                 createdAt: spot.createdAt,
                 updatedAt: spot.updatedAt,
                 numReviews: numReviews,
@@ -443,7 +443,7 @@ router.put(
 
         const spotId = req.params.spotId;
         const { user } = req;
-        const spotCheck = await Spot.findByPk(spotId)
+        const spotCheck = await Spot.findByPk(parseInt(spotId))
 
         if (user.id !== spotCheck.ownerId){
             return res.status(404).json({
@@ -455,7 +455,7 @@ router.put(
             return res.status(404).json({
                 message: "Spot couldn't be found"
             })
-        } else {
+        }
 
         const {
             address,
@@ -484,9 +484,26 @@ router.put(
         );
 
         const spot = await Spot.findByPk(spotId)
-        return res.status(200).json(spot)
+
+        const output = {
+            id: spot.id,
+            ownerId: spot.ownerId,
+            address: spot.address,
+            city: spot.city,
+            state: spot.state,
+            country: spot.country,
+            lat: parseInt(spot.lat),
+            lng: parseInt(spot.lng),
+            name: spot.name,
+            description: spot.description,
+            price: parseInt(spot.price),
+            createdAt: spot.createdAt,
+            updatedAt: spot.updatedAt,
+        }
+
+
+        return res.status(200).json(output)
       }
-    }
 );
 
 //Delete Spot
@@ -525,6 +542,7 @@ router.delete(
 
 router.get(
     '/:spotId/reviews',
+    requireAuth,
     async (req, res) => {
         const spotId = req.params.spotId;
 
@@ -545,6 +563,7 @@ router.get(
                 attributes: ['id', 'url']}
             ]
         })
+
         return res.status(200).json({"Reviews": reviews})
         }
     }

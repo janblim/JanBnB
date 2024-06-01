@@ -38,6 +38,10 @@ router.get(
 
             const reviewObj = review.toJSON();
 
+            reviewObj.Spot.lat = parseFloat(reviewObj.Spot.lat);
+            reviewObj.Spot.lng = parseFloat(reviewObj.Spot.lng);
+            reviewObj.Spot.price = parseFloat(reviewObj.Spot.price);
+
             const previewImageData = spotImages.find((spotImage) => {
                 return spotImage.spotId === review.spotId
             })
