@@ -36,7 +36,7 @@ router.get(
         if (previewImageData && bookingObj.Spot){
             bookingObj.Spot.previewImage = previewImageData.url
         } else if (bookingObj) {
-            bookingObj.Spot.previewImage = null
+            bookingObj.Spot = null
         }
 
         return bookingObj

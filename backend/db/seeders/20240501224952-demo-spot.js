@@ -16,10 +16,10 @@ module.exports = {
         city: 'Madison',
         state: 'Wisconsin',
         country: 'USA',
-        lat: 34.78923,
-        lng: -23.333221145,
+        lat: 14.78923,
+        lng: -23.33322,
         name: 'Cabin',
-        description: 'Check out this quaint lil cabin, foo',
+        description: 'Check out this quaint lil cabin foo',
         price: 50
       },
       {
@@ -29,7 +29,7 @@ module.exports = {
         state: 'Indiana',
         country: 'USA',
         lat: 67.78923,
-        lng: -4.333221145,
+        lng: -4.333221,
         name: 'Haunted House',
         description: 'Stay here if you daaaaare!',
         price: 60
