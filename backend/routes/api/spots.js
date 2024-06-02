@@ -365,6 +365,7 @@ router.post(
 
         const spot = await Spot.create({
 
+                ownerId: parseInt(user.id),
                 address,
                 city,
                 state,
