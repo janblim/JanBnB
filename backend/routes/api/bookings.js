@@ -17,22 +17,23 @@ router.get(
         const { user } = req;
         const spotImages = await SpotImage.findAll();
         const bookings = await Booking.findAll({
-            where: {'userId': parseInt(user.id)},
+            where: { userId: parseInt(user.id)},
             include: [
                 {model: Spot,
                 attributes: {exclude: ['description', 'createdAt', 'updatedAt']}}
             ]
     })
+    console.log(bookings)
 
     const newBookings = bookings.map((booking) => {
 
         const bookingObj = booking.toJSON();
-
+        console.log(bookingObj)
         const previewImageData = spotImages.find((spotImage) => {
             return spotImage.spotId === bookingObj.spotId
         })
 
-        if (previewImageData && bookingObj){
+        if (previewImageData && bookingObj.Spot){
             bookingObj.Spot.previewImage = previewImageData.url
         } else if (bookingObj) {
             bookingObj.Spot.previewImage = null
