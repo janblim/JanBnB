@@ -17,7 +17,7 @@ router.get(
         const { user } = req;
         const spotImages = await SpotImage.findAll();
         const bookings = await Booking.findAll({
-            where: {'userId': user.id},
+            where: {'userId': parseInt(user.id)},
             include: [
                 {model: Spot,
                 attributes: {exclude: ['description', 'createdAt', 'updatedAt']}}

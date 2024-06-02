@@ -69,11 +69,15 @@ router.get(
 
             const page = req.query.page === undefined ? 1 : parseInt(req.query.page);
             const size = req.query.size === undefined ? 20 : parseInt(req.query.size);
+
             if (page >= 1 && size >= 1 && size <=20) {
                 query.limit = size;
                 query.offset = size * (page - 1);
-            } else {
+            }
+            if (page < 1){
                 error.errors.page = "Page must be greater than or equal to 1"
+            }
+            if (size < 1 || size > 20){
                 error.errors.size = "Size must be between 1 and 20"
             }
 

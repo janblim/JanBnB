@@ -130,7 +130,7 @@ router.put(
         const reviewId= req.params.reviewId;
         const review = await Review.findByPk(reviewId)
 
-        if(review.userId !== user.id ){
+        if(parseInt(review.userId) !== parseInt(user.id)){
             return res.status(404).json({
                 message: "Review must belong to current user"
             })
