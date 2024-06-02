@@ -401,7 +401,7 @@ router.post(
 //Add Image to Spot
 
 router.post(
-    '/:spotId/Images',
+    '/:spotId/images',
     requireAuth,
     async (req, res) => {
         const { url, preview } = req.body;
@@ -409,6 +409,9 @@ router.post(
         const { user } = req
 
         const spot = await Spot.findByPk(spotId)
+        const imageCount = await SpotImage.count({
+            where: { spotId: spotId}
+        })
 
         if(!spot){
 
@@ -420,6 +423,12 @@ router.post(
         if(parseInt(spot.ownerId) !== parseInt(user.id)){
             return res.status(404).json({
                 message: "Spot must belong to the current user"
+            })
+        }
+
+        if(imageCount > 10){
+            return res.status(403).json({
+                message: "Maximum number of images for this resource was reached"
             })
         }
 
