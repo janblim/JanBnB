@@ -363,9 +363,8 @@ router.post(
 
         const { user } = req
 
-        const spot = await Spot.findOrCreate({
-            where: {ownerId: user.id},
-            defaults: {
+        const spot = await Spot.create({
+
                 address,
                 city,
                 state,
@@ -376,25 +375,25 @@ router.post(
                 description,
                 price: parseFloat(price),
             },
-        });
+        );
 
-        const output = {
-            id: spot[0].id,
-            ownerId: spot[0].ownerId,
-            address: spot[0].address,
-            city: spot[0].city,
-            state: spot[0].state,
-            country: spot[0].country,
-            lat: parseFloat(lat),
-            lng: parseFloat(lng),
-            name: spot[0].name,
-            description: spot[0].description,
-            price: parseFloat(price),
-            createdAt: spot[0].createdAt,
-            updatedAt: spot[0].updatedAt,
-        }
+        // const output = {
+        //     id: spot[0].id,
+        //     ownerId: spot[0].ownerId,
+        //     address: spot[0].address,
+        //     city: spot[0].city,
+        //     state: spot[0].state,
+        //     country: spot[0].country,
+        //     lat: parseFloat(lat),
+        //     lng: parseFloat(lng),
+        //     name: spot[0].name,
+        //     description: spot[0].description,
+        //     price: parseFloat(price),
+        //     createdAt: spot[0].createdAt,
+        //     updatedAt: spot[0].updatedAt,
+        // }
 
-        return res.status(201).json(output)
+        return res.status(201).json(spot)
       }
 );
 
