@@ -220,6 +220,8 @@ router.get(
                 return obj.spotId === currentId
             })
 
+            const imageUrl = image ? image.url : null
+
             const avgRating = starSum/reviewCount;
 
             newSpots.push({
@@ -237,7 +239,7 @@ router.get(
                 createdAt: spot.createdAt,
                 updatedAt: spot.updatedAt,
                 avgRating: avgRating,
-                previewImage: image.url
+                previewImage: imageUrl
             })
         })
 
