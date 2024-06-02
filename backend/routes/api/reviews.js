@@ -63,14 +63,14 @@ router.get(
 //Add Image to Review
 
 router.post(
-    '/:reviewId/Images',
+    '/:reviewId/images',
     requireAuth,
     async (req, res) => {
         const { url } = req.body;
         const { user } = req;
         const reviewId = req.params.reviewId;
 
-        const review = await Review.findByPk(reviewId)
+        const review = await Review.findByPk(parseInt(reviewId))
         const imageCount = await ReviewImage.count({where: {reviewId: reviewId}})
 
         if(!review){
@@ -121,7 +121,6 @@ const validateReview = [
 
 router.put(
     '/:reviewId',
-    validateReview,
     requireAuth,
     async (req, res) => {
 

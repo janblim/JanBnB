@@ -585,7 +585,6 @@ const validateReview = [
 // Create a Review based on a Spot's id
 router.post(
     '/:spotId/reviews',
-    validateReview,
     requireAuth,
     async (req, res) => {
 
