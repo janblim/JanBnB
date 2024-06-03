@@ -23,7 +23,6 @@ router.get(
                 attributes: {exclude: ['description', 'createdAt', 'updatedAt']}}
             ]
     })
-    console.log(bookings)
 
     const newBookings = bookings.map((booking) => {
 

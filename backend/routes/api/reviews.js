@@ -78,7 +78,6 @@ router.post(
         const imageCount = await ReviewImage.count({where: {reviewId: reviewId}})
 
         if(!review){
-
             return res.status(404).json({
                 message: "Review couldn't be found"
             })
@@ -126,37 +125,37 @@ const validateReview = [
 router.put(
     '/:reviewId',
     requireAuth,
+    validateReview,
     async (req, res) => {
 
 
-        const { reviewEdits, stars } = req.body;
+        const { review, stars } = req.body;
         const { user } = req;
         const reviewId= req.params.reviewId;
-        const review = await Review.findByPk(reviewId)
+        const reviewCheck = await Review.findByPk(reviewId)
 
-        if(parseInt(review.userId) !== parseInt(user.id)){
+        if (!reviewCheck){
+            return res.status(404).json({
+                message: "Review couldn't be found"
+            })
+        }
+
+        if(parseInt(reviewCheck.userId) !== parseInt(user.id)){
             return res.status(404).json({
                 message: "Review must belong to current user"
             })
         }
 
-        if (!review){
-            return res.status(404).json({
-                message: "Review couldn't be found"
-            })
-        } else {
-
         await Review.update({
-            reviewEdits,
+            review,
             stars
         },
         { where: { id: reviewId }}
-        );
+        )
 
         const editedReview = await Review.findByPk(reviewId)
         return res.status(200).json(editedReview)
-      }
-    }
+}
 );
 
 //Delete Review

@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     startDate: {
       type: DataTypes.DATEONLY,
+      allowNull: false,
       validate: {
         inPast(value){
           let startDate = new Date(value)
@@ -31,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     endDate: {
       type: DataTypes.DATEONLY,
+      allowNull: false,
       validate: {
         isBefore(value){
           let endDate = new Date(value)

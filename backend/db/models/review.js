@@ -21,25 +21,18 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     review: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isNull(value) {
-          if (Validator.isNull(value)) {
-            throw new Error("Review text is required");
-          }
-        }
-      }
+      // allowNull: false,
     },
     stars: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        isBetween(value){
-          if( value < 1 || value > 5){
-            throw new Error("Stars must be an integer from 1 to 5")
-          }
-        }
-      }
+      // allowNull: false,
+      // validate: {
+      //   isBetween(value){
+      //     if( value < 1 || value > 5){
+      //       throw new Error("Stars must be an integer from 1 to 5")
+      //     }
+      //   }
+      // }
     }
   }, {
     sequelize,

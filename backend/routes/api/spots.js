@@ -89,7 +89,7 @@ router.get(
                 }
             }
 
-            if (req.query.maxLat !== undefined) {
+            if (req.query.maxLat) {
                 if (isNumeric(req.query.maxLat)){
                     query.where.lat = {[Op.lte]: req.query.maxLat};
                 }else{
@@ -97,7 +97,7 @@ router.get(
                 }
             }
 
-            if (req.query.minLng !== undefined) {
+            if (req.query.minLng) {
                 if (isNumeric(req.query.minLng)){
                     query.where.lng = {[Op.gte]: req.query.minLng};
                 }else{
@@ -622,6 +622,7 @@ const validateReview = [
 router.post(
     '/:spotId/reviews',
     requireAuth,
+    validateReview,
     async (req, res) => {
 
     const { review, stars } = req.body;
@@ -673,8 +674,6 @@ router.get(
             {where: {'spotId': spotId}}
         )
 
-        console.log(bookings)
-
         if (!bookings || bookings.length === 0){
             return res.status(404).json({
                 message: "Spot couldn't be found"
@@ -687,14 +686,16 @@ router.get(
         let bookingObj = {}
         bookings.forEach((booking) => {
 
-            console.log(booking.startDate)
-            if(user.id === booking.userId){
+
+            if(user.id !== booking.userId){
                 bookingObj = {
                     spotId: parseInt(spotId),
                     startDate: booking.startDate,
                     endDate: booking.endDate
                 }
-            } else {
+            }
+
+            if(user.id === booking.userId){
 
                 const userBooking = users.find((user) => {
                     return user.id === booking.userId
@@ -725,8 +726,9 @@ router.get(
     }
 )
 
-//Create a booking based on spotid
 
+
+//Create a booking based on spotid
 
 router.post(
     '/:spotId/bookings',
