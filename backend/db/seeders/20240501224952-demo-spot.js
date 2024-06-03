@@ -20,7 +20,7 @@ module.exports = {
         lng: -23.33322,
         name: 'Cabin',
         description: 'Check out this quaint lil cabin foo',
-        price: 50
+        price: 80
       },
       {
         ownerId: 2,
