@@ -34,7 +34,7 @@ router.get(
 
         //add previewImages to Spot object within Review
 
-        try{
+        // try{
         const newReviews = reviews.map((review) => {
 
             const reviewObj = review.toJSON();
@@ -56,11 +56,11 @@ router.get(
 
         return res.status(200).json({"Reviews": newReviews})
 
-        } catch (error) {
-            return res.status(404).json({
-                message: "No reviews found"
-            })
-        }
+        // } catch (error) {
+        //     return res.status(404).json({
+        //         message: "No reviews found"
+        //     })
+        // }
     }
 )
 
