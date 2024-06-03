@@ -224,23 +224,43 @@ router.get(
 
             const avgRating = starSum/reviewCount;
 
-            newSpots.push({
-                id: spot.id,
-                ownerId: spot.ownerId,
-                address: spot.address,
-                city: spot.city,
-                state: spot.state,
-                country: spot.country,
-                lat: parseFloat(spot.lat),
-                lng: parseFloat(spot.lng),
-                name: spot.name,
-                description: spot.description,
-                price: parseFloat(spot.price),
-                createdAt: spot.createdAt,
-                updatedAt: spot.updatedAt,
-                avgRating: avgRating,
-                previewImage: imageUrl
-            })
+            if (imageUrl){
+                newSpots.push({
+                    id: spot.id,
+                    ownerId: spot.ownerId,
+                    address: spot.address,
+                    city: spot.city,
+                    state: spot.state,
+                    country: spot.country,
+                    lat: parseFloat(spot.lat),
+                    lng: parseFloat(spot.lng),
+                    name: spot.name,
+                    description: spot.description,
+                    price: parseFloat(spot.price),
+                    createdAt: spot.createdAt,
+                    updatedAt: spot.updatedAt,
+                    avgRating: avgRating,
+                    previewImage: imageUrl
+                })
+            } else {
+                newSpots.push({
+                    id: spot.id,
+                    ownerId: spot.ownerId,
+                    address: spot.address,
+                    city: spot.city,
+                    state: spot.state,
+                    country: spot.country,
+                    lat: parseFloat(spot.lat),
+                    lng: parseFloat(spot.lng),
+                    name: spot.name,
+                    description: spot.description,
+                    price: parseFloat(spot.price),
+                    createdAt: spot.createdAt,
+                    updatedAt: spot.updatedAt,
+                    avgRating: avgRating
+                })
+            }
+
         })
 
 
@@ -460,17 +480,18 @@ router.put(
         const { user } = req;
         const spotCheck = await Spot.findByPk(parseInt(spotId))
 
+        if (!spotCheck){
+            return res.status(404).json({
+                message: "Spot couldn't be found"
+            })
+        }
+
         if (user.id !== spotCheck.ownerId){
             return res.status(404).json({
                 message: "Spot must belong to the current user"
             })
         }
 
-        if (!spotCheck){
-            return res.status(404).json({
-                message: "Spot couldn't be found"
-            })
-        }
 
         const {
             address,

@@ -48,8 +48,6 @@ router.get(
 
             if (previewImageData){
                 reviewObj.Spot.previewImage = previewImageData.url
-            } else {
-                reviewObj.Spot.previewImage = null
             }
 
             return reviewObj
