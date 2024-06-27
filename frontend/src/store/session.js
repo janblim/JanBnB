@@ -48,4 +48,15 @@ const sessionReducer = (state = initState, action) => {
   }
 };
 
+//restores the session user
+
+export const restoreUser = () => async (dispatch) => {
+    const response = await csrfFetch("/api/session");
+    const data = await response.json();
+
+    dispatch(setUser(data.user));
+    return response;
+  };
+
+
 export default sessionReducer;

@@ -10,7 +10,7 @@ function LoginFormPage(){
     const sessionUser = useSelector((state) => state.session.user);
 
     //variables
-    const [cred, setCred] = useState('');
+    const [credential, setCredential] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({}); //set as empty object
 
@@ -21,7 +21,8 @@ function LoginFormPage(){
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors({}); //empties errors
-            return dispatch(sessionActions.login({cred, password})).catch(
+            return dispatch(sessionActions.login({credential, password})).catch(
+
                 async (res) => {
                     const data = await res.json();
                     if (data?.errors){ //(?.) 'optional chaining', shortcircuts as null. Very nice!
@@ -39,8 +40,8 @@ function LoginFormPage(){
                     Username or Email
                 <input
                     type='text'
-                    value={cred}
-                    onChange={(e) => setCred(e.target.value)}
+                    value={credential}
+                    onChange={(e) => setCredential(e.target.value)}
                     required
                 />
                 </label>
@@ -53,7 +54,7 @@ function LoginFormPage(){
                         required
                     />
                 </label>
-            {errors.cred && <p>{errors.cred}</p>}
+            {errors.credential && <p>{errors.credential}</p>}
             <button type='submit'>
                 Log In
             </button>
