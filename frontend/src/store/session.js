@@ -32,13 +32,12 @@ export const login = (user) => async (dispatch) => {
 
 //state if there is no user
 
-const initialState = {
+const initState = {
     user: null
 };
 
-//if
 
-const sessionReducer = (state = initialState, action) => {
+const sessionReducer = (state = initState, action) => {
   switch (action.type) {
     case SET_USER:
       return { ...state, user: action.payload };

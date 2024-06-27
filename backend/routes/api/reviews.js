@@ -34,14 +34,13 @@ router.get(
 
         //add previewImages to Spot object within Review
 
-        // try{
         const newReviews = reviews.map((review) => {
 
             const reviewObj = review.toJSON();
 
-            // reviewObj.Spot.lat = parseFloat(reviewObj.Spot.lat);
-            // reviewObj.Spot.lng = parseFloat(reviewObj.Spot.lng);
-            // reviewObj.Spot.price = parseFloat(reviewObj.Spot.price);
+            reviewObj.Spot.lat = parseFloat(reviewObj.Spot.lat);
+            reviewObj.Spot.lng = parseFloat(reviewObj.Spot.lng);
+            reviewObj.Spot.price = parseFloat(reviewObj.Spot.price);
 
             const previewImageData = spotImages.find((spotImage) => {
                 return spotImage.spotId === review.spotId
@@ -56,11 +55,6 @@ router.get(
 
         return res.status(200).json({"Reviews": newReviews})
 
-        // } catch (error) {
-        //     return res.status(404).json({
-        //         message: "No reviews found"
-        //     })
-        // }
     }
 )
 
