@@ -48,7 +48,7 @@ const sessionReducer = (state = initState, action) => {
   }
 };
 
-//restores the session user
+//thunk action creator that restores the session user
 
 export const restoreUser = () => async (dispatch) => {
     const response = await csrfFetch("/api/session");

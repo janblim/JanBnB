@@ -1,14 +1,44 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+
+import * as sessionActions from './store/session';
 import LoginFormPage from './components/LoginFormPage/LoginFormPage';
+
+
+function Layout(){
+  const dispatch = useDispatch();
+  const [isLoaded, setIsLoaded] = useState(false); //slice of state that checks if user has been loaded
+
+  useEffect(() => {
+    dispatch(sessionActions.restoreUser()).then(()=>{
+      setIsLoaded(true) //sets isLoaded to true
+    });
+  }, [dispatch]); //depends on change of dispatch
+
+  return (
+    <>
+    {isLoaded && <Outlet />}
+    </>
+  );
+}
+
+
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <h1>Hello!</h1>
-  },
-  {
-    path: '/login',
-    element: <LoginFormPage />
+    element: <Layout />,
+    children: [
+
+      {
+        path: '/',
+        element: <h1>Welcome to Janbnb!</h1>
+      },
+      {
+        path: '/login',
+        element: <LoginFormPage />
+      }
+    ]
   }
 ]);
 
