@@ -19,7 +19,7 @@ function ProfileButton({ user }) {
     useEffect(() => { // opens dropdown menu by changing showMenu to false
         if (!showMenu) return;
 
-        const closeMenu = () => {
+        const closeMenu = (e) => {
             if (ulRef.current && !ulRef.current.contains(e.target)) {
                 setShowMenu(false);
             }
