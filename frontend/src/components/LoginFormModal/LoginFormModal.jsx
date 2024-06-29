@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { useModal } from "../../context/Modal";
+import { Navigate } from "react-router-dom";
 import * as sessionActions from '../../store/session';
 import './LoginForm.css'
 
@@ -13,9 +14,9 @@ function LoginFormModal(){
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({}); //set as empty object
 
-    if (sessionUser){ //if there is a session user, go to '/'
-        return (<Navigate to="/" replace={true}/>);
-    }
+    // if (sessionUser){ //if there is a session user, go to '/'
+    //     return (<Navigate to="/" replace={true}/>);
+    // }
 
     const handleSubmit = (e) => {
         e.preventDefault();
