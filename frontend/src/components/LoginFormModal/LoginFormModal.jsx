@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { Navigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch } from 'react-redux';
+import { useModal } from "../../context/Modal";
 import * as sessionActions from '../../store/session';
 import './LoginForm.css'
 
-function LoginFormPage(){
+function LoginFormModal(){
     const dispatch = useDispatch();
-    const sessionUser = useSelector((state) => state.session.user);
+    const { closeModal } = useModal();
 
     //variables
     const [credential, setCredential] = useState('');
@@ -21,15 +20,14 @@ function LoginFormPage(){
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors({}); //empties errors
-            return dispatch(sessionActions.login({credential, password})).catch(
-
-                async (res) => {
+            return dispatch(sessionActions.login({credential, password}))
+               .then(closeModal)
+               .catch(async (res) => {
                     const data = await res.json();
-                    if (data?.errors){ //(?.) 'optional chaining', shortcircuts as null. Very nice!
+                    if (data && data.errors){ //(?.) 'optional chaining', shortcircuts as null. Very nice!
                         setErrors(data.errors)
-                     }
-                }
-            )
+                    }
+               });
     };
 
     return (
@@ -63,4 +61,4 @@ function LoginFormPage(){
     )
 }
 
-export default LoginFormPage;
+export default LoginFormModal;

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 
 import * as sessionActions from './store/session';
-import LoginFormPage from './components/LoginFormPage/LoginFormPage';
+// import LoginFormPage from './components/LoginFormPage/LoginFormPage';
 import SignupFormPage from './components/SignupFormPage/SignupFormPage';
 import Navigation from './components/Navigation/Navigation';
 
@@ -44,10 +44,6 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <h1>Welcome to Janbnb!</h1>
-      },
-      {
-        path: '/login',
-        element: <LoginFormPage />
       },
       {
         path: '/signup',

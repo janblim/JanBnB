@@ -1,6 +1,8 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import './Navigation.css';
 
 function Navigation({ isLoaded }) {
@@ -12,7 +14,10 @@ function Navigation({ isLoaded }) {
     ) : (   // if no sessionUser, make login and signup buttons
         <>
             <li>
-                <NavLink to='/login'>Log In</NavLink>
+                <OpenModalButton
+                    buttonText='Log In'
+                    modalComponent={<LoginFormModal />}
+                />
             </li>
             <li>
                 <NavLink to='/signup'>Sign Up</NavLink>
