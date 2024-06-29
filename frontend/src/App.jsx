@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 
 import * as sessionActions from './store/session';
 // import LoginFormPage from './components/LoginFormPage/LoginFormPage';
-import SignupFormPage from './components/SignupFormPage/SignupFormPage';
 import Navigation from './components/Navigation/Navigation';
 
 
@@ -40,14 +39,9 @@ const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-
       {
         path: '/',
         element: <h1>Welcome to Janbnb!</h1>
-      },
-      {
-        path: '/signup',
-        element: <SignupFormPage />
       }
     ]
   }
