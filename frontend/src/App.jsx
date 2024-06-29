@@ -5,9 +5,10 @@ import { useState, useEffect } from 'react';
 import * as sessionActions from './store/session';
 import LoginFormPage from './components/LoginFormPage/LoginFormPage';
 import SignupFormPage from './components/SignupFormPage/SignupFormPage';
+import Navigation from './components/Navigation/Navigation';
 
 
-function Layout(){
+function Layout(){ //this puts it all together...
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false); //slice of state that checks if user has been loaded
 
@@ -18,8 +19,17 @@ function Layout(){
   }, [dispatch]); //depends on change of dispatch
 
   return (
+    //always renders Navigation,
+    //pass isLoaded as a prop so that Navigation component can use it
+    //checks if user isLoaded before rendering children (Outlet)
     <>
-    {isLoaded && <Outlet />}
+      <header>
+        <Navigation isLoaded={isLoaded} />
+      </header>
+
+      <main>
+        {isLoaded && <Outlet />}
+      </main>
     </>
   );
 }
