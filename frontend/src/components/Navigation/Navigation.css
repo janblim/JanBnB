@@ -11,18 +11,23 @@ header {
     top: 0;
     left: 0;
     right: 0;
-    height: 80px;
+    height: 60px;
+    border-bottom: 1px solid lightgray;
     display: flex;
-    align-items: center;
+    justify-content: space-between
+
 }
 
-header * {
-    display: inline;
+ul.logged_in {
+    display: flex;
+    width: 100%;
+    justify-content: space-between
 }
 
-header li {
-    margin: 20px;
+header > ul {
+    display: flex;
 }
+
 
 header li a {
     text-decoration: none;
@@ -31,4 +36,36 @@ header li a {
 
 .hidden {
     display: none
+}
+
+ul.profile-dropdown{
+    position: absolute;
+    background-color: white;
+    right: 5px;
+    top: 75px;
+    border-radius: 25px;
+    box-shadow: 2px 2px 5px 4px rgba(0, 0, 0, .1);
+}
+
+.profile-button {
+    width: 75px;
+    height: 40px;
+    border: 2px solid lightgray;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: white;
+
+
+}
+.button-logo {
+    background-color: transparent;
+    font-size: 27px;
+    border: none;
+    top: 4px
+}
+
+.three-bars {
+    font-size: 20px;
 }

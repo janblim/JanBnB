@@ -10,7 +10,7 @@ function Navigation({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user);
 
     const sessionLinks = sessionUser ? ( //if there is a sessionUser, make user button
-        <li>
+        <li id='profile_button'>
             <ProfileButton user={sessionUser} />
         </li>
     ) : (   // if no sessionUser, make login and signup buttons
@@ -31,7 +31,7 @@ function Navigation({ isLoaded }) {
     );
 
     return ( //checks if the user isLoaded first, then renders sessionLinks
-        <ul>
+        <ul className='logged_in'>
             <li>
                 <NavLink to='/'>Home</NavLink>
             </li>

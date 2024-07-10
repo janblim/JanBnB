@@ -5,14 +5,6 @@ const apiRouter = require('./api');
 
 router.use('/api', apiRouter);
 
-// router.get('/api/csrf/restore', function(req, res) {
-//     const csrfToken = req.csrfToken();
-//     res.cookie("XSRF-TOKEN", csrfToken);
-//     res.status(200).json({
-//       'XSRF-Token': csrfToken
-//     });
-// });
-
 if (process.env.NODE_ENV === 'production') {
   const path = require('path');
   // Serve the frontend's index.html file at the root route
@@ -21,9 +13,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(
       path.resolve(__dirname, '../../frontend', 'dist', 'index.html')
     );
-    // return res.sendFile(
-    //   path.resolve(__dirname, '../../frontend', 'dist', 'index.html')
-    // );
   });
 
   // Serve the static assets in the frontend's build folder
@@ -45,7 +34,6 @@ if (process.env.NODE_ENV !== 'production') {
     res.status(200).json({
       'XSRF-Token': csrfToken
     })
-    // return res.json({});
   });
 }
 
