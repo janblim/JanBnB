@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import * as sessionActions from './store/session';
 // import LoginFormPage from './components/LoginFormPage/LoginFormPage';
 import Navigation from './components/Navigation/Navigation';
+import Spots from './components/Spots/Spots';
 
 
 function Layout(){ //this puts it all together...
@@ -41,7 +42,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <h1>Welcome to Janbnb!</h1>
+        element: <Spots />
+      },
+      {
+        path: '/spots',
+        element: ''
       }
     ]
   }
