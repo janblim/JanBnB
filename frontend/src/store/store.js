@@ -2,8 +2,9 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import sessionReducer from './session';
 import spotsReducer from './spot';
-// V grand daddy reducer, all have to go in here
 
+
+// Below: grand daddy reducer, all have to go in here
 const rootReducer = combineReducers({
   session: sessionReducer,
   spotState: spotsReducer,

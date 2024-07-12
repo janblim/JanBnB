@@ -26,12 +26,6 @@
 
 
 
-## The Data Flow (MEMORIZE THIS)
-
-It is time to talk about the data flow. How everything in a full stack application works together. This is the bread and butter of your debugging. The is is the way your workflow should typically work when building a project from scratch. This is your source of truth. Memorizing this will help you master Mod 4 and 5, and will set you up to succeed with flying colors in Mod 6, capstone, and beyond. This is the exact same data flow Instructors use when we need to debug your projects.
-
-
-
 # The Data Flow is as follows:
 
 1. A user performs some sort of action in the browser
@@ -54,8 +48,8 @@ We can condense some of these to create the 9 step plan
 3. Thunk
 4. Backend route
 5. Thunk (again)
-6. Action creator
-7. Reducer
+6. Action creator (the only way to trigger changes in the store's state)
+7. Reducer (in the store.js, actually does the change of state)
 8. React component (via useSelector)
 9. Browser (with state now changed)
 

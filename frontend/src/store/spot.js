@@ -1,14 +1,26 @@
+import thunk from "redux-thunk";
 import { csrfFetch } from "./csrf";
 // CONSTANCE
+// npm-module-or-app/reducer-name/ACTION_TYPE, can be anything, but must be unique
 
 const GETSPOTS = 'spots/getAllSpots'
+const GETONESPOT = 'spots/getOneSpot'
 
-// Action creators
+// Action creators ()
 
 const getAllSpots = (data) => {
+
     console.log('step 6', data)
+
     return {
         type: GETSPOTS,
+        payload: data,
+    }
+}
+
+const getOneSpot = (data) => {
+    return {
+        type: GETONESPOT,
         payload: data,
     }
 }
@@ -26,9 +38,13 @@ export const getAllSpotsThunk = () => async (dispatch) => {
         //things to consider here
 
         if (res.ok) {
+
             console.log('step 5', res)
+
             const data = await res.json() //array of spots
+
             console.log(data)
+
             dispatch(getAllSpots(data))
         } else {
             throw res //throws to the catch e
@@ -39,11 +55,31 @@ export const getAllSpotsThunk = () => async (dispatch) => {
     }
 }
 
-//Reducer
+export const getOneSpotThunk = (id) => async(dispatch) => {
+
+    try{
+        const res = await csrfFetch(`/api/spots/${id}`)
+
+        if (res.ok) {
+            const data = await res.json()
+            console.log(data)
+            dispatch(getOneSpot(data))
+        } else {
+            throw res
+        }
+    }
+    catch(e){
+        return e;
+    }
+
+}
+
+//Reducer (updates the state)
 
 const initialState = {
     allSpots: [],
-    byId: {}
+    byId: {},
+    spot: {}
 }
 
 const spotsReducer = (state = initialState, action) => {
@@ -61,12 +97,17 @@ const spotsReducer = (state = initialState, action) => {
                 newState.byId[spot.id] = spot;
             }
 
-            console.log('step 7', action.payload)
 
             return newState //always last line
+        case GETONESPOT:
+            newState = {...state}
+            newState.spot = action.payload
+            return newState
+
         default:
             return state;
     }
+
 }
 
 export default spotsReducer

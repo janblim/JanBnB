@@ -5,7 +5,8 @@ import { useState, useEffect } from 'react';
 import * as sessionActions from './store/session';
 // import LoginFormPage from './components/LoginFormPage/LoginFormPage';
 import Navigation from './components/Navigation/Navigation';
-import Spots from './components/Spots/Spots';
+import AllSpots from './components/AllSpots/AllSpots';
+import SpotDetails from './components/SpotDetails/SpotDetails';
 
 
 function Layout(){ //this puts it all together...
@@ -42,12 +43,12 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Spots />
+        element: <AllSpots />
       },
       {
-        path: '/spots',
-        element: ''
-      }
+        path: '/spots/:id',
+        element: <SpotDetails />
+      },
     ]
   }
 ]);
