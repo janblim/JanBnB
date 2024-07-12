@@ -48,17 +48,26 @@ ul.profile-dropdown{
 }
 
 .profile-button {
+
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background: rgba(255, 255, 255, 0);
+    position: relative;
+    right: 25px;
+    bottom: 5px;
+}
+
+.profile-box {
     width: 75px;
     height: 40px;
     border: 2px solid lightgray;
     border-radius: 20px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    background-color: white;
-
-
+    position: relative;
+    left: 37px;
+    bottom: 7px
 }
+
 .button-logo {
     background-color: transparent;
     font-size: 27px;
@@ -68,4 +77,30 @@ ul.profile-dropdown{
 
 .three-bars {
     font-size: 20px;
+}
+
+.profile-menu {
+    display: flex;
+    justify-content: space-between;
+    width: 250px
+}
+
+.home {
+    list-style: none;
+    font-weight:bold;
+    font-family: Arial, sans-serif;
+    position: relative;
+    bottom: 15px;
+}
+
+.j-logo {
+    font-size: 35px;
+    border-radius: 10px;
+    position: relative;
+    top: 7px;
+}
+
+.create-spot {
+    position: relative;
+    top: 6px;
 }

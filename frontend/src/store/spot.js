@@ -10,7 +10,7 @@ const GETONESPOT = 'spots/getOneSpot'
 
 const getAllSpots = (data) => {
 
-    console.log('step 6', data)
+    // console.log('step 6', data)
 
     return {
         type: GETSPOTS,
@@ -31,19 +31,18 @@ const getOneSpot = (data) => {
 export const getAllSpotsThunk = () => async (dispatch) => {
 
     try{
-        console.log('inside thunk')
+        // console.log('inside thunk')
         const res = await csrfFetch('/api/spots')
-
 
         //things to consider here
 
         if (res.ok) {
 
-            console.log('step 5', res)
+            // console.log('step 5', res)
 
             const data = await res.json() //array of spots
 
-            console.log(data)
+            // console.log(data)
 
             dispatch(getAllSpots(data))
         } else {
@@ -62,7 +61,7 @@ export const getOneSpotThunk = (id) => async(dispatch) => {
 
         if (res.ok) {
             const data = await res.json()
-            console.log(data)
+            // console.log(data)
             dispatch(getOneSpot(data))
         } else {
             throw res

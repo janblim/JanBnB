@@ -4,6 +4,7 @@ import { IoReorderThreeSharp } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { useState, useEffect, useRef } from "react";
 import * as sessionActions from '../../store/session'
+import { NavLink } from "react-router-dom";
 
 
 
@@ -45,27 +46,37 @@ function ProfileButton({ user }) {
 
     return (
         <>
-        <button
-        onClick={toggleMenu}
-        className='profile-button'>
-            <div className='three-bars'>
-                <IoReorderThreeSharp />
-            </div>
-            <div className="button-logo">
-                <CgProfile />
-            </div>
-        </button>
+        <div className='profile-menu'>
+            <NavLink to='/newspot'>
+                <span className='create-spot'>
+                    Create New Spot
+                </span>
+            </NavLink>
 
-            <ul className={ulClassName} ref={ulRef}>
-                <li>{user.username}</li>
-                <li>{user.firstName} {user.lastName}</li>
-                <li>{user.email}</li>
-                <li>
-                    <button onClick={logout}>
-                        Log Out
-                    </button>
-                </li>
-            </ul>
+                <div className="profile-box"></div>
+
+                <span
+                onClick={toggleMenu}
+                className='profile-button'>
+                    <div className='three-bars'>
+                        <IoReorderThreeSharp />
+                    </div>
+                    <div className="button-logo">
+                        <CgProfile />
+                    </div>
+                </span>
+
+                    <ul className={ulClassName} ref={ulRef}>
+                        <li>{user.username}</li>
+                        <li>{user.firstName} {user.lastName}</li>
+                        <li>{user.email}</li>
+                        <li>
+                            <button onClick={logout}>
+                                Log Out
+                            </button>
+                        </li>
+                    </ul>
+        </div>
         </>
     )
 }
