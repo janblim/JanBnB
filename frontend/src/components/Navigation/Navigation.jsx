@@ -32,8 +32,11 @@ function Navigation({ isLoaded }) {
         </div>
     ) : (   // if no sessionUser, make login and signup buttons
         <>
+        <div className='profile-menu'>
 
-            <button
+            <div className="profile-box"></div>
+
+            <span
             onClick={toggleMenu}
             className='profile-button'>
                 <div className='three-bars'>
@@ -42,7 +45,8 @@ function Navigation({ isLoaded }) {
                 <div className="button-logo">
                     <CgProfile />
                 </div>
-            </button>
+            </span>
+
             <ul className={ulClassName} ref={ulRef}>
 
                 <li>
@@ -58,6 +62,7 @@ function Navigation({ isLoaded }) {
                         />
                 </li>
             </ul>
+        </div>
         </>
     );
 
