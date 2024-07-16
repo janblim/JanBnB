@@ -3,6 +3,10 @@
     justify-content: center;
 }
 
+.form {
+    border: white;
+}
+
 .column {
     display: flex;
     column-gap: 15px;
@@ -27,6 +31,7 @@
 .error {
     color: red;
     font-size: small;
+    padding-left: 5px;
 }
 
 #button-container {
@@ -42,4 +47,7 @@
     font-size: 15px;
     color: white;
     box-shadow: 5px 4px 5px black;
+}
+#dollar-sign{
+    padding-right: 10px;
 }

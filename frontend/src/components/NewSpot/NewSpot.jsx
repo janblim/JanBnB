@@ -83,7 +83,7 @@ const NewSpot = () => {
         newErrors.lng = 'Longitude is required';
       }
       if(description.length < 30){
-        newErrors.description = 'Description needs a minimum oof 30 characters'
+        newErrors.description = 'Description needs a minimum of 30 characters'
       }
       if(!name){
         newErrors.name = 'Name is required'
@@ -123,30 +123,36 @@ const NewSpot = () => {
         </div>
         <form>
             <div>
-                <label>Country</label> <label className='error'>Country is required</label>
+                <label>Country</label>
+                {errors.country ? <label className='error'>{errors.country}</label> : null}
                 <input type='text' value={form.country} placeholder='Country'></input>
             </div>
             <div>
-                <label>Street Address</label> <label className='error'>Country is required</label>
+                <label>Street Address</label>
+                {errors.address ? <label className='error'>{errors.address}</label> : null}
                 <input type='text' value={form.address} placeholder='Address'></input>
             </div>
             <div className='column'>
                 <span id='city'>
-                    <label>City</label> <label className='error'>Country is required</label>
+                    <label>City</label>
+                    {errors.city ? <label className='error'>{errors.city}</label> : null}
                     <input type='text' placeholder='City'></input>
                 </span>
                 <span id='state'>
-                    <label>State</label> <label className='error'>Country is required</label>
+                    <label>State</label>
+                    {errors.state ? <label className='error'>{errors.state}</label> : null}
                     <input type='text' placeholder='STATE'></input>
                 </span>
             </div>
             <div className='column'>
                 <span id='lat'>
-                    <label>Latitude</label> <label className='error'>Country is required</label>
+                    <label>Latitude</label>
+                    {errors.lat ? <label className='error'>{errors.lat}</label> : null}
                     <input  type='text' placeholder='Latitude'></input>
                 </span>
                 <span id='lng'>
-                    <label>Longitude</label> <label className='error'>Country is required</label>
+                    <label>Longitude</label>
+                    {errors.lng ? <label className='error'>{errors.lng}</label> : null}
                     <input  type='text' placeholder='Longitude'></input>
                 </span>
             </div>
@@ -154,39 +160,39 @@ const NewSpot = () => {
             <div>
                 <h3>Discribe your place to guests</h3>
                 <label>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood</label>
-                <textarea id='description' rows='15' cols='59' type='text' placeholder='Description'></textarea>
-                <label className='error'>Country is required</label>
+                <textarea id='description' rows='15' cols='58' type='text' placeholder='Description'></textarea>
+                {errors.description ? <label className='error'>{errors.description}</label> : null}
             </div>
             <hr></hr>
             <div>
                 <h3>Create a title for your spot</h3>
                 <label>Catch guests' attention with a spot title that highlights what makes your place special</label>
                 <input type='text' placeholder='Name of your spot'></input>
-                <label className='error'>Country is required</label>
+                {errors.name ? <label className='error'>{errors.name}</label> : null}
             </div>
             <hr></hr>
             <div>
                 <h3>Set a base price for your spot</h3>
                 <label>Competative pricing can help your listing stand out and rank higher in search results.</label>
                 <br></br>
-                <span>$</span>
+                <span id='dollar-sign'>$</span>
                 <input type='number' placeholder='Price per night (USD)'></input>
-                <label className='error'>Country is required</label>
+                {errors.price ? <label className='error'>{errors.price}</label> : null}
                 <hr></hr>
             </div>
             <div>
                 <h3>Liven up your spot with photos</h3>
                 <label>Submit a link at least one photo to publish your spot</label>
                 <input type='text' placeholder='Preview Image URL'></input>
-                <label className='error'>Country is required</label>
+                {errors.url ? <label className='error'>{errors.url}</label> : null}
                 <input type='text' placeholder='Image URL'></input>
-                <label className='error'>Country is required</label>
+                {errors.image1 ? <label className='error'>{errors.image1}</label> : null}
                 <input type='text'placeholder='Image URL'></input>
-                <label className='error'>Country is required</label>
+                {errors.image2 ? <label className='error'>{errors.image2}</label> : null}
                 <input type='text'placeholder='Image URL'></input>
-                <label className='error'>Country is required</label>
+                {errors.image3 ? <label className='error'>{errors.image3}</label> : null}
                 <input type='text'placeholder='Image URL'></input>
-                <label className='error'>Country is required</label>
+                {errors.image4 ? <label className='error'>{errors.image4}</label> : null}
             </div>
             <hr></hr>
             <div id='button-container'>
