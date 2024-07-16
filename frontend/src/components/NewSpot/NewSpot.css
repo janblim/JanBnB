@@ -1,0 +1,45 @@
+#form-container {
+    display: flex;
+    justify-content: center;
+}
+
+.column {
+    display: flex;
+    column-gap: 15px;
+}
+
+#lat {
+    width: 50%
+}
+
+#lng {
+    width: 50%
+}
+
+#city {
+    width: 60%
+}
+
+#state {
+    width: 35%
+}
+
+.error {
+    color: red;
+    font-size: small;
+}
+
+#button-container {
+    display: flex;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+}
+
+#create-button {
+    height: 25px;
+    background-color: red;
+    font-size: 15px;
+    color: white;
+    box-shadow: 5px 4px 5px black;
+}
