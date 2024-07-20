@@ -33,12 +33,12 @@ header li a {
     text-decoration: none;
 }
 
-
 .hidden {
     display: none
 }
 
 ul.profile-dropdown{
+    list-style-type: none;
     position: absolute;
     background-color: white;
     right: 5px;
@@ -55,7 +55,6 @@ ul.profile-dropdown{
     background: rgba(255, 255, 255, 0);
     position: relative;
     right: 25px;
-    bottom: 5px;
 }
 
 .profile-box {
@@ -64,19 +63,23 @@ ul.profile-dropdown{
     border: 2px solid lightgray;
     border-radius: 20px;
     position: relative;
-    left: 37px;
+    left: 160px;
     bottom: 7px
 }
 
-.button-logo {
+#button-logo {
     background-color: transparent;
     font-size: 27px;
     border: none;
-    top: 4px
+    position: relative;
+    top: 3px
 }
 
 .three-bars {
+    position: relative;
     font-size: 20px;
+    right: 2px;
+    top: 2px;
 }
 
 .profile-menu {
@@ -103,4 +106,20 @@ ul.profile-dropdown{
 .create-spot {
     position: relative;
     top: 6px;
+}
+
+#name-circle {
+    position: relative;
+    color: white;
+    height: 25px;
+    width: 25px;
+    background-color: black;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+#name-letter {
+    position: relative;
+    left: 7px;
+    top: 4px
 }

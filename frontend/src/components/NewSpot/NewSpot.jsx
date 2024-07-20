@@ -75,15 +75,10 @@ const NewSpot = () => {
                 }
                 const addImageRes = await dispatch(spotImageThunk(image, id))
             }
-            navigate(`/spots/${id}`)
+            navigate(`/spots/${id}`);
+            window.scrollTo(0, 0); // goes back to top of page
         }
     }
-
-    // useEffect(() => { //navigate to newly created spot if spot is changed (after thunk is run)
-    //     if(spot.id){
-    //         navigate(`/spots/${spot.id}`)
-    //     }
-    // },[spot])
 
     useEffect(() => { //for dynamic error handling
       const newErrors = {};

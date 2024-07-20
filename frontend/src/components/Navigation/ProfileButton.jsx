@@ -13,6 +13,7 @@ function ProfileButton({ user }) {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false); //stores boolean to control dropdown menu
     const ulRef = useRef();
+    const firstLetterUser = user.firstName.charAt(0);
 
     const toggleMenu = (e) => {
         e.stopPropagation(); //keeps click from bubbling up to doc & triggering closeMenu
@@ -47,25 +48,17 @@ function ProfileButton({ user }) {
     return (
         <>
         <div className='profile-menu'>
-            <NavLink to='/newspot'>
-                <span className='create-spot'>
-                    Create New Spot
-                </span>
-            </NavLink>
-
-                <div className="profile-box"></div>
-
+            <div className="profile-box"></div>
                 <span
                 onClick={toggleMenu}
                 className='profile-button'>
                     <div className='three-bars'>
                         <IoReorderThreeSharp />
                     </div>
-                    <div className="button-logo">
-                        <CgProfile />
+                    <div id="name-circle">
+                        <span id='name-letter'>{firstLetterUser}</span>
                     </div>
                 </span>
-
                     <ul className={ulClassName} ref={ulRef}>
                         <li>{user.username}</li>
                         <li>{user.firstName} {user.lastName}</li>
