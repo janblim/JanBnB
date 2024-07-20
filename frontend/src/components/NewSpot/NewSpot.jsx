@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { getAllSpotsThunk } from '../../store/spot';
+import { createSpotThunk, spotImageThunk } from '../../store/spot';
 import { useNavigate } from 'react-router-dom';
 import './NewSpot.css'
 
@@ -9,8 +9,9 @@ import './NewSpot.css'
 const NewSpot = () => {
 
     const dispatch = useDispatch()
-    // const spots = useSelector(state => state.spotState.allSpots) // grabs state
     const navigate = useNavigate()
+    const [errors, setErrors] = useState({});
+    const newSpot = useSelector((state) => state.spotState.newSpot)
 
     const [form, setForm] = useState({
         address: '',
@@ -21,30 +22,68 @@ const NewSpot = () => {
         lng: 0,
         name: '',
         description: '',
-        price: 0
-    });
-
-    const [prevImage, setPrevImage] = useState({
-        url: '',
-        preview: true
+        price: 0,
     });
 
     const [images, setImages] = useState({
+        preview: '',
         image1: '',
         image2: '',
         image3: '',
         image4: ''
     })
 
-    const [errors, setErrors] = useState({});
+
 
     const notImage = (url) => {
+        if(!url){ return true }
         const ext = url.split('.').pop();
         if( ext === 'jpg' || ext === 'jpeg' || ext === 'png'){
             return false;
         }
         return true;
     }
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        if(Object.values(errors).length){
+            return;
+        } else {
+
+            const data = await dispatch(createSpotThunk(form)) //sends spot data to thunk
+
+            if(data.errors){
+                throw new Error ('Not able to create spot')
+            }
+
+            const id = data.id
+
+            const imageKeys = Object.keys(images)
+
+            for (const key of imageKeys){
+                let image = {}
+                if(key === 'preview'){
+                    image = {
+                        url: images[key],
+                        preview: true
+                    }
+                } else {
+                    image = {
+                        url: images[key],
+                        preview: false
+                    }
+                }
+                const addImageRes = await dispatch(spotImageThunk(image, id))
+            }
+            navigate(`/spots/${id}`)
+        }
+    }
+
+    // useEffect(() => { //navigate to newly created spot if spot is changed (after thunk is run)
+    //     if(spot.id){
+    //         navigate(`/spots/${spot.id}`)
+    //     }
+    // },[spot])
 
     useEffect(() => { //for dynamic error handling
       const newErrors = {};
@@ -57,12 +96,17 @@ const NewSpot = () => {
         lat,
         lng,
         description,
-        price
+        price,
         } = form; //destructure useState form
 
-        const {url} = prevImage;
+        const {
+            url,
+            image1,
+            image2,
+            image3,
+            image4
+        } = images;
 
-        const {image1, image2, image3, image4} = images;
 
       if(!country){
         newErrors.country = 'Country is required';
@@ -94,16 +138,20 @@ const NewSpot = () => {
       if(!url){
         newErrors.url = "Preview image is required"
       }
-      if(notImage(image1)){
+      if(notImage(url) && url){
+        newErrors.url = "Image URL must end in .png, .jpg, or .jpeg"
+      }
+
+      if(notImage(image1) && image1){
         newErrors.image1 = "Image URL must end in .png, .jpg, or .jpeg"
       }
-      if(notImage(image2)){
+      if(notImage(image2) && image2){
         newErrors.image2 = "Image URL must end in .png, .jpg, or .jpeg"
       }
-      if(notImage(image3)){
+      if(notImage(image3) && image3){
         newErrors.image3 = "Image URL must end in .png, .jpg, or .jpeg"
       }
-      if(notImage(image4)){
+      if(notImage(image4) && image4){
         newErrors.image4 = "Image URL must end in .png, .jpg, or .jpeg"
       }
 
@@ -111,7 +159,24 @@ const NewSpot = () => {
 
       setErrors(newErrors);
 
-    }, [form])
+    }, [form, images])
+
+    const updateForm = (e, label) => {
+        setForm((prev) => {
+          const newForm = {...prev};
+          newForm[label] = e.target.value;
+          return newForm
+        })
+      }
+
+    const updateImage = (e, label) => {
+      setImages((prev) => {
+        const newImages = {...prev};
+        newImages[label] = e.target.value;
+        return newImages
+      })
+    }
+
 
   return (
     <div id='form-container'>
@@ -121,53 +186,81 @@ const NewSpot = () => {
         <div>
             Guests will only get your exact address once they booked a reservation
         </div>
-        <form>
+        <form onSubmit={handleFormSubmit}>
             <div>
                 <label>Country</label>
                 {errors.country ? <label className='error'>{errors.country}</label> : null}
-                <input type='text' value={form.country} placeholder='Country'></input>
+                <input
+                    type='text'
+                    onChange={(e) => updateForm(e, 'country')}
+                    placeholder='Country'>
+                </input>
             </div>
             <div>
                 <label>Street Address</label>
                 {errors.address ? <label className='error'>{errors.address}</label> : null}
-                <input type='text' value={form.address} placeholder='Address'></input>
+                <input
+                    type='text'
+                    onChange={(e) => updateForm(e, 'address')}
+                    placeholder='Address'>
+                </input>
             </div>
             <div className='column'>
                 <span id='city'>
                     <label>City</label>
                     {errors.city ? <label className='error'>{errors.city}</label> : null}
-                    <input type='text' placeholder='City'></input>
+                    <input
+                        type='text'
+                        placeholder='City'
+                        onChange={(e) => updateForm(e, 'city')}
+                        ></input>
                 </span>
                 <span id='state'>
                     <label>State</label>
                     {errors.state ? <label className='error'>{errors.state}</label> : null}
-                    <input type='text' placeholder='STATE'></input>
+                    <input
+                        type='text'
+                        placeholder='STATE'
+                        onChange={(e) => updateForm(e, 'state')}
+                        ></input>
                 </span>
             </div>
             <div className='column'>
                 <span id='lat'>
                     <label>Latitude</label>
                     {errors.lat ? <label className='error'>{errors.lat}</label> : null}
-                    <input  type='text' placeholder='Latitude'></input>
+                    <input
+                        type='text'
+                        placeholder='Latitude'
+                        onChange={(e) => updateForm(e, 'lat')}
+                        ></input>
                 </span>
                 <span id='lng'>
                     <label>Longitude</label>
                     {errors.lng ? <label className='error'>{errors.lng}</label> : null}
-                    <input  type='text' placeholder='Longitude'></input>
+                    <input
+                        type='text'
+                        placeholder='Longitude'
+                        onChange={(e) => updateForm(e, 'lng')}
+                        ></input>
                 </span>
             </div>
             <hr></hr>
             <div>
-                <h3>Discribe your place to guests</h3>
-                <label>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood</label>
-                <textarea id='description' rows='15' cols='58' type='text' placeholder='Description'></textarea>
+                <h3>Describe your place to guests</h3>
+                <label id='desc-label'>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood</label>
+                <textarea id='description' rows='15' cols='58' type='text' placeholder='Description' onChange={(e) => updateForm(e, 'description')}></textarea>
                 {errors.description ? <label className='error'>{errors.description}</label> : null}
             </div>
             <hr></hr>
             <div>
                 <h3>Create a title for your spot</h3>
                 <label>Catch guests' attention with a spot title that highlights what makes your place special</label>
-                <input type='text' placeholder='Name of your spot'></input>
+                <input
+                    type='text'
+                    placeholder='Name of your spot'
+                    onChange={(e) => updateForm(e, 'name')}
+                ></input>
                 {errors.name ? <label className='error'>{errors.name}</label> : null}
             </div>
             <hr></hr>
@@ -176,27 +269,41 @@ const NewSpot = () => {
                 <label>Competative pricing can help your listing stand out and rank higher in search results.</label>
                 <br></br>
                 <span id='dollar-sign'>$</span>
-                <input type='number' placeholder='Price per night (USD)'></input>
+                <input
+                    type='number'
+                    placeholder='Price per night (USD)'
+                    onChange={(e) => updateForm(e, 'price')}
+                ></input>
                 {errors.price ? <label className='error'>{errors.price}</label> : null}
                 <hr></hr>
             </div>
             <div>
                 <h3>Liven up your spot with photos</h3>
                 <label>Submit a link at least one photo to publish your spot</label>
-                <input type='text' placeholder='Preview Image URL'></input>
+                <input type='text' placeholder='Preview Image URL'
+                onChange={(e) => updateImage(e, 'url')}></input>
                 {errors.url ? <label className='error'>{errors.url}</label> : null}
-                <input type='text' placeholder='Image URL'></input>
+
+                <input type='text' placeholder='Image URL'
+                onChange={(e) => updateImage(e, 'image1')}></input>
                 {errors.image1 ? <label className='error'>{errors.image1}</label> : null}
-                <input type='text'placeholder='Image URL'></input>
+
+                <input type='text'placeholder='Image URL'
+                onChange={(e) => updateImage(e, 'image2')}></input>
                 {errors.image2 ? <label className='error'>{errors.image2}</label> : null}
-                <input type='text'placeholder='Image URL'></input>
+
+                <input type='text'placeholder='Image URL'
+                onChange={(e) => updateImage(e, 'image3')}></input>
                 {errors.image3 ? <label className='error'>{errors.image3}</label> : null}
-                <input type='text'placeholder='Image URL'></input>
+
+                <input type='text'placeholder='Image URL'
+                onChange={(e) => updateImage(e, 'image4')}></input>
                 {errors.image4 ? <label className='error'>{errors.image4}</label> : null}
             </div>
             <hr></hr>
             <div id='button-container'>
                 <button
+
                 id='create-button'
                 type='submit'>
                     Create Spot

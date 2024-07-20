@@ -20,9 +20,18 @@ const SpotDetails = () => {
 
   return (
     <div>
-        <h1>
-            {spot.address}
-        </h1>
+        <h1>{spot.name}</h1>
+        <h1>{spot.address}</h1>
+
+            {spot.SpotImages ? spot.SpotImages.map(image => (
+            <div key={`${image.id}-${image.url}`}>
+                <span>
+
+                        {image.url}
+
+                </span>
+            </div>
+            )) : null}
     </div>
   );
 }

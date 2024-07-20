@@ -5,13 +5,12 @@ import { csrfFetch } from "./csrf";
 
 const GETSPOTS = 'spots/getAllSpots'
 const GETONESPOT = 'spots/getOneSpot'
+const CREATESPOT = 'spots/createSpot'
+const SPOTIMAGE = 'spots/image'
 
 // Action creators ()
 
 const getAllSpots = (data) => {
-
-    // console.log('step 6', data)
-
     return {
         type: GETSPOTS,
         payload: data,
@@ -25,25 +24,29 @@ const getOneSpot = (data) => {
     }
 }
 
+const createSpot = (data) => {
+    return {
+        type: CREATESPOT,
+        payload: data,
+    }
+}
+
+const spotImage = (data) => {
+    return {
+        type: SPOTIMAGE,
+        payload: data,
+    }
+}
+
 // THUNKS
 
 
 export const getAllSpotsThunk = () => async (dispatch) => {
 
     try{
-        // console.log('inside thunk')
         const res = await csrfFetch('/api/spots')
-
-        //things to consider here
-
         if (res.ok) {
-
-            // console.log('step 5', res)
-
             const data = await res.json() //array of spots
-
-            // console.log(data)
-
             dispatch(getAllSpots(data))
         } else {
             throw res //throws to the catch e
@@ -61,7 +64,6 @@ export const getOneSpotThunk = (id) => async(dispatch) => {
 
         if (res.ok) {
             const data = await res.json()
-            // console.log(data)
             dispatch(getOneSpot(data))
         } else {
             throw res
@@ -73,36 +75,79 @@ export const getOneSpotThunk = (id) => async(dispatch) => {
 
 }
 
+export const createSpotThunk = (form) => async(dispatch) => {
+    console.log('form', form)
+    try{
+
+        const res = await csrfFetch('/api/spots', { //creates the new spot
+            method: 'POST',
+            body: JSON.stringify(form)
+        });
+        if (res.ok) {
+            console.log('spot', res)
+            const data = await res.json()
+            dispatch(createSpot(data))
+            return data
+        } else {
+            throw res
+        }
+    }
+    catch(e){
+            return e;
+    }
+}
+
+export const spotImageThunk = (image, id) => async(dispatch) => {
+
+    try{
+        const res = await csrfFetch(`/api/spots/${id}/images`, {
+            method: 'POST',
+            body: JSON.stringify(image)
+        });
+        if (res.ok) {
+            console.log('image', res)
+            const data = await res.json()
+            dispatch(spotImage(data))
+            return data
+        } else {
+            throw res
+        }
+
+    }
+    catch(e){
+        return e;
+    }
+}
+
+
 //Reducer (updates the state)
 
 const initialState = {
     allSpots: [],
     byId: {},
-    spot: {}
+    spot: {},
 }
 
 const spotsReducer = (state = initialState, action) => {
     let newState;
     switch (action.type) {
         case GETSPOTS:
-            newState = {...state} //always first line
-            //update allSpots
-
+            newState = {...state}
             newState.allSpots = action.payload.Spots
-
-            //update byId
-
             for (let spot of action.payload.Spots) {
                 newState.byId[spot.id] = spot;
             }
-
-
             return newState //always last line
         case GETONESPOT:
             newState = {...state}
             newState.spot = action.payload
             return newState
-
+        case CREATESPOT:
+            newState = {...state}
+            return newState
+        case SPOTIMAGE:
+            newState = {...state}
+            return newState
         default:
             return state;
     }
