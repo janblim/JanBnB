@@ -4,6 +4,7 @@ import { IoReorderThreeSharp } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { useState, useEffect, useRef } from "react";
 import * as sessionActions from '../../store/session'
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -11,6 +12,7 @@ import * as sessionActions from '../../store/session'
 
 function ProfileButton({ user }) {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [showMenu, setShowMenu] = useState(false); //stores boolean to control dropdown menu
     const ulRef = useRef();
     const firstLetterUser = user.firstName.charAt(0);
@@ -39,7 +41,13 @@ function ProfileButton({ user }) {
     const logout = (e) => {
         e.preventDefault();
         dispatch(sessionActions.logout())
+        navigate('/')
     };
+
+    const manageSpotsClick = (e) => {
+        e.preventDefault();
+        navigate('/managespots')
+    }
 
 
     //change classname of dropdown menu if showMenu is false (hidden)
@@ -63,8 +71,13 @@ function ProfileButton({ user }) {
                         <li>{user.username}</li>
                         <li>{user.firstName} {user.lastName}</li>
                         <li>{user.email}</li>
+                        <hr></hr>
+                        <li onClick={(e) => manageSpotsClick(e)}>
+                            Manage Spots
+                        </li>
+                        <hr></hr>
                         <li>
-                            <button onClick={logout}>
+                            <button onClick={(e) => logout(e)}>
                                 Log Out
                             </button>
                         </li>

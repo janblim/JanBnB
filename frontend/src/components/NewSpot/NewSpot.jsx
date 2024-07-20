@@ -11,7 +11,7 @@ const NewSpot = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [errors, setErrors] = useState({});
-    const newSpot = useSelector((state) => state.spotState.newSpot)
+    const [submitted, setSubmitted] = useState(false)
 
     const [form, setForm] = useState({
         address: '',
@@ -47,6 +47,7 @@ const NewSpot = () => {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         if(Object.values(errors).length){
+            setSubmitted(true);
             return;
         } else {
 
@@ -150,8 +151,6 @@ const NewSpot = () => {
         newErrors.image4 = "Image URL must end in .png, .jpg, or .jpeg"
       }
 
-
-
       setErrors(newErrors);
 
     }, [form, images])
@@ -184,7 +183,7 @@ const NewSpot = () => {
         <form onSubmit={handleFormSubmit}>
             <div>
                 <label>Country</label>
-                {errors.country ? <label className='error'>{errors.country}</label> : null}
+                {errors.country && submitted ? <label className='error'>{errors.country}</label> : null}
                 <input
                     type='text'
                     onChange={(e) => updateForm(e, 'country')}
@@ -193,7 +192,7 @@ const NewSpot = () => {
             </div>
             <div>
                 <label>Street Address</label>
-                {errors.address ? <label className='error'>{errors.address}</label> : null}
+                {errors.address && submitted ? <label className='error'>{errors.address}</label> : null}
                 <input
                     type='text'
                     onChange={(e) => updateForm(e, 'address')}
@@ -203,7 +202,7 @@ const NewSpot = () => {
             <div className='column'>
                 <span id='city'>
                     <label>City</label>
-                    {errors.city ? <label className='error'>{errors.city}</label> : null}
+                    {errors.city && submitted ? <label className='error'>{errors.city}</label> : null}
                     <input
                         type='text'
                         placeholder='City'
@@ -212,7 +211,7 @@ const NewSpot = () => {
                 </span>
                 <span id='state'>
                     <label>State</label>
-                    {errors.state ? <label className='error'>{errors.state}</label> : null}
+                    {errors.state && submitted ? <label className='error'>{errors.state}</label> : null}
                     <input
                         type='text'
                         placeholder='STATE'
@@ -223,7 +222,7 @@ const NewSpot = () => {
             <div className='column'>
                 <span id='lat'>
                     <label>Latitude</label>
-                    {errors.lat ? <label className='error'>{errors.lat}</label> : null}
+                    {errors.lat && submitted ? <label className='error'>{errors.lat}</label> : null}
                     <input
                         type='text'
                         placeholder='Latitude'
@@ -232,7 +231,7 @@ const NewSpot = () => {
                 </span>
                 <span id='lng'>
                     <label>Longitude</label>
-                    {errors.lng ? <label className='error'>{errors.lng}</label> : null}
+                    {errors.lng && submitted ? <label className='error'>{errors.lng}</label> : null}
                     <input
                         type='text'
                         placeholder='Longitude'
@@ -245,7 +244,7 @@ const NewSpot = () => {
                 <h3>Describe your place to guests</h3>
                 <label id='desc-label'>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood</label>
                 <textarea id='description' rows='15' cols='58' type='text' placeholder='Description' onChange={(e) => updateForm(e, 'description')}></textarea>
-                {errors.description ? <label className='error'>{errors.description}</label> : null}
+                {errors.description && submitted ? <label className='error'>{errors.description}</label> : null}
             </div>
             <hr></hr>
             <div>
@@ -256,7 +255,7 @@ const NewSpot = () => {
                     placeholder='Name of your spot'
                     onChange={(e) => updateForm(e, 'name')}
                 ></input>
-                {errors.name ? <label className='error'>{errors.name}</label> : null}
+                {errors.name && submitted ? <label className='error'>{errors.name}</label> : null}
             </div>
             <hr></hr>
             <div>
@@ -269,7 +268,7 @@ const NewSpot = () => {
                     placeholder='Price per night (USD)'
                     onChange={(e) => updateForm(e, 'price')}
                 ></input>
-                {errors.price ? <label className='error'>{errors.price}</label> : null}
+                {errors.price && submitted ? <label className='error'>{errors.price}</label> : null}
                 <hr></hr>
             </div>
             <div>
@@ -277,23 +276,23 @@ const NewSpot = () => {
                 <label>Submit a link at least one photo to publish your spot</label>
                 <input type='text' placeholder='Preview Image URL'
                 onChange={(e) => updateImage(e, 'url')}></input>
-                {errors.url ? <label className='error'>{errors.url}</label> : null}
+                {errors.url && submitted? <label className='error'>{errors.url}</label> : null}
 
                 <input type='text' placeholder='Image URL'
                 onChange={(e) => updateImage(e, 'image1')}></input>
-                {errors.image1 ? <label className='error'>{errors.image1}</label> : null}
+                {errors.image1 && submitted? <label className='error'>{errors.image1}</label> : null}
 
                 <input type='text'placeholder='Image URL'
                 onChange={(e) => updateImage(e, 'image2')}></input>
-                {errors.image2 ? <label className='error'>{errors.image2}</label> : null}
+                {errors.image2 && submitted? <label className='error'>{errors.image2}</label> : null}
 
                 <input type='text'placeholder='Image URL'
                 onChange={(e) => updateImage(e, 'image3')}></input>
-                {errors.image3 ? <label className='error'>{errors.image3}</label> : null}
+                {errors.image3 && submitted? <label className='error'>{errors.image3}</label> : null}
 
                 <input type='text'placeholder='Image URL'
                 onChange={(e) => updateImage(e, 'image4')}></input>
-                {errors.image4 ? <label className='error'>{errors.image4}</label> : null}
+                {errors.image4 && submitted? <label className='error'>{errors.image4}</label> : null}
             </div>
             <hr></hr>
             <div id='button-container'>

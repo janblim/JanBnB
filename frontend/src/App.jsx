@@ -8,6 +8,7 @@ import Navigation from './components/Navigation/Navigation';
 import AllSpots from './components/AllSpots/AllSpots';
 import SpotDetails from './components/SpotDetails/SpotDetails';
 import NewSpot from './components/NewSpot/NewSpot';
+import ManageSpots from './components/ManageSpots/ManageSpots';
 
 
 function Layout(){ //this puts it all together...
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
         path: '/newspot',
         element: <NewSpot />
       },
+      {
+        path: '/managespots',
+        element: <ManageSpots />
+      }
     ]
   }
 ]);
