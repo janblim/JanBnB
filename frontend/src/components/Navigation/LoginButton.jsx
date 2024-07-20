@@ -10,7 +10,6 @@ import SignupFormModal from "../SignupFormModal/SignupFormModal";
 
 
 function LoginButton() {
-    const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false); //stores boolean to control dropdown menu
     const ulRef = useRef();
 

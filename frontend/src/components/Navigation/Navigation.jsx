@@ -1,21 +1,32 @@
-import { CgProfile } from "react-icons/cg";
-import { IoReorderThreeSharp } from "react-icons/io5";
 import { HiArrowUturnUp } from "react-icons/hi2";
-
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
-import OpenModalButton from "../OpenModalButton/OpenModalButton";
-import LoginFormModal from "../LoginFormModal/LoginFormModal";
-import SignupFormModal from "../SignupFormModal/SignupFormModal";
 import './Navigation.css';
 import { useState, useRef} from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import LoginButton from "./LoginButton";
 
 
 
 function Navigation({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user);
+    const navigate = useNavigate();
+
+    const createSpotClick = (e) => {
+        e.stopPropagation();
+        navigate('/newspot')
+    }
+    const homeClick = (e) => {
+        e.stopPropagation();
+        navigate('/')
+    }
+
+    const createNewSpotButton = sessionUser ? (
+        <div id='create-new-spot' onClick={(e) => createSpotClick(e)}>
+            Create a New Spot
+        </div>
+
+    ) : (null)
 
     const sessionLinks = sessionUser ? ( //if there is a sessionUser, make user button
         <>
@@ -29,14 +40,16 @@ function Navigation({ isLoaded }) {
 
     return ( //checks if the user isLoaded first, then renders sessionLinks
         <ul className='logged_in'>
-            <li className='home'>
-                <NavLink to='/'>
+
+            <li id='home'>
+                <div onClick={(e) => homeClick(e)}>
                     <span className='j-logo'>
                         <HiArrowUturnUp />
                     </span>
                 janbnb
-                </NavLink>
+                </div>
             </li>
+            {isLoaded && createNewSpotButton}
             {isLoaded && sessionLinks}
         </ul>
     );

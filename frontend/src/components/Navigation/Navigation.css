@@ -88,12 +88,13 @@ ul.profile-dropdown{
     width: 250px
 }
 
-.home {
+#home {
     list-style: none;
     font-weight:bold;
     font-family: Arial, sans-serif;
     position: relative;
     bottom: 15px;
+    color: red;
 }
 
 .j-logo {
@@ -122,4 +123,10 @@ ul.profile-dropdown{
     position: relative;
     left: 7px;
     top: 4px
+}
+
+#create-new-spot {
+    position: relative;
+    left: 350px;
+    top: 7px;
 }
