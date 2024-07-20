@@ -1,36 +1,30 @@
 import React, {useEffect} from 'react';
-import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { getAllUserSpotsThunk } from '../../store/spot';
 
 
 const ManageSpots = () => {
 
-    const {id} = useParams();
     const dispatch = useDispatch();
-    const spot = useSelector((state) => state.spotState.spot)
+    const userSpots = useSelector((state) => state.spotState.allUserSpots)
 
-    useEffect(() => {
-        const getSpot = async () => {
-            dispatch(getOneSpotThunk(id))
-        }
-        getSpot();
-
-    }, []);
+    useEffect( () => {
+        const getUserSpots = async() => dispatch(getAllUserSpotsThunk());
+        getUserSpots()
+        }, []);
 
   return (
     <div>
-        <h1>{spot.name}</h1>
-        <h1>{spot.address}</h1>
 
-            {spot.SpotImages ? spot.SpotImages.map(image => (
-            <div key={`${image.id}-${image.url}`}>
-                <span>
+        {userSpots.allSpots.map(spot => (
+            <div key={`${spot.id}-${spot.address}`}>
+                <span style={{cursor: 'pointer'}}>
 
-                        {image.url}
+                        {spot.address}
 
                 </span>
             </div>
-            )) : null}
+        ))}
     </div>
   );
 }

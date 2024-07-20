@@ -1,8 +1,6 @@
 import { CgProfile } from "react-icons/cg";
 import { IoReorderThreeSharp } from "react-icons/io5";
-import { useDispatch } from "react-redux";
 import { useState, useEffect, useRef } from "react";
-import * as sessionActions from '../../store/session'
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";

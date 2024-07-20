@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import * as sessionActions from './store/session';
 // import LoginFormPage from './components/LoginFormPage/LoginFormPage';
 import Navigation from './components/Navigation/Navigation';
-import AllSpots from './components/AllSpots/AllSpots';
+import Splash from './components/Spash/Spash';
 import SpotDetails from './components/SpotDetails/SpotDetails';
 import NewSpot from './components/NewSpot/NewSpot';
 import ManageSpots from './components/ManageSpots/ManageSpots';
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <AllSpots />
+        element: <Splash />
       },
       {
         path: '/spots/:id',

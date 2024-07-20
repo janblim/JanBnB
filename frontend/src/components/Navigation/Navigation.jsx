@@ -49,8 +49,10 @@ function Navigation({ isLoaded }) {
                 janbnb
                 </div>
             </li>
-            {isLoaded && createNewSpotButton}
-            {isLoaded && sessionLinks}
+            <div id='rightbox'>
+                {isLoaded && createNewSpotButton}
+                {isLoaded && sessionLinks}
+            </div>
         </ul>
     );
 }

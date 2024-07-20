@@ -130,6 +130,10 @@ ul.profile-dropdown{
 
 #create-new-spot {
     position: relative;
-    left: 350px;
-    top: 7px;
+    left: 80px;
+    top: 7px
+}
+
+#rightbox {
+    display: flex;
 }

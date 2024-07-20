@@ -4,8 +4,7 @@ import { getAllSpotsThunk } from '../../store/spot';
 import { useNavigate } from 'react-router-dom';
 
 
-
-const AllSpots = () => {
+const Splash = () => {
 
     const dispatch = useDispatch()
     const spots = useSelector(state => state.spotState.allSpots) // grabs state
@@ -39,9 +38,8 @@ const AllSpots = () => {
                 </span>
             </div>
         ))}
-        <h1>Hello!</h1>
     </div>
   );
 }
 
-export default AllSpots;
+export default Splash;
