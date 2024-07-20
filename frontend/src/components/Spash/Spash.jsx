@@ -2,6 +2,8 @@ import React, {useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSpotsThunk } from '../../store/spot';
 import { useNavigate } from 'react-router-dom';
+import Card from '../Card/Card';
+import './Spash.css'
 
 
 const Splash = () => {
@@ -26,14 +28,17 @@ const Splash = () => {
     }
 
   return (
-    <div>
+    <div id='card-container'>
         {spots.map(spot => (
             <div key={`${spot.id}-${spot.address}`}>
-                <span
-                style={{cursor: 'pointer'}}
-                onClick={(e) => goToSpotDetails(e, spot)}>
-
-                        {spot.address}
+                <span>
+                    <Card
+                    preview={spot.previewImage}
+                    city={spot.city}
+                    state={spot.state}
+                    rating={spot.avgRating}
+                    price={spot.price}
+                    />
 
                 </span>
             </div>

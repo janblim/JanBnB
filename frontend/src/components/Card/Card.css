@@ -1,0 +1,24 @@
+.preview-box{
+    width: 275px;
+    height: 275px;
+    background-color: grey;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card {
+    width: 300px;
+    height: 375px;
+    background-color: white;
+
+}
+
+.location-box{
+    width: 275px;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 7px;
+}
+.price-box{
+    padding-top: 7px;
+}
