@@ -11,6 +11,7 @@ const SpotDetails = () => {
     const dispatch = useDispatch();
     const spot = useSelector((state) => state.spotState.spot)
     const spotImages = useSelector((state) => state.spotState.spot.SpotImages)
+    const owner = useSelector((state) => state.spotState.spot.Owner)
 
     useEffect(() => {
         const getSpot = async () => {
@@ -21,7 +22,7 @@ const SpotDetails = () => {
     }, []);
 
   return (
-    <div>
+    <div id='main'>
         <h1>{spot.name}</h1>
         <h4>{spot.city}, {spot.state}, {spot.country}</h4>
 
@@ -43,6 +44,10 @@ const SpotDetails = () => {
                     <img id='img4' src={spotImages[4] ? spotImages[4].url : 'no image'}></img>
                 </div>
             </div>
+        </div>
+
+        <div id='text'>
+            <h1>Hosted by {owner.firstName}</h1>
         </div>
 
 
