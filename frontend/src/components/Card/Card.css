@@ -4,6 +4,8 @@
     background-color: grey;
     border-radius: 8px;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
 }
 
 .card {
@@ -22,4 +24,8 @@
 }
 .price-box{
     padding-top: 7px;
+}
+
+img {
+    max-height: 100%;
 }

@@ -98,13 +98,18 @@ export const getOneSpotThunk = (id) => async(dispatch) => {
 }
 
 export const createSpotThunk = (form) => async(dispatch) => {
-    console.log('form', form)
+    console.log('form inside thunk', form)
     try{
 
-        const res = await csrfFetch('/api/spots', { //creates the new spot
+        form.lat = Number(form.lat)
+        form.lng = Number(form.lng)
+        form.price = Number(form.price)
+
+        const res = await csrfFetch('/api/spots', {
             method: 'POST',
             body: JSON.stringify(form)
         });
+        console.log(res)
         if (res.ok) {
             const data = await res.json()
             dispatch(createSpot(data))

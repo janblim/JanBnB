@@ -224,7 +224,7 @@ const SpotForm = () => {
                     <label>Latitude</label>
                     {errors.lat && submitted ? <label className='error'>{errors.lat}</label> : null}
                     <input
-                        type='text'
+                        type='number'
                         placeholder='Latitute'
                         onChange={(e) => updateForm(e, 'lat')}
                         ></input>
@@ -233,7 +233,7 @@ const SpotForm = () => {
                     <label>Longitude</label>
                     {errors.lng && submitted ? <label className='error'>{errors.lng}</label> : null}
                     <input
-                        type='text'
+                        type='number'
                         placeholder='Longitude'
                         onChange={(e) => updateForm(e, 'lng')}
                         ></input>
