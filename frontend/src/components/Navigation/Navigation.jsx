@@ -10,10 +10,12 @@ import LoginButton from "./LoginButton";
 
 function Navigation({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user);
+    const spotState = useSelector(state => state.spotState)
     const navigate = useNavigate();
 
     const createSpotClick = (e) => {
         e.stopPropagation();
+        spotState.spot = {};
         navigate('/newspot')
     }
     const homeClick = (e) => {

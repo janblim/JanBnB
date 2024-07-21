@@ -1,0 +1,57 @@
+#form-container {
+    display: flex;
+    justify-content: center;
+}
+
+.form {
+    border: white;
+}
+
+.column {
+    display: flex;
+    column-gap: 15px;
+}
+
+#lat {
+    width: 50%
+}
+
+#lng {
+    width: 50%
+}
+
+#city {
+    width: 60%
+}
+
+#state {
+    width: 35%
+}
+
+.error {
+    color: red;
+    font-size: small;
+    padding-left: 5px;
+}
+
+#button-container {
+    display: flex;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+}
+
+#create-button {
+    height: 25px;
+    background-color: red;
+    font-size: 15px;
+    color: white;
+    box-shadow: 5px 4px 5px black;
+}
+#dollar-sign{
+    padding-right: 10px;
+}
+
+#desc-label {
+    padding-bottom: 10px;
+}

@@ -1,28 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { createSpotThunk, spotImageThunk } from '../../store/spot';
-import { useNavigate } from 'react-router-dom';
-import './NewSpot.css'
+import { useDispatch, useSelector} from 'react-redux';
+import { updateSpotThunk, spotImageThunk } from '../../store/spot';
+import { useNavigate, useParams } from 'react-router-dom';
+import './UpdateForm.css'
 
 
+const UpdateForm = () => {
 
-const NewSpot = () => {
-
+    const {id} = useParams()
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [errors, setErrors] = useState({});
     const [submitted, setSubmitted] = useState(false)
+    const spot = useSelector((state) => state.spotState.spot)
 
     const [form, setForm] = useState({
-        address: '',
-        city: '',
-        state: '',
-        country: '',
-        lat: 0,
-        lng: 0,
-        name: '',
-        description: '',
-        price: 0,
+        address: spot.address,
+        city: spot.city,
+        state: spot.state,
+        country: spot.country,
+        lat: spot.lat,
+        lng: spot.lng,
+        name: spot.name,
+        description: spot.description,
+        price: spot.price,
     });
 
     const [images, setImages] = useState({
@@ -32,7 +33,6 @@ const NewSpot = () => {
         image3: '',
         image4: ''
     })
-
 
 
     const notImage = (url) => {
@@ -46,34 +46,30 @@ const NewSpot = () => {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
+        console.log('inside form submit')
         if(Object.values(errors).length){
+            throw new Error ('there are errors in the form')
             setSubmitted(true);
             return;
         } else {
 
-            const data = await dispatch(createSpotThunk(form)) //sends spot data to thunk
+            const data = await dispatch(updateSpotThunk(form, id)) //sends spot data to thunk
 
             if(data.errors){
-                throw new Error ('Not able to create spot')
+                throw new Error ('Not able to update spot')
             }
-
-            const id = data.id
 
             const imageKeys = Object.keys(images)
 
+            if(!imageKeys){
+                return
+            }
+
             for (const key of imageKeys){
-                let image = {}
-                if(key === 'preview'){
-                    image = {
-                        url: images[key],
-                        preview: true
-                    }
-                } else {
-                    image = {
+                const image = {
                         url: images[key],
                         preview: false
                     }
-                }
                 const addImageRes = await dispatch(spotImageThunk(image, id))
             }
             navigate(`/spots/${id}`);
@@ -81,7 +77,25 @@ const NewSpot = () => {
         }
     }
 
+    useEffect(() => {
+        setForm({
+            address: spot.address,
+            city: spot.city,
+            state: spot.state,
+            country: spot.country,
+            lat: spot.lat,
+            lng: spot.lng,
+            name: spot.name,
+            description: spot.description,
+            price: spot.price,
+          })
+        }, [spot])
+
+
     useEffect(() => { //for dynamic error handling
+
+
+
       const newErrors = {};
       const {
         name,
@@ -103,7 +117,6 @@ const NewSpot = () => {
             image4
         } = images;
 
-
       if(!country){
         newErrors.country = 'Country is required';
       }
@@ -122,7 +135,7 @@ const NewSpot = () => {
       if(!lng){
         newErrors.lng = 'Longitude is required';
       }
-      if(description.length < 30){
+      if(description?.length < 30){
         newErrors.description = 'Description needs a minimum of 30 characters'
       }
       if(!name){
@@ -131,9 +144,7 @@ const NewSpot = () => {
       if(!price){
         newErrors.price = 'Price is required'
       }
-      if(!url){
-        newErrors.url = "Preview image is required"
-      }
+
       if(notImage(url) && url){
         newErrors.url = "Image URL must end in .png, .jpg, or .jpeg"
       }
@@ -175,7 +186,7 @@ const NewSpot = () => {
   return (
     <div id='form-container'>
     <div >
-        <h2>Create a new Spot</h2>
+        <h2>Update your Spot</h2>
         <h4>Where's your place located?</h4>
         <div>
             Guests will only get your exact address once they booked a reservation
@@ -187,6 +198,7 @@ const NewSpot = () => {
                 <input
                     type='text'
                     onChange={(e) => updateForm(e, 'country')}
+                    value={form.country}
                     placeholder='Country'>
                 </input>
             </div>
@@ -196,6 +208,7 @@ const NewSpot = () => {
                 <input
                     type='text'
                     onChange={(e) => updateForm(e, 'address')}
+                    value={form.address}
                     placeholder='Address'>
                 </input>
             </div>
@@ -206,6 +219,7 @@ const NewSpot = () => {
                     <input
                         type='text'
                         placeholder='City'
+                        value={form.city}
                         onChange={(e) => updateForm(e, 'city')}
                         ></input>
                 </span>
@@ -214,6 +228,7 @@ const NewSpot = () => {
                     {errors.state && submitted ? <label className='error'>{errors.state}</label> : null}
                     <input
                         type='text'
+                        value={form.state}
                         placeholder='STATE'
                         onChange={(e) => updateForm(e, 'state')}
                         ></input>
@@ -225,7 +240,8 @@ const NewSpot = () => {
                     {errors.lat && submitted ? <label className='error'>{errors.lat}</label> : null}
                     <input
                         type='text'
-                        placeholder='Latitude'
+                        value={form.lat}
+                        placeholder='Latitute'
                         onChange={(e) => updateForm(e, 'lat')}
                         ></input>
                 </span>
@@ -234,6 +250,7 @@ const NewSpot = () => {
                     {errors.lng && submitted ? <label className='error'>{errors.lng}</label> : null}
                     <input
                         type='text'
+                        value={form.lng}
                         placeholder='Longitude'
                         onChange={(e) => updateForm(e, 'lng')}
                         ></input>
@@ -243,7 +260,11 @@ const NewSpot = () => {
             <div>
                 <h3>Describe your place to guests</h3>
                 <label id='desc-label'>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood</label>
-                <textarea id='description' rows='15' cols='58' type='text' placeholder='Description' onChange={(e) => updateForm(e, 'description')}></textarea>
+                <textarea id='description' rows='15' cols='58' type='text'
+                placeholder='Description'
+                value={form.description}
+                onChange={(e) => updateForm(e, 'description')}>
+                </textarea>
                 {errors.description && submitted ? <label className='error'>{errors.description}</label> : null}
             </div>
             <hr></hr>
@@ -253,6 +274,7 @@ const NewSpot = () => {
                 <input
                     type='text'
                     placeholder='Name of your spot'
+                    value={form.name}
                     onChange={(e) => updateForm(e, 'name')}
                 ></input>
                 {errors.name && submitted ? <label className='error'>{errors.name}</label> : null}
@@ -266,6 +288,7 @@ const NewSpot = () => {
                 <input
                     type='number'
                     placeholder='Price per night (USD)'
+                    value={form.price}
                     onChange={(e) => updateForm(e, 'price')}
                 ></input>
                 {errors.price && submitted ? <label className='error'>{errors.price}</label> : null}
@@ -273,24 +296,25 @@ const NewSpot = () => {
             </div>
             <div>
                 <h3>Liven up your spot with photos</h3>
-                <label>Submit a link at least one photo to publish your spot</label>
-                <input type='text' placeholder='Preview Image URL'
-                onChange={(e) => updateImage(e, 'url')}></input>
-                {errors.url && submitted? <label className='error'>{errors.url}</label> : null}
+                <label>Add more images to your spot.</label>
 
-                <input type='text' placeholder='Image URL'
+                <input type='text'
+                placeholder='Image URL'
                 onChange={(e) => updateImage(e, 'image1')}></input>
                 {errors.image1 && submitted? <label className='error'>{errors.image1}</label> : null}
 
-                <input type='text'placeholder='Image URL'
+                <input type='text'
+                placeholder='Image URL'
                 onChange={(e) => updateImage(e, 'image2')}></input>
                 {errors.image2 && submitted? <label className='error'>{errors.image2}</label> : null}
 
-                <input type='text'placeholder='Image URL'
+                <input type='text'
+                placeholder='Image URL'
                 onChange={(e) => updateImage(e, 'image3')}></input>
                 {errors.image3 && submitted? <label className='error'>{errors.image3}</label> : null}
 
-                <input type='text'placeholder='Image URL'
+                <input type='text'
+                placeholder='Image URL'
                 onChange={(e) => updateImage(e, 'image4')}></input>
                 {errors.image4 && submitted? <label className='error'>{errors.image4}</label> : null}
             </div>
@@ -300,7 +324,7 @@ const NewSpot = () => {
 
                 id='create-button'
                 type='submit'>
-                    Create Spot
+                    Update Spot
                 </button>
             </div>
 
@@ -311,4 +335,4 @@ const NewSpot = () => {
   );
 }
 
-export default NewSpot;
+export default UpdateForm;

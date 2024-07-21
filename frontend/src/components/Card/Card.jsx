@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Card.css'
+import { FaStar } from "react-icons/fa";
+
 
 
 const Card = ({preview, city, state, rating, price}) => {
@@ -26,7 +28,7 @@ const Card = ({preview, city, state, rating, price}) => {
                 {city}, {state}
             </span>
             <span>
-                {rating}
+            <FaStar/> {rating}
             </span>
         </div>
         <div className='price-box'>

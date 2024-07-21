@@ -7,8 +7,9 @@ import * as sessionActions from './store/session';
 import Navigation from './components/Navigation/Navigation';
 import Splash from './components/Spash/Spash';
 import SpotDetails from './components/SpotDetails/SpotDetails';
-import NewSpot from './components/NewSpot/NewSpot';
+import SpotForm from './components/SpotForm/SpotForm';
 import ManageSpots from './components/ManageSpots/ManageSpots';
+import UpdateForm from './components/UpdateForm/UpdateForm';
 
 
 function Layout(){ //this puts it all together...
@@ -53,11 +54,15 @@ const router = createBrowserRouter([
       },
       {
         path: '/newspot',
-        element: <NewSpot />
+        element: <SpotForm />
       },
       {
         path: '/managespots',
         element: <ManageSpots />
+      },
+      {
+        path: '/update/:id',
+        element: <UpdateForm />
       }
     ]
   }

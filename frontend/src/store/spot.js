@@ -8,6 +8,8 @@ const GETONESPOT = 'spots/getOneSpot'
 const CREATESPOT = 'spots/createSpot'
 const SPOTIMAGE = 'spots/image'
 const OWNERSPOTS = 'spots/owner'
+const DELETESPOT = 'spots/delete'
+const UPDATESPOT = 'spots/update'
 
 // Action creators ()
 
@@ -43,6 +45,18 @@ const getAllUserSpots = (data) => {
     return {
         type: OWNERSPOTS,
         payload: data,
+    }
+}
+
+const deleteSpot = () => {
+    return {
+        type: DELETESPOT
+    }
+}
+
+const updateSpot = (data) => {
+    return{
+        type: UPDATESPOT
     }
 }
 
@@ -92,7 +106,6 @@ export const createSpotThunk = (form) => async(dispatch) => {
             body: JSON.stringify(form)
         });
         if (res.ok) {
-            console.log('spot', res)
             const data = await res.json()
             dispatch(createSpot(data))
             return data
@@ -144,6 +157,42 @@ export const getAllUserSpotsThunk = () => async (dispatch) => {
     }
 }
 
+export const deleteSpotThunk = (id) => async (dispatch) => {
+    try{
+        const res = await csrfFetch(`/api/spots/${id}`, {
+            method: 'DELETE'
+        })
+
+        if (res.ok) {
+            dispatch(deleteSpot(id))
+        } else {
+            throw res
+        }
+    } catch (e) {
+        return e;
+    }
+}
+
+export const updateSpotThunk = (form, id) => async (dispatch) => {
+    console.log('inside thunk')
+    try{
+        const res = await csrfFetch(`/api/spots/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(form)
+        })
+
+        if (res.ok) {
+            const data = await res.json()
+            dispatch(updateSpot(data))
+            return data
+        } else {
+            throw res
+        }
+    }
+    catch(e){
+        return e;
+    }
+}
 
 //Reducer (updates the state)
 
@@ -183,6 +232,12 @@ const spotsReducer = (state = initialState, action) => {
             for (let spot of action.payload.Spots) {
                 newState.allUserSpots.byId[spot.id] = spot;
             }
+            return newState
+        case DELETESPOT:
+            newState = {...state}
+            return newState
+        case UPDATESPOT:
+            newState = {...state}
             return newState
         default:
             return state;
