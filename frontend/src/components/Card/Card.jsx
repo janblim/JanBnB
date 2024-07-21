@@ -1,27 +1,17 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import './Card.css'
 import { FaStar } from "react-icons/fa";
 
 
 
-const Card = ({preview, city, state, rating, price}) => {
+const Card = ({name, preview, city, state, rating, price}) => {
 
     price = price.toFixed(2) //adds two decimal places
-    const navigate = useNavigate()
-
-
-    //go to Spot Details handler
-
-    const goToSpotDetails = (e, spot) => {
-        e.stopPropagation();
-        navigate(`/spots/${spot.id}`)
-    }
 
   return (
     <div className='card'>
         <div className='preview-box'>
-            {preview}
+            <img src={preview} alt={name} />
         </div>
         <div className='location-box'>
             <span>

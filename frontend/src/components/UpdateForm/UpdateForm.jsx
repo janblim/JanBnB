@@ -49,8 +49,6 @@ const UpdateForm = () => {
         console.log('inside form submit')
         if(Object.values(errors).length){
             throw new Error ('there are errors in the form')
-            setSubmitted(true);
-            return;
         } else {
 
             const data = await dispatch(updateSpotThunk(form, id)) //sends spot data to thunk
@@ -59,19 +57,19 @@ const UpdateForm = () => {
                 throw new Error ('Not able to update spot')
             }
 
-            const imageKeys = Object.keys(images)
+            // const imageKeys = Object.keys(images)
 
-            if(!imageKeys){
-                return
-            }
+            // if(!imageKeys){ //very broken!!!!
+            //     return
+            // }
 
-            for (const key of imageKeys){
-                const image = {
-                        url: images[key],
-                        preview: false
-                    }
-                const addImageRes = await dispatch(spotImageThunk(image, id))
-            }
+            // for (const key of imageKeys){
+            //     const image = {
+            //             url: images[key],
+            //             preview: false
+            //         }
+            //     const addImageRes = await dispatch(spotImageThunk(image, id))
+            // }
             navigate(`/spots/${id}`);
             window.scrollTo(0, 0); // goes back to top of page
         }

@@ -45,6 +45,7 @@ const ManageSpots = () => {
                 <div key={`${spot.id}-${spot.address}`}>
                     <span>
                         <Card
+                        name={spot.name}
                         preview={spot.previewImage}
                         city={spot.city}
                         state={spot.state}
