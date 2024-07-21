@@ -1,6 +1,4 @@
-import { CgProfile } from "react-icons/cg";
 import { IoReorderThreeSharp } from "react-icons/io5";
-
 import { useDispatch } from "react-redux";
 import { useState, useEffect, useRef } from "react";
 import * as sessionActions from '../../store/session'
@@ -68,8 +66,7 @@ function ProfileButton({ user }) {
                     </div>
                 </span>
                     <ul className={ulClassName} ref={ulRef}>
-                        <li>{user.username}</li>
-                        <li>{user.firstName} {user.lastName}</li>
+                        <li>Hello, {user.firstName}!</li>
                         <li>{user.email}</li>
                         <hr></hr>
                         <li onClick={(e) => manageSpotsClick(e)}>

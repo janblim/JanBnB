@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
-import { updateSpotThunk, spotImageThunk } from '../../store/spot';
+import { updateSpotThunk, spotImageThunk, getOneSpotThunk } from '../../store/spot';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import './UpdateForm.css'
 
 
@@ -51,25 +52,28 @@ const UpdateForm = () => {
             throw new Error ('there are errors in the form')
         } else {
 
+            setSubmitted(true)
+
             const data = await dispatch(updateSpotThunk(form, id)) //sends spot data to thunk
 
             if(data.errors){
                 throw new Error ('Not able to update spot')
             }
 
-            // const imageKeys = Object.keys(images)
+            const imageKeys = Object.keys(images)
 
-            // if(!imageKeys){ //very broken!!!!
-            //     return
-            // }
+            if(!imageKeys){
+                return
+            }
 
-            // for (const key of imageKeys){
-            //     const image = {
-            //             url: images[key],
-            //             preview: false
-            //         }
-            //     const addImageRes = await dispatch(spotImageThunk(image, id))
-            // }
+            for (const key of imageKeys){
+                const image = {
+                        url: images[key],
+                        preview: false
+                    }
+                await dispatch(spotImageThunk(image, id))
+            }
+
             navigate(`/spots/${id}`);
             window.scrollTo(0, 0); // goes back to top of page
         }
@@ -92,7 +96,7 @@ const UpdateForm = () => {
             description: spot.description,
             price: spot.price,
         })
-    }, []);
+    }, [spot, dispatch, id]);
 
 
     useEffect(() => { //for dynamic error handling
@@ -188,7 +192,7 @@ const UpdateForm = () => {
     <div id='form-container'>
     <div >
         <h2>Update your Spot</h2>
-        <h4>Where's your place located?</h4>
+        <h4>Where&apos;s your place located?</h4>
         <div>
             Guests will only get your exact address once they booked a reservation
         </div>
@@ -271,7 +275,7 @@ const UpdateForm = () => {
             <hr></hr>
             <div>
                 <h3>Create a title for your spot</h3>
-                <label>Catch guests' attention with a spot title that highlights what makes your place special</label>
+                <label>Catch guests&apos; attention with a spot title that highlights what makes your place special</label>
                 <input
                     type='text'
                     placeholder='Name of your spot'

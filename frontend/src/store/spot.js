@@ -56,7 +56,8 @@ const deleteSpot = () => {
 
 const updateSpot = (data) => {
     return{
-        type: UPDATESPOT
+        type: UPDATESPOT,
+        payload: data,
     }
 }
 
@@ -133,7 +134,6 @@ export const spotImageThunk = (image, id) => async(dispatch) => {
         if (res.ok) {
             const data = await res.json()
             dispatch(spotImage(data))
-            return data
         } else {
             throw res
         }
@@ -207,8 +207,8 @@ const initialState = {
         allSpots: [],
         byId: {},
     },
-    byId: {},
     spot: {},
+    byId: {},
 }
 
 const spotsReducer = (state = initialState, action) => {
@@ -223,7 +223,7 @@ const spotsReducer = (state = initialState, action) => {
             return newState //always last line
         case GETONESPOT:
             newState = {...state}
-            newState.spot = action.payload
+            newState.spotState.spot = action.payload
             return newState
         case CREATESPOT:
             newState = {...state}

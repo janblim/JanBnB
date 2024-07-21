@@ -1,16 +1,14 @@
-import React, {useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSpotsThunk } from '../../store/spot';
-import { useNavigate } from 'react-router-dom';
 import Card from '../Card/Card';
 import './Spash.css'
+import { useEffect } from 'react';
 
 
 const Splash = () => {
 
     const dispatch = useDispatch()
     const spots = useSelector(state => state.spotState.allSpots) // grabs state
-    const navigate = useNavigate()
 
     useEffect(() => {
         const getSpots = async () => {
@@ -18,7 +16,7 @@ const Splash = () => {
             dispatch(getAllSpotsThunk())
         }
         getSpots();
-    }, []);
+    });
 
     //go to Spot Details handler
 

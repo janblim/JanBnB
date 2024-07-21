@@ -2,20 +2,17 @@ import { HiArrowUturnUp } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import './Navigation.css';
-import { useState, useRef} from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LoginButton from "./LoginButton";
 
 
 
 function Navigation({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user);
-    const spotState = useSelector(state => state.spotState)
     const navigate = useNavigate();
 
     const createSpotClick = (e) => {
         e.stopPropagation();
-        spotState.spot = {};
         navigate('/newspot')
     }
     const homeClick = (e) => {

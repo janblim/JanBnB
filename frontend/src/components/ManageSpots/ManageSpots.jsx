@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUserSpotsThunk } from '../../store/spot';
 import Card from '../Card/Card';
 import './ManageSpots.css'
 import { useNavigate } from 'react-router-dom';
 import { deleteSpotThunk } from '../../store/spot';
-import { getOneSpotThunk } from '../../store/spot';
 
 
 
@@ -19,7 +18,7 @@ const ManageSpots = () => {
     useEffect( () => {
         const getUserSpots = async() => dispatch(getAllUserSpotsThunk());
         getUserSpots()
-        }, [deleteTrigger]);
+        }, [deleteTrigger, dispatch]);
 
     const deleteClick = (e, id) => {
         e.preventDefault();

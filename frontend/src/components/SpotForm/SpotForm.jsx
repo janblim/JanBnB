@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector} from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { createSpotThunk, spotImageThunk } from '../../store/spot';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './SpotForm.css'
+import { useState, useEffect } from 'react';
 
 
 const SpotForm = () => {
@@ -72,7 +72,7 @@ const SpotForm = () => {
                         preview: false
                     }
                 }
-                const addImageRes = await dispatch(spotImageThunk(image, id))
+                await dispatch(spotImageThunk(image, id))
             }
             navigate(`/spots/${id}`);
             window.scrollTo(0, 0); // goes back to top of page
@@ -176,7 +176,7 @@ const SpotForm = () => {
     <div id='form-container'>
     <div >
         <h2>Create a new Spot</h2>
-        <h4>Where's your place located?</h4>
+        <h4>Where&apos;s your place located?</h4>
         <div>
             Guests will only get your exact address once they booked a reservation
         </div>
@@ -252,7 +252,7 @@ const SpotForm = () => {
             <hr></hr>
             <div>
                 <h3>Create a title for your spot</h3>
-                <label>Catch guests' attention with a spot title that highlights what makes your place special</label>
+                <label>Catch guests&apos; attention with a spot title that highlights what makes your place special</label>
                 <input
                     type='text'
                     placeholder='Name of your spot'
