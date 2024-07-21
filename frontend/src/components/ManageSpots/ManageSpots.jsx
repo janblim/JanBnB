@@ -30,7 +30,6 @@ const ManageSpots = () => {
 
     const updateClick = (e, id) => {
         e.preventDefault();
-        dispatch(getOneSpotThunk(id))
         navigate(`/update/${id}`)
     }
 
@@ -45,6 +44,7 @@ const ManageSpots = () => {
                 <div key={`${spot.id}-${spot.address}`}>
                     <span>
                         <Card
+                        id={spot.id}
                         name={spot.name}
                         preview={spot.previewImage}
                         city={spot.city}

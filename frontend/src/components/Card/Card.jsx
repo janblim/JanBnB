@@ -1,15 +1,22 @@
 import React from 'react';
 import './Card.css'
 import { FaStar } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 
 
-const Card = ({name, preview, city, state, rating, price}) => {
+const Card = ({id, name, preview, city, state, rating, price}) => {
 
+    const navigate = useNavigate();
     price = price.toFixed(2) //adds two decimal places
 
+
+    const goToSpotDetails = (e, id) => {
+        e.stopPropagation();
+        navigate(`/spots/${id}`)
+    }
   return (
-    <div className='card'>
+    <div className='card' onClick={(e)=> goToSpotDetails(e, id)}>
         <div className='preview-box'>
             <img src={preview} alt={name} />
         </div>

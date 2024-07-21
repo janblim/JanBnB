@@ -76,6 +76,11 @@ const UpdateForm = () => {
     }
 
     useEffect(() => {
+        const getSpot = async () => {
+            dispatch(getOneSpotThunk(id))
+        }
+        getSpot();
+
         setForm({
             address: spot.address,
             city: spot.city,
@@ -86,13 +91,11 @@ const UpdateForm = () => {
             name: spot.name,
             description: spot.description,
             price: spot.price,
-          })
-        }, [spot])
+        })
+    }, []);
 
 
     useEffect(() => { //for dynamic error handling
-
-
 
       const newErrors = {};
       const {

@@ -22,10 +22,7 @@ const Splash = () => {
 
     //go to Spot Details handler
 
-    const goToSpotDetails = (e, spot) => {
-        e.stopPropagation();
-        navigate(`/spots/${spot.id}`)
-    }
+
 
   return (
     <div id='card-container'>
@@ -33,6 +30,7 @@ const Splash = () => {
             <div key={`${spot.id}-${spot.address}`}>
                 <span>
                     <Card
+                    id={spot.id}
                     name={spot.name}
                     preview={spot.previewImage}
                     city={spot.city}

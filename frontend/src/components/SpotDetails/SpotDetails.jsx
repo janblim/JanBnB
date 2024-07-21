@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOneSpotThunk } from '../../store/spot';
+import './SpotDetails.css'
 
 
 const SpotDetails = () => {
@@ -9,6 +10,7 @@ const SpotDetails = () => {
     const {id} = useParams();
     const dispatch = useDispatch();
     const spot = useSelector((state) => state.spotState.spot)
+    const spotImages = useSelector((state) => state.spotState.spot.SpotImages)
 
     useEffect(() => {
         const getSpot = async () => {
@@ -21,17 +23,29 @@ const SpotDetails = () => {
   return (
     <div>
         <h1>{spot.name}</h1>
-        <h1>{spot.address}</h1>
+        <h4>{spot.city}, {spot.state}, {spot.country}</h4>
 
-            {spot.SpotImages ? spot.SpotImages.map(image => (
-            <div key={`${image.id}-${image.url}`}>
-                <span>
-
-                        {image.url}
-
-                </span>
+        <div id='picture-container'>
+            <div id='left'>
+                <img id='prev' src={spotImages[0].url}></img>
             </div>
-            )) : null}
+            <div id='right'>
+                <div>
+                    <img id='img1' src={spotImages[1] ? spotImages[1].url : 'no image' }></img>
+                </div>
+                <div>
+                    <img id='img2' src={spotImages[2] ? spotImages[2].url : 'no image'}></img>
+                </div>
+                <div>
+                    <img id='img3' src={spotImages[3] ? spotImages[3].url : 'no image'} ></img>
+                </div>
+                <div>
+                    <img id='img4' src={spotImages[4] ? spotImages[4].url : 'no image'}></img>
+                </div>
+            </div>
+        </div>
+
+
     </div>
   );
 }
