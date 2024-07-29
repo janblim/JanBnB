@@ -16,7 +16,7 @@ const Splash = () => {
             dispatch(getAllSpotsThunk())
         }
         getSpots();
-    });
+    }, []);
 
     //go to Spot Details handler
 
