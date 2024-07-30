@@ -9,18 +9,14 @@ const SpotDetails = () => {
 
     const {id} = useParams();
     const dispatch = useDispatch();
-    const spots = useSelector((state) => state.spotState)
-    const [spotImages, setSpotImages] = useState()
-    const [owner, setOwner] = useState()
-    const [spot, setSpot] = useState()
+    const spot = useSelector((state) => state.spotState[id])
+    const spotImages = useSelector((state) => state.spotState[id].SpotImages)
+    const owner = useSelector((state) => state.spotState[id].Owner)
     const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(() => {
         dispatch(getOneSpotThunk(id))
         .then(() => (setIsLoaded(true))) //makes it so it returns ONLY AFTER thunk is dispatched
-        .then(() => (setSpotImages(spots[id].SpotImages)))
-        .then(() => (setOwner(spots[id].Owner)))
-        .then(() => (setSpot(spots[id])))
     }, []);
 
   return isLoaded && ( // isLoaded must be true before this is returned
