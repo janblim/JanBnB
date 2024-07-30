@@ -169,7 +169,7 @@ export const deleteSpotThunk = (id) => async (dispatch) => {
         })
 
         if (res.ok) {
-            dispatch(deleteSpot(id))
+            dispatch(deleteSpot())
         } else {
             throw res
         }
@@ -201,7 +201,11 @@ export const updateSpotThunk = (form, id) => async (dispatch) => {
 
 //Reducer (updates the state)
 
-const initialState = {}
+const initialState = {
+    allSpots: {},
+    userSpots: {},
+    spot: {}
+}
 
 const spotsReducer = (state = initialState, action) => {
     let newState;
@@ -209,11 +213,12 @@ const spotsReducer = (state = initialState, action) => {
         case GETSPOTS:
             newState = {...state}
             for (let spot of action.payload.Spots) {
-                newState[spot.id] = spot;
+                newState.allSpots[spot.id] = spot;
             }
             return newState
         case GETONESPOT:
-            newState = {...state,...{[action.payload.id] : action.payload}} //adds spot details to existing key
+            newState = {...state}
+            newState.spot = action.payload //adds spot details to existing key, or creates new key
             return newState
         case CREATESPOT:
             newState = {...state}
@@ -223,9 +228,8 @@ const spotsReducer = (state = initialState, action) => {
             return newState
         case OWNERSPOTS:
             newState = {...state}
-            newState.allUserSpots.allSpots = action.payload.Spots
             for (let spot of action.payload.Spots) {
-                newState.allUserSpots.byId[spot.id] = spot;
+                newState.userSpots[spot.id] = spot
             }
             return newState
         case DELETESPOT:

@@ -96,7 +96,7 @@ const SpotForm = () => {
         } = form; //destructure useState form
 
         const {
-            url,
+            preview,
             image1,
             image2,
             image3,
@@ -131,11 +131,11 @@ const SpotForm = () => {
       if(!price){
         newErrors.price = 'Price is required'
       }
-      if(!url){
-        newErrors.url = "Preview image is required"
+      if(!preview){
+        newErrors.preview = "Preview image is required"
       }
-      if(notImage(url) && url){
-        newErrors.url = "Image URL must end in .png, .jpg, or .jpeg"
+      if(notImage(preview) && preview){
+        newErrors.preview = "Image URL must end in .png, .jpg, or .jpeg"
       }
 
       if(notImage(image1) && image1){
@@ -279,7 +279,7 @@ const SpotForm = () => {
                 <label>Submit a link at least one photo to publish your spot</label>
                 <input type='text'
                 placeholder='Preview Image URL'
-                onChange={(e) => updateImage(e, 'url')}></input>
+                onChange={(e) => updateImage(e, 'preview')}></input>
                 {errors.url && submitted? <label className='error'>{errors.url}</label> : null}
 
                 <input type='text'

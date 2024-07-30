@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import { getAllUserSpotsThunk } from '../../store/spot';
 import Card from '../Card/Card';
 import './ManageSpots.css'
@@ -7,24 +7,22 @@ import { useNavigate } from 'react-router-dom';
 import { deleteSpotThunk } from '../../store/spot';
 
 
-
 const ManageSpots = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [deleteTrigger, setDeleteTrigger] = useState(0)
-    const userSpots = useSelector((state) => state.spotState.allUserSpots.allSpots)
+    const userSpots = useSelector((state) => state.spotState.userSpots);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect( () => {
-        const getUserSpots = async() => dispatch(getAllUserSpotsThunk());
-        getUserSpots()
-        }, [deleteTrigger, dispatch]);
+        dispatch(getAllUserSpotsThunk())
+        .then(() => setIsLoaded(true))
+        });
 
     const deleteClick = (e, id) => {
         e.preventDefault();
         dispatch(deleteSpotThunk(id))
-        navigate('/managespots')
-        setDeleteTrigger(e => e + 1)
+        .then(() => navigate('/managespots'))
     }
 
     const updateClick = (e, id) => {
@@ -32,42 +30,53 @@ const ManageSpots = () => {
         navigate(`/update/${id}`)
     }
 
-  return (
+    const createClick = (e) => {
+        e.preventDefault();
+        navigate('/newspot')
+    }
+
+  return isLoaded && (
     <>
         <div>
             <h1>Manage Your Spots</h1>
-            <button>Create a New Spot</button>
+            <button
+                onClick={(e) => createClick(e)}
+                >Create a New Spot</button>
         </div>
         <div id='card-container'>
-            {userSpots.map(spot => (
-                <div key={`${spot.id}-${spot.address}`}>
-                    <span>
-                        <Card
-                        id={spot.id}
-                        name={spot.name}
-                        preview={spot.previewImage}
-                        city={spot.city}
-                        state={spot.state}
-                        rating={spot.avgRating}
-                        price={spot.price}
-                        />
-                    </span>
-                    <span className='button-box'>
-                        <button
-                            className='update'
-                            onClick={(e) => updateClick(e, spot.id)}
-                        >
-                            Update
-                        </button>
-                        <button
-                            className='delete'
-                            onClick={(e) => deleteClick(e, spot.id)}
-                        >
-                            Delete {spot.id}
-                        </button>
-                    </span>
-                </div>
-            ))}
+            {Object.keys(userSpots).map((key) => { //iterate through an array of keys in userSpots
+                const spot = userSpots[key]
+                return (
+                    <div key={`${spot.id}-${spot.address}`}>
+                        <span>
+                            <Card
+                            id={spot.id}
+                            name={spot.name}
+                            preview={spot.previewImage}
+                            city={spot.city}
+                            state={spot.state}
+                            rating={spot.avgRating}
+                            price={spot.price}
+                            />
+                        </span>
+                        <span className='button-box'>
+                            <button
+                                className='update'
+                                onClick={(e) => updateClick(e, spot.id)}
+                            >
+                                Update
+                            </button>
+                            <button
+                                className='delete'
+                                onClick={(e) => deleteClick(e, spot.id)}
+                            >
+                                Delete
+                            </button>
+                        </span>
+                    </div>
+                    )
+                }
+            )}
         </div>
     </>
   );

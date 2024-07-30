@@ -1,5 +1,5 @@
 import { useDispatch, useSelector} from 'react-redux';
-import { updateSpotThunk, spotImageThunk, getOneSpotThunk } from '../../store/spot';
+import { updateSpotThunk, spotImageThunk} from '../../store/spot';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -78,26 +78,6 @@ const UpdateForm = () => {
             window.scrollTo(0, 0); // goes back to top of page
         }
     }
-
-    useEffect(() => {
-        const getSpot = async () => {
-            dispatch(getOneSpotThunk(id))
-        }
-        getSpot();
-
-        setForm({
-            address: spot.address,
-            city: spot.city,
-            state: spot.state,
-            country: spot.country,
-            lat: spot.lat,
-            lng: spot.lng,
-            name: spot.name,
-            description: spot.description,
-            price: spot.price,
-        })
-    }, [spot, dispatch, id]);
-
 
     useEffect(() => { //for dynamic error handling
 

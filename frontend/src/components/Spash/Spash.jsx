@@ -2,26 +2,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllSpotsThunk } from '../../store/spot';
 import Card from '../Card/Card';
 import './Spash.css'
-import { useEffect } from 'react';
-
+import { useEffect, useState } from 'react';
 
 const Splash = () => {
 
     const dispatch = useDispatch()
-    const spots = useSelector(state => state.spotState) // grabs state
+    const spots = useSelector(state => state.spotState.allSpots) // grabs state
+    const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(() => {
-        const getSpots = async () => {
-
-            dispatch(getAllSpotsThunk())
-        }
-        getSpots();
-        console.log(spots)
-    }, []);
+        dispatch(getAllSpotsThunk())
+        .then(() => (setIsLoaded(true)))
+    },[dispatch, spots]);
 
     //go to Spot Details handler
 
-  return (
+  return isLoaded && (
     <div id='card-container'>
         {Object.keys(spots).map((key) => {
             const spot = spots[key]
