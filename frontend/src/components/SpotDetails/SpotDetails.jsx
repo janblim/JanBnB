@@ -3,25 +3,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getOneSpotThunk } from '../../store/spot';
 import './SpotDetails.css'
 import { useEffect } from 'react';
-
+import { useState } from 'react';
 
 const SpotDetails = () => {
 
     const {id} = useParams();
     const dispatch = useDispatch();
-    const spot = useSelector((state) => state.spotState.spot)
-    const spotImages = useSelector((state) => state.spotState.spot.SpotImages)
-    const owner = useSelector((state) => state.spotState.spot.Owner)
+    const spots = useSelector((state) => state.spotState)
+    const [spotImages, setSpotImages] = useState()
+    const [owner, setOwner] = useState()
+    const [spot, setSpot] = useState()
+    const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(() => {
-        console.log('getspot is run')
-        const getSpot = async () => {
-            dispatch(getOneSpotThunk(id))
-        }
-        getSpot();
-    });
+        dispatch(getOneSpotThunk(id))
+        .then(() => (setIsLoaded(true))) //makes it so it returns ONLY AFTER thunk is dispatched
+        .then(() => (setSpotImages(spots[id].SpotImages)))
+        .then(() => (setOwner(spots[id].Owner)))
+        .then(() => (setSpot(spots[id])))
+    }, []);
 
-  return (
+  return isLoaded && ( // isLoaded must be true before this is returned
     <div id='main'>
         <h1>{spot.name}</h1>
         <h4>{spot.city}, {spot.state}, {spot.country}</h4>

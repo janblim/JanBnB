@@ -12,31 +12,31 @@ module.exports = {
     await ReviewImage.bulkCreate([
       {
         reviewId: 1,
-        url: 'reviews.com/image1'
+        url: 'https://a0.muscache.com/im/pictures/dae2122e-4031-4e86-9673-539ce6e55ab5.jpg'
       },
       {
         reviewId: 2,
-        url: 'reviews.com/image2'
+        url: 'https://a0.muscache.com/im/pictures/dae2122e-4031-4e86-9673-539ce6e55ab5.jpg'
       },
       {
         reviewId: 3,
-        url: 'reviews.com/image3'
+        url: 'https://a0.muscache.com/im/pictures/dae2122e-4031-4e86-9673-539ce6e55ab5.jpg'
       },
       {
         reviewId: 4,
-        url: 'reviews.com/image4'
+        url: 'https://a0.muscache.com/im/pictures/dae2122e-4031-4e86-9673-539ce6e55ab5.jpg'
       },
       {
         reviewId: 5,
-        url: 'reviews.com/image5'
+        url: 'https://a0.muscache.com/im/pictures/dae2122e-4031-4e86-9673-539ce6e55ab5.jpg'
       },
       {
         reviewId: 6,
-        url: 'reviews.com/image6'
+        url: 'https://a0.muscache.com/im/pictures/dae2122e-4031-4e86-9673-539ce6e55ab5.jpg'
       },
       {
         reviewId: 7,
-        url: 'reviews.com/image7'
+        url: 'https://a0.muscache.com/im/pictures/dae2122e-4031-4e86-9673-539ce6e55ab5.jpg'
       }
     ], { validate: true });
   },

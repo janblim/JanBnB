@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 const Splash = () => {
 
     const dispatch = useDispatch()
-    const spots = useSelector(state => state.spotState.allSpots) // grabs state
+    const spots = useSelector(state => state.spotState) // grabs state
 
     useEffect(() => {
         const getSpots = async () => {
@@ -16,30 +16,31 @@ const Splash = () => {
             dispatch(getAllSpotsThunk())
         }
         getSpots();
+        console.log(spots)
     }, []);
 
     //go to Spot Details handler
 
-
-
   return (
     <div id='card-container'>
-        {spots.map(spot => (
-            <div key={`${spot.id}-${spot.address}`}>
-                <span>
-                    <Card
-                    id={spot.id}
-                    name={spot.name}
-                    preview={spot.previewImage}
-                    city={spot.city}
-                    state={spot.state}
-                    rating={spot.avgRating}
-                    price={spot.price}
-                    />
-
-                </span>
-            </div>
-        ))}
+        {Object.keys(spots).map((key) => {
+            const spot = spots[key]
+            return(
+                <div key={`${spot.id}-${spot.address}`}>
+                    <span>
+                        <Card
+                        id={spot.id}
+                        name={spot.name}
+                        preview={spot.previewImage}
+                        city={spot.city}
+                        state={spot.state}
+                        rating={spot.avgRating}
+                        price={spot.price}
+                        />
+                    </span>
+                </div>
+                 )
+        })}
     </div>
   );
 }

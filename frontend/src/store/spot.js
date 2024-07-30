@@ -201,29 +201,19 @@ export const updateSpotThunk = (form, id) => async (dispatch) => {
 
 //Reducer (updates the state)
 
-const initialState = {
-    allSpots: [],
-    allUserSpots: {
-        allSpots: [],
-        byId: {},
-    },
-    spot: {},
-    byId: {},
-}
+const initialState = {}
 
 const spotsReducer = (state = initialState, action) => {
     let newState;
     switch (action.type) {
         case GETSPOTS:
             newState = {...state}
-            newState.allSpots = action.payload.Spots
             for (let spot of action.payload.Spots) {
-                newState.byId[spot.id] = spot;
+                newState[spot.id] = spot;
             }
-            return newState //always last line
+            return newState
         case GETONESPOT:
-            newState = {...state}
-            newState.spotState.spot = action.payload
+            newState = {...state,...{[action.payload.id] : action.payload}} //adds spot details to existing key
             return newState
         case CREATESPOT:
             newState = {...state}

@@ -50,12 +50,12 @@ module.exports = {
         ownerId: 3,
         address: '908 Easy Steet',
         city: 'Mountain View',
-        state: 'Commiefornia',
+        state: 'California',
         country: 'USA',
         lat: 90.72332,
         lng: -86.3245,
         name: 'Google',
-        description: 'We sell YOU',
+        description: 'This is amazing stay here',
         price: 30
       },
 

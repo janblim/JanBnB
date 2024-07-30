@@ -21,13 +21,28 @@ module.exports = {
         preview: false
       },
       {
+        spotId: 1,
+        url: 'https://a0.muscache.com/im/pictures/dae2122e-4031-4e86-9673-539ce6e55ab5.jpg',
+        preview: false
+      },
+      {
+        spotId: 1,
+        url: 'https://a0.muscache.com/im/pictures/9c09b5a7-e211-450a-bbe2-f0ec52e36581.jpg',
+        preview: false
+      },
+      {
+        spotId: 1,
+        url: 'https://a0.muscache.com/im/pictures/d7caaf1f-16e1-4efe-844b-711cdb723251.jpg',
+        preview: false
+      },
+      {
         spotId: 2,
-        url: 'https://a0.muscache.com/im/pictures/c0cc5b3a-5fc4-49a5-827a-d88721ab7a45.jpg',
+        url: 'https://a0.muscache.com/im/pictures/miso/Hosting-3100596/original/3e5a21d9-76c3-432a-84d0-648fc5c82493.jpeg',
         preview: true
       },
       {
         spotId: 2,
-        url: 'https://a0.muscache.com/im/pictures/d0ca3e57-2419-4ee1-a677-7eb8464f7c6b.jpg',
+        url: 'https://a0.muscache.com/im/pictures/miso/Hosting-3100596/original/2618fcb6-5fcc-4660-8676-35f00149edd9.jpeg',
         preview: false
       },
       {
