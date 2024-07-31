@@ -1,1 +1,7 @@
-/* TODO: Add sitewide styles */
+button {
+    height: 25px;
+    background-color: gray;
+    font-size: 15px;
+    color: white;
+    box-shadow: 5px 4px 5px black;
+}

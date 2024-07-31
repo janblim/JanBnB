@@ -4,6 +4,7 @@ import { getOneSpotThunk } from '../../store/spot';
 import './SpotDetails.css'
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { FaStar } from "react-icons/fa";
 
 const SpotDetails = () => {
 
@@ -45,10 +46,17 @@ const SpotDetails = () => {
         </div>
 
         <div id='text'>
-            <h1>Hosted by {owner.firstName}</h1>
+            <h2>Hosted by {owner.firstName}</h2>
+            <p>
+                {spot.description}
+            </p>
         </div>
-
-
+        <hr></hr>
+        <div id='review-box'>
+            <h2><FaStar/> New</h2>
+            <button>Post Your Review</button>
+            <h4>Be the first to post a review!</h4>
+        </div>
     </div>
   );
 }

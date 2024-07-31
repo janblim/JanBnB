@@ -93,7 +93,7 @@ ul.profile-dropdown{
 
 #home {
     list-style: none;
-    font-size: 20px;
+    font-size: 25px;
     font-weight:bold;
     font-family: Arial, sans-serif;
     position: relative;
@@ -137,4 +137,8 @@ ul.profile-dropdown{
 
 #rightbox {
     display: flex;
+}
+
+.login {
+    padding: 20px;
 }

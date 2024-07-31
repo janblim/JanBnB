@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
-
+import './LoginButton.css'
 
 
 function LoginButton() {
@@ -51,13 +51,13 @@ function LoginButton() {
 
             <ul className={ulClassName} ref={ulRef}>
 
-                <li>
+                <li id='login'>
                     <OpenModalButton
                         buttonText='Log In'
                         modalComponent={<LoginFormModal />}
                         />
                 </li>
-                <li>
+                <li id='signup'>
                     <OpenModalButton
                         buttonText="Sign Up"
                         modalComponent={<SignupFormModal />}
