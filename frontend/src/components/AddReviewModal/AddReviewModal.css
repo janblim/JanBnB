@@ -1,0 +1,37 @@
+input[type='radio']{
+    display: none;
+}
+
+.star{
+    cursor: pointer;
+    transition: color 200ms;
+    font-size: 30px;
+}
+
+#review-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: none;
+}
+
+#review-modal{
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+
+#star-box {
+    display: flex;
+    flex-direction: row;
+}
+
+#stars-text {
+    position: relative;
+    left: 10px;
+    top: 7px;
+}
+
+#review{
+    background-color: #E8F0FE;
+}

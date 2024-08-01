@@ -5,6 +5,8 @@ import './SpotDetails.css'
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { FaStar } from "react-icons/fa";
+import AddReviewModal from '../AddReviewModal/AddReviewModal';
+import OpenModalButton from '../OpenModalButton/OpenModalButton';
 
 const SpotDetails = () => {
 
@@ -19,6 +21,10 @@ const SpotDetails = () => {
         dispatch(getOneSpotThunk(id))
         .then(() => (setIsLoaded(true))) //makes it so it returns ONLY AFTER thunk is dispatched
     }, [dispatch, id]);
+
+    const postReview = (e) => {
+        e.preventDefault();
+    }
 
   return isLoaded && ( // isLoaded must be true before this is returned
     <div id='main'>
@@ -54,7 +60,14 @@ const SpotDetails = () => {
         <hr></hr>
         <div id='review-box'>
             <h2><FaStar/> New</h2>
-            <button>Post Your Review</button>
+
+
+            <OpenModalButton
+                buttonText='Post Your Review'
+                modalComponent={<AddReviewModal />}
+            />
+
+
             <h4>Be the first to post a review!</h4>
         </div>
     </div>

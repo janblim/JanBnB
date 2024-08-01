@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { deleteSpotThunk } from '../../store/spot';
 
 
+
 const ManageSpots = () => {
 
     const navigate = useNavigate();
@@ -34,6 +35,11 @@ const ManageSpots = () => {
         e.preventDefault();
         navigate('/newspot')
     }
+
+    <OpenModalButton
+    buttonText='Log In'
+    modalComponent={<LoginFormModal />}
+    />
 
   return isLoaded && (
     <>

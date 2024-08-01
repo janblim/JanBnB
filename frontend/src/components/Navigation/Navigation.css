@@ -43,11 +43,11 @@ ul.profile-dropdown{
     background-color: white;
     right: 5px;
     top: 75px;
-    border-radius: 25px;
     box-shadow: 2px 2px 5px 4px rgba(0, 0, 0, .1);
     padding-top: 10px;
     padding-bottom: 10px;
     padding-right: 20px;
+    border: 1px solid black
 }
 
 .profile-button {
@@ -103,7 +103,6 @@ ul.profile-dropdown{
 
 .j-logo {
     font-size: 50px;
-    border-radius: 10px;
     position: relative;
     top: 15px;
 }
