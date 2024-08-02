@@ -23,7 +23,7 @@ const SpotDetails = () => {
 
     useEffect(() => {
         dispatch(getOneSpotThunk(id))
-        .then(() => (setNumReviews(Object.keys(reviews).length)))
+        .then(() => (setNumReviews(Object.keys(reviews).length) ? Object.keys(reviews).length : null))
         .then(() => (setIsLoaded(true)))
     }, [dispatch, id]);
 

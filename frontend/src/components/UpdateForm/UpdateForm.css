@@ -41,9 +41,9 @@
     align-items: center;
 }
 
-#create-button {
+#update-button {
     height: 25px;
-    background-color: red;
+    background-color: #FF5A5F;
     font-size: 15px;
     color: white;
     box-shadow: 5px 4px 5px black;

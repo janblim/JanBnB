@@ -307,7 +307,7 @@ const UpdateForm = () => {
             <div id='button-container'>
                 <button
 
-                id='create-button'
+                id='update-button'
                 type='submit'>
                     Update Spot
                 </button>

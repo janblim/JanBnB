@@ -48,6 +48,7 @@ return (
                             >
                             <input
                                 type='radio'
+                                id={`${currentRating}-input`}
                                 name='rating'
                                 value={currentRating}
                                 onClick={() => setRating(currentRating)}

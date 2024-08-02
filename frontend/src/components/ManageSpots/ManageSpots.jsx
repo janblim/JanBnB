@@ -4,8 +4,8 @@ import { getAllUserSpotsThunk } from '../../store/spot';
 import Card from '../Card/Card';
 import './ManageSpots.css'
 import { useNavigate } from 'react-router-dom';
-import { deleteSpotThunk } from '../../store/spot';
-
+import ConfirmDeleteModal from '../ConfirmDeleteModal/ConfirmDeleteModal';
+import OpenModalButton from '../OpenModalButton/OpenModalButton';
 
 
 const ManageSpots = () => {
@@ -18,13 +18,8 @@ const ManageSpots = () => {
     useEffect( () => {
         dispatch(getAllUserSpotsThunk())
         .then(() => setIsLoaded(true))
-        });
+        }, [userSpots, dispatch]);
 
-    const deleteClick = (e, id) => {
-        e.preventDefault();
-        dispatch(deleteSpotThunk(id))
-        .then(() => navigate('/managespots'))
-    }
 
     const updateClick = (e, id) => {
         e.preventDefault();
@@ -67,12 +62,10 @@ const ManageSpots = () => {
                             >
                                 Update
                             </button>
-                            <button
-                                className='delete'
-                                onClick={(e) => deleteClick(e, spot.id)}
-                            >
-                                Delete
-                            </button>
+                            <OpenModalButton
+                            buttonText='Delete'
+                            modalComponent={<ConfirmDeleteModal id={spot.id} />}
+                            />
                         </span>
                     </div>
                     )
