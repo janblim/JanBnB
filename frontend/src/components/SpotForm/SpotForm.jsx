@@ -305,8 +305,7 @@ const SpotForm = () => {
             <hr></hr>
             <div id='button-container'>
                 <button
-
-                id='create-button'
+                className={'red-button'}
                 type='submit'>
                     Create Spot
                 </button>

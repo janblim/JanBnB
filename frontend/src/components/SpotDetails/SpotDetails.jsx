@@ -7,22 +7,28 @@ import { useState } from 'react';
 import { FaStar } from "react-icons/fa";
 import AddReviewModal from '../AddReviewModal/AddReviewModal';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
+import { getSpotReviewsThunk } from '../../store/review';
 
 const SpotDetails = () => {
 
     const {id} = useParams();
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.session.user)
     const spot = useSelector((state) => state.spotState.spot)
     const spotImages = useSelector((state) => state.spotState.spot.SpotImages)
     const owner = useSelector((state) => state.spotState.spot.Owner)
+    const reviews = useSelector((state) => state.reviewState.reviews)
     const [isLoaded, setIsLoaded] = useState(false)
+    const [numReviews, setNumReviews] = useState(null)
 
     useEffect(() => {
         dispatch(getOneSpotThunk(id))
+        .then(() => dispatch(getSpotReviewsThunk(id)))
         .then(() => (setIsLoaded(true))) //makes it so it returns ONLY AFTER thunk is dispatched
+        .then(() => setNumReviews(Object.values(reviews).length))
     }, [dispatch, id]);
 
-    const postReview = (e) => {
+    const postReview = (e) => { //not finished
         e.preventDefault();
     }
 
@@ -52,23 +58,33 @@ const SpotDetails = () => {
         </div>
 
         <div id='text'>
-            <h2>Hosted by {owner.firstName}</h2>
+            <h2>Hosted by {owner.firstName} {owner.lastName}</h2>
             <p>
                 {spot.description}
             </p>
         </div>
         <hr></hr>
         <div id='review-box'>
-            <h2><FaStar/> New</h2>
+
+            {spot.avgStarRating ?
+                <h2><FaStar/> {spot.avgStarRating}&ensp; &#8226; &ensp;{numReviews} review{numReviews > 1 ? 's' : null} </h2>
+                :
+                <h2><FaStar/> New</h2>
+            }
 
 
-            <OpenModalButton
-                buttonText='Post Your Review'
-                modalComponent={<AddReviewModal />}
-            />
-
-
-            <h4>Be the first to post a review!</h4>
+            {owner.id === user.id ?
+                null
+                :
+                <>
+                    <OpenModalButton
+                    buttonText='Post Your Review'
+                    modalComponent={<AddReviewModal />}
+                    />
+                    {numReviews ?
+                        null : <h4>Be the first to post a review!</h4>}
+                </>
+            }
         </div>
     </div>
   );

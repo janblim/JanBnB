@@ -58,6 +58,7 @@ ul.profile-dropdown{
     background: rgba(255, 255, 255, 0);
     position: relative;
     right: 25px;
+    cursor: pointer
 }
 
 .profile-box {
@@ -75,7 +76,8 @@ ul.profile-dropdown{
     font-size: 27px;
     border: none;
     position: relative;
-    top: 3px
+    top: 3px;
+
 }
 
 .three-bars {
@@ -98,7 +100,8 @@ ul.profile-dropdown{
     font-family: Arial, sans-serif;
     position: relative;
     bottom: 25px;
-    color: red;
+    color: #FF5A5F;
+    cursor: pointer
 }
 
 .j-logo {
@@ -110,6 +113,7 @@ ul.profile-dropdown{
 .create-spot {
     position: relative;
     top: 6px;
+
 }
 
 #name-circle {
@@ -131,7 +135,8 @@ ul.profile-dropdown{
 #create-new-spot {
     position: relative;
     left: 80px;
-    top: 7px
+    top: 7px;
+    cursor: pointer
 }
 
 #rightbox {
@@ -140,4 +145,8 @@ ul.profile-dropdown{
 
 .login {
     padding: 20px;
+}
+
+#manage-button {
+    cursor: pointer;
 }

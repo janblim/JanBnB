@@ -69,7 +69,7 @@ function ProfileButton({ user }) {
                         <li>Hello, {user.firstName}!</li>
                         <li>{user.email}</li>
                         <hr></hr>
-                        <li onClick={(e) => manageSpotsClick(e)}>
+                        <li id='manage-button' onClick={(e) => manageSpotsClick(e)}>
                             Manage Spots
                         </li>
                         <hr></hr>

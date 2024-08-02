@@ -31,7 +31,7 @@ return (
     <div id='review-modal'>
         <h2>How was your stay?</h2>
         <form id='review-form' onSubmit={handleSubmit}>
-           <textarea id='review' rows='15' cols='58' type='text'
+           <textarea id='review' rows='10' cols='55' type='text'
            placeholder='Leave your review here...'
            onChange={(e) => setReview(e.target.value)}>
            </textarea>
@@ -42,6 +42,7 @@ return (
                         const currentRating = i + 1;
                         return (
                             <label
+                                id={`${currentRating}-star`}
                                 onMouseEnter={() => setHover(currentRating)}
                                 onMouseLeave={() => setHover(null)}
                             >
@@ -53,7 +54,7 @@ return (
 
                             >
                             </input>
-                                {currentRating <= (hover ||rating) ? <FaStar className='star'/> : <FaRegStar className='star'/> }
+                                {currentRating <= (hover || rating) ? <FaStar className='star'/> : <FaRegStar className='star'/> }
                             </label>
                         )
                     })}
@@ -62,6 +63,14 @@ return (
                     Stars
                 </div>
             </div>
+            {errors.credential && <p>{errors.credential}</p>}
+            <br></br>
+            <button
+            className={review && rating ? 'red-button' : 'red-button-disabled'}
+            id='submit-button'
+            type='submit'>
+                Submit Review
+            </button>
         </form>
     </div>
 )

@@ -35,3 +35,7 @@ input[type='radio']{
 #review{
     background-color: #E8F0FE;
 }
+#submit-button{
+    width: 450px;
+    height: 45px
+}

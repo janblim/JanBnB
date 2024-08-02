@@ -48,9 +48,10 @@ const getAllUserSpots = (data) => {
     }
 }
 
-const deleteSpot = () => {
+const deleteSpot = (id) => {
     return {
-        type: DELETESPOT
+        type: DELETESPOT,
+        payload: id,
     }
 }
 
@@ -169,7 +170,7 @@ export const deleteSpotThunk = (id) => async (dispatch) => {
         })
 
         if (res.ok) {
-            dispatch(deleteSpot())
+            dispatch(deleteSpot(id))
         } else {
             throw res
         }
@@ -234,6 +235,8 @@ const spotsReducer = (state = initialState, action) => {
             return newState
         case DELETESPOT:
             newState = {...state}
+            delete newState.allSpots[action.payload]
+            delete newState.userSpots[action.payload]
             return newState
         case UPDATESPOT:
             newState = {...state}

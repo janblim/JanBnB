@@ -13,7 +13,7 @@
     height: 345px;
     background-color: white;
     padding-top: 25px;
-
+    cursor: pointer;
 }
 
 .location-box{

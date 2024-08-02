@@ -36,11 +36,6 @@ const ManageSpots = () => {
         navigate('/newspot')
     }
 
-    <OpenModalButton
-    buttonText='Log In'
-    modalComponent={<LoginFormModal />}
-    />
-
   return isLoaded && (
     <>
         <div>
