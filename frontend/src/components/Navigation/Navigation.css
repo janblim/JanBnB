@@ -68,7 +68,7 @@ ul.profile-dropdown{
     border-radius: 20px;
     position: relative;
     left: 160px;
-    bottom: 7px
+    bottom: 10px
 }
 
 #button-logo {
@@ -110,12 +110,6 @@ ul.profile-dropdown{
     top: 15px;
 }
 
-.create-spot {
-    position: relative;
-    top: 6px;
-
-}
-
 #name-circle {
     position: relative;
     color: white;
@@ -129,13 +123,14 @@ ul.profile-dropdown{
 #name-letter {
     position: relative;
     left: 7px;
-    top: 4px
+    top: 2px;
+    font-size: 12pt;
 }
 
 #create-new-spot {
     position: relative;
     left: 80px;
-    top: 7px;
+    top: 3px;
     cursor: pointer
 }
 

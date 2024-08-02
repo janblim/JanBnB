@@ -48,10 +48,10 @@ const getAllUserSpots = (data) => {
     }
 }
 
-const deleteSpot = (id) => {
+const deleteSpot = () => {
     return {
         type: DELETESPOT,
-        payload: id,
+        payload: data,
     }
 }
 
@@ -84,11 +84,16 @@ export const getAllSpotsThunk = () => async (dispatch) => {
 export const getOneSpotThunk = (id) => async(dispatch) => {
 
     try{
-        const res = await csrfFetch(`/api/spots/${id}`)
+        const spot = await csrfFetch(`/api/spots/${id}`)
+        const reviews = await csrfFetch(`/api/spots/${id}/reviews`) //fetches reviews for spot as well
 
-        if (res.ok) {
-            const data = await res.json()
-            dispatch(getOneSpot(data))
+        if (spot.ok && reviews.ok) {
+            const spotData = await spot.json()
+            const reviewsData = await reviews.json()
+
+            spotData.reviews = reviewsData.Reviews
+
+            dispatch(getOneSpot(spotData))
         } else {
             throw res
         }

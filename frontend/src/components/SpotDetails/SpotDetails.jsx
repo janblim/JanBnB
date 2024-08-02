@@ -7,7 +7,6 @@ import { useState } from 'react';
 import { FaStar } from "react-icons/fa";
 import AddReviewModal from '../AddReviewModal/AddReviewModal';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
-import { getSpotReviewsThunk } from '../../store/review';
 
 const SpotDetails = () => {
 
@@ -17,15 +16,15 @@ const SpotDetails = () => {
     const spot = useSelector((state) => state.spotState.spot)
     const spotImages = useSelector((state) => state.spotState.spot.SpotImages)
     const owner = useSelector((state) => state.spotState.spot.Owner)
-    const reviews = useSelector((state) => state.reviewState.reviews)
+    const reviews = useSelector((state) => state.spotState.spot.reviews)
     const [isLoaded, setIsLoaded] = useState(false)
     const [numReviews, setNumReviews] = useState(null)
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
     useEffect(() => {
         dispatch(getOneSpotThunk(id))
-        .then(() => dispatch(getSpotReviewsThunk(id)))
-        .then(() => (setIsLoaded(true))) //makes it so it returns ONLY AFTER thunk is dispatched
-        .then(() => setNumReviews(Object.values(reviews).length))
+        .then(() => (setNumReviews(Object.keys(reviews).length)))
+        .then(() => (setIsLoaded(true)))
     }, [dispatch, id]);
 
     const postReview = (e) => { //not finished
@@ -64,7 +63,7 @@ const SpotDetails = () => {
             </p>
         </div>
         <hr></hr>
-        <div id='review-box'>
+        <div id='review-info'>
 
             {spot.avgStarRating ?
                 <h2><FaStar/> {spot.avgStarRating}&ensp; &#8226; &ensp;{numReviews} review{numReviews > 1 ? 's' : null} </h2>
@@ -84,6 +83,31 @@ const SpotDetails = () => {
                     {numReviews ?
                         null : <h4>Be the first to post a review!</h4>}
                 </>
+            }
+        </div>
+
+        <br></br>
+
+        <div id='review-box'>
+            {numReviews ?
+            <div id='reviews'>
+                {reviews.map((review) => {
+                    return(
+                        <div className='review' id={review.id}>
+                            <h4>{review.User.firstName}</h4>
+                            <div className='date'>
+                                {monthNames[new Date(review.createdAt).getMonth()]}
+                                &nbsp;
+                                {new Date(review.createdAt).getFullYear()}
+                            </div>
+                            <br></br>
+                            <div>{review.review}</div>
+                        </div>
+                    )
+                })}
+            </div>
+            :
+            null
             }
         </div>
     </div>

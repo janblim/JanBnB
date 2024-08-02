@@ -243,6 +243,7 @@ const SpotForm = () => {
             <div>
                 <h3>Describe your place to guests</h3>
                 <label id='desc-label'>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood</label>
+                <p></p>
                 <textarea id='description' rows='15' cols='58' type='text'
                 placeholder='Description'
                 onChange={(e) => updateForm(e, 'description')}>

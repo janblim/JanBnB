@@ -1,24 +1,15 @@
 import { csrfFetch } from "./csrf";
 
-// CONSTANCE
-// npm-module-or-app/reducer-name/ACTION_TYPE, can be anything, but must be unique
-
-const GETREVIEWS = 'review/getreviews'
-// Action creators ()
+const GETSPOTREVIEWS = 'reviews/getReviews'
 
 const getSpotReviews = (data) => {
     return {
-        type: GETREVIEWS,
-        payload: data,
+        type: GETSPOTREVIEWS,
+        payload: data
     }
 }
 
-
-// THUNKS
-
-
-export const getSpotReviewsThunk = (id) => async (dispatch) => {
-
+export const getSpotReviewsThunk = () => async (dispatch) => {
     try{
         const res = await csrfFetch(`/api/spots/${id}/reviews`)
         if (res.ok) {
@@ -33,25 +24,24 @@ export const getSpotReviewsThunk = (id) => async (dispatch) => {
     }
 }
 
-
-//Reducer (updates the state)
-
 const initialState = {
-    reviews: {},
+    bySpot:{}
 }
 
 const reviewsReducer = (state = initialState, action) => {
     let newState;
     switch (action.type) {
-        case GETREVIEWS:
+        case GETSPOTREVIEWS:
             newState = {...state}
+            console.log(action.payload)
             for (let review of action.payload.Reviews) {
-                newState.reviews[review.id] = review;
+                newState.bySpot[review.spotId][review.id] = review;
             }
             return newState
         default:
             return state;
     }
+
 }
 
 export default reviewsReducer
