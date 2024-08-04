@@ -18,21 +18,21 @@ module.exports = {
         country: 'USA',
         lat: 14.78923,
         lng: -23.33322,
-        name: 'Cabin',
-        description: 'Check out this quaint lil cabin foo',
-        price: 80
+        name: `Granny Cottage`,
+        description: `Featured on the National Register of Historic Places, this unique 1916 “granny cottage" stands behind our home in the gorgeous Village of Shorewood Hills. Centrally located, we are just a few walkable blocks from UW Hospital and Picnic Point, and walking/biking distance from UW, the Capitol, Hilldale Shopping Mall, Whole Foods and plenty of restaurants. Because we are in a quiet neighborhood, we have a 3 guest maximum. This is a place to retreat and relax and enjoy the best of Madison.`,
+        price: 100
       },
       {
         ownerId: 2,
-        address: '666 Scarry Place',
-        city: 'Eerie',
-        state: 'Indiana',
+        address: '158 Royal Street',
+        city: 'New Orleans',
+        state: 'Louisiana',
         country: 'USA',
         lat: 67.78923,
         lng: -4.333221,
-        name: 'Haunted House',
-        description: 'Stay here if you daaaaare!',
-        price: 60
+        name: 'French Quarter Bed and Breakfast',
+        description: `Welcome to The Mansion on Royal Street, a Hospitality of New Orleans property. As you approach, you'll be greeted by majestic columns and elegant galleries, showcasing the grandeur of this Greek Revival house from the 1820s. The property embodies the rich history and opulence of old Creole Louisiana, which is evident throughout. Your room will provide a peaceful escape from the lively streets, with 14-foot ceilings and exquisite hand-crafted cypress trim. There are also three charming courtyards, surrounded by lush tropical greenery, perfect for unwinding. Despite the tranquil surroundings, you'll still be conveniently located near all the exciting action.`,
+        price: 225
       },
       {
         ownerId: 2,
@@ -42,9 +42,9 @@ module.exports = {
         country: 'USA',
         lat: 7.72332,
         lng: -46.3245,
-        name: 'Farmhouse',
-        description: 'Where the wind comes sweeping round the plain',
-        price: 15
+        name: 'Farm House',
+        description: `Where the wind comes sweeping 'round the plain. And the waving wheat, it sure smells sweet, when the wind comes right behind the rain! Oklahoma, every night my honey-lamb and I sit alone and talk, and watch a hawk making lazy circles in the sky. We know we belong to the land, and the land we belong to is grand. And when we say, "Ayipioeeay!" We're only saying you're doing fine, Oklahoma. Oklahoma, you're okay.`,
+        price: 110
       },
       {
         ownerId: 3,
@@ -54,9 +54,9 @@ module.exports = {
         country: 'USA',
         lat: 90.72332,
         lng: -86.3245,
-        name: 'Google',
-        description: 'This is amazing stay here',
-        price: 30
+        name: 'Techie Townie',
+        description: `You couldn't get a more perfect location for this cozy, quiet, comfy, well-appointed cottage: just blocks from Mountain View's bustling downtown area centered on Castro Street, and a 5 minute walk to Caltrain and VTA. Perfect for visiting G00ogel and other local tech companies. That's right -- no separate cleaning fees, no checkout chores! On your way out, just lock the door and have a safe trip! Guests have complete and sole access to the entire one-bedroom cottage and the side yard. Other things to note: That's right -- just like a hotel, we don't charge a separate cleaning fee or expect you to do an onerous list of check-out tasks. On your way out, just lock the door, and have a safe trip!`,
+        price: 150
       },
 
     ], { validate: true });

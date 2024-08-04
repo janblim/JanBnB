@@ -4,8 +4,9 @@ import { useModal } from "../../context/Modal";
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import './AddReviewModal.css';
+import { postReviewThunk } from "../../store/spot";
 
-function AddReviewModal(){
+function AddReviewModal({id}){
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
@@ -18,7 +19,7 @@ function AddReviewModal(){
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors({});
-            return dispatch()
+            return dispatch(postReviewThunk(id, review, rating))
                 .then(closeModal)
                 .catch(async (res) => {
                     if (data && data.errors){
@@ -37,29 +38,31 @@ return (
            </textarea>
            <br></br>
            <div id='star-box'>
-                <div>
+                <ul id='stars'>
                     {[...Array(5)].map((star, i) => {
                         const currentRating = i + 1;
                         return (
-                            <label
-                                id={`${currentRating}-star`}
-                                onMouseEnter={() => setHover(currentRating)}
-                                onMouseLeave={() => setHover(null)}
-                            >
-                            <input
-                                type='radio'
-                                id={`${currentRating}-input`}
-                                name='rating'
-                                value={currentRating}
-                                onClick={() => setRating(currentRating)}
+                            <li key={`${currentRating}-star`} >
+                                <label
 
-                            >
-                            </input>
-                                {currentRating <= (hover || rating) ? <FaStar className='star'/> : <FaRegStar className='star'/> }
-                            </label>
+                                    onMouseEnter={() => setHover(currentRating)}
+                                    onMouseLeave={() => setHover(null)}
+                                    >
+                                <input
+                                    type='radio'
+                                    id={`${currentRating}-input`}
+                                    name='rating'
+                                    value={currentRating}
+                                    onClick={() => setRating(currentRating)}
+
+                                    >
+                                </input>
+                                    {currentRating <= (hover || rating) ? <FaStar className='star'/> : <FaRegStar className='star'/> }
+                                </label>
+                            </li>
                         )
                     })}
-                </div>
+                </ul>
                 <div id='stars-text'>
                     Stars
                 </div>

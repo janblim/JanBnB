@@ -13,10 +13,12 @@ const ManageSpots = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const userSpots = useSelector((state) => state.spotState.userSpots);
+    const userSpotsArr = Object.values(userSpots);
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect( () => {
         dispatch(getAllUserSpotsThunk())
+        .then(console.log(userSpotsArr))
         .then(() => setIsLoaded(true))
         }, [userSpots, dispatch]);
 
@@ -40,8 +42,7 @@ const ManageSpots = () => {
                 >Create a New Spot</button>
         </div>
         <div id='card-container'>
-            {Object.keys(userSpots).map((key) => { //iterate through an array of keys in userSpots
-                const spot = userSpots[key]
+            {userSpotsArr.map((spot) => { //iterate through an array of keys in userSpots
                 return (
                     <div key={`${spot.id}-${spot.address}`}>
                         <span>

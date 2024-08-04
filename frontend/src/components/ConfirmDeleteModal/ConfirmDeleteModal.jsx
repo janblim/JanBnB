@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import './ConfirmDeleteModal.css';
-import { deleteSpotThunk } from "../../store/spot";
-import { useNavigate } from "react-router-dom";
+import * as spotActions from '../../store/spot';
 
 function ConfirmDeleteModal({id}){
     const dispatch = useDispatch();
@@ -11,8 +10,8 @@ function ConfirmDeleteModal({id}){
 
     const YesDeleteClick = (e, id) => {
         e.preventDefault();
-        dispatch(deleteSpotThunk(id))
-        .then(() => closeModal)
+        dispatch(spotActions.deleteSpotThunk(id))
+        .then(closeModal)
     }
 
 return (

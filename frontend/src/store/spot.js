@@ -10,6 +10,7 @@ const SPOTIMAGE = 'spots/image'
 const OWNERSPOTS = 'spots/owner'
 const DELETESPOT = 'spots/delete'
 const UPDATESPOT = 'spots/update'
+const POSTREVIEW = 'spots/review'
 
 // Action creators ()
 
@@ -48,10 +49,10 @@ const getAllUserSpots = (data) => {
     }
 }
 
-const deleteSpot = () => {
+const deleteSpot = (id) => {
     return {
         type: DELETESPOT,
-        payload: data,
+        payload: id,
     }
 }
 
@@ -59,6 +60,13 @@ const updateSpot = (data) => {
     return{
         type: UPDATESPOT,
         payload: data,
+    }
+}
+
+const postReview = (data) => {
+    return{
+        type: POSTREVIEW,
+        payload: data
     }
 }
 
@@ -85,15 +93,9 @@ export const getOneSpotThunk = (id) => async(dispatch) => {
 
     try{
         const spot = await csrfFetch(`/api/spots/${id}`)
-        const reviews = await csrfFetch(`/api/spots/${id}/reviews`) //fetches reviews for spot as well
-
-        if (spot.ok && reviews.ok) {
-            const spotData = await spot.json()
-            const reviewsData = await reviews.json()
-
-            spotData.reviews = reviewsData.Reviews
-
-            dispatch(getOneSpot(spotData))
+        if (spot.ok) {
+            const data = await spot.json()
+            dispatch(getOneSpot(data))
         } else {
             throw res
         }
@@ -185,7 +187,7 @@ export const deleteSpotThunk = (id) => async (dispatch) => {
 }
 
 export const updateSpotThunk = (form, id) => async (dispatch) => {
-    console.log('inside thunk')
+
     try{
         const res = await csrfFetch(`/api/spots/${id}`, {
             method: 'PUT',
@@ -196,6 +198,28 @@ export const updateSpotThunk = (form, id) => async (dispatch) => {
             const data = await res.json()
             dispatch(updateSpot(data))
             return data
+        } else {
+            throw res
+        }
+    }
+    catch(e){
+        return e;
+    }
+}
+
+export const postReviewThunk = (id, review, rating) => async (dispatch) => {
+    try{
+        const res = await csrfFetch(`/api/spots/${id}/reviews`, {
+            method: 'POST',
+            body: JSON.stringify({
+                review,
+                stars: rating
+            })
+        })
+
+        if(res.ok){
+            const data = await res.json()
+            dispatch(postReview(data))
         } else {
             throw res
         }
@@ -239,12 +263,16 @@ const spotsReducer = (state = initialState, action) => {
             }
             return newState
         case DELETESPOT:
-            newState = {...state}
+            newState = {...state, allSpots: {...state.allSpots}, userSpots: {...state.userSpots} }
             delete newState.allSpots[action.payload]
             delete newState.userSpots[action.payload]
             return newState
         case UPDATESPOT:
             newState = {...state}
+            return newState
+        case POSTREVIEW:
+            newState = {...state}
+            newState.spot.reviews.push(action.payload)
             return newState
         default:
             return state;

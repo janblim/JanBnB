@@ -29,7 +29,7 @@ input[type='radio']{
 #stars-text {
     position: relative;
     left: 10px;
-    top: 7px;
+    top: 25px;
 }
 
 #review{
@@ -38,4 +38,13 @@ input[type='radio']{
 #submit-button{
     width: 450px;
     height: 45px
+}
+#stars li {
+    list-style-type: none;
+
+}
+
+#stars {
+    display: flex;
+    flex-direction: row;
 }

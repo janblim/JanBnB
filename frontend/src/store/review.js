@@ -9,7 +9,7 @@ const getSpotReviews = (data) => {
     }
 }
 
-export const getSpotReviewsThunk = () => async (dispatch) => {
+export const getSpotReviewsThunk = (id) => async (dispatch) => {
     try{
         const res = await csrfFetch(`/api/spots/${id}/reviews`)
         if (res.ok) {
@@ -25,7 +25,7 @@ export const getSpotReviewsThunk = () => async (dispatch) => {
 }
 
 const initialState = {
-    bySpot:{}
+    reviews: []
 }
 
 const reviewsReducer = (state = initialState, action) => {
@@ -33,10 +33,7 @@ const reviewsReducer = (state = initialState, action) => {
     switch (action.type) {
         case GETSPOTREVIEWS:
             newState = {...state}
-            console.log(action.payload)
-            for (let review of action.payload.Reviews) {
-                newState.bySpot[review.spotId][review.id] = review;
-            }
+            newState.reviews = action.payload.Reviews
             return newState
         default:
             return state;

@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { FaStar } from "react-icons/fa";
 import AddReviewModal from '../AddReviewModal/AddReviewModal';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
+import { getSpotReviewsThunk } from '../../store/review';
 
 const SpotDetails = () => {
 
@@ -16,22 +17,17 @@ const SpotDetails = () => {
     const spot = useSelector((state) => state.spotState.spot)
     const spotImages = useSelector((state) => state.spotState.spot.SpotImages)
     const owner = useSelector((state) => state.spotState.spot.Owner)
-    const reviews = useSelector((state) => state.spotState.spot.reviews)
-    const [isLoaded, setIsLoaded] = useState(false)
-    const [numReviews, setNumReviews] = useState(null)
+    const reviews = useSelector((state) => state.reviewState.reviews)
+    const [deletedReview, setDeletedReview] = useState(false);
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
     useEffect(() => {
         dispatch(getOneSpotThunk(id))
-        .then(() => (setNumReviews(Object.keys(reviews).length) ? Object.keys(reviews).length : null))
-        .then(() => (setIsLoaded(true)))
+            .then(dispatch(getSpotReviewsThunk(id)))
+            .then(setDeletedReview(false))
     }, [dispatch, id]);
 
-    const postReview = (e) => { //not finished
-        e.preventDefault();
-    }
-
-  return isLoaded && ( // isLoaded must be true before this is returned
+  return spotImages && spot && reviews && owner && ( // all needed variable must be not null before this is returned
     <div id='main'>
         <h1>{spot.name}</h1>
         <h4>{spot.city}, {spot.state}, {spot.country}</h4>
@@ -66,7 +62,7 @@ const SpotDetails = () => {
         <div id='review-info'>
 
             {spot.avgStarRating ?
-                <h2><FaStar/> {spot.avgStarRating}&ensp; &#8226; &ensp;{numReviews} review{numReviews > 1 ? 's' : null} </h2>
+                <h2><FaStar/> {spot.avgStarRating}&ensp; &#8226; &ensp;{reviews.length} review{reviews.length > 1 ? 's' : null} </h2>
                 :
                 <h2><FaStar/> New</h2>
             }
@@ -78,9 +74,9 @@ const SpotDetails = () => {
                 <>
                     <OpenModalButton
                     buttonText='Post Your Review'
-                    modalComponent={<AddReviewModal />}
+                    modalComponent={<AddReviewModal id={id}/>}
                     />
-                    {numReviews ?
+                    {reviews ?
                         null : <h4>Be the first to post a review!</h4>}
                 </>
             }
@@ -89,11 +85,11 @@ const SpotDetails = () => {
         <br></br>
 
         <div id='review-box'>
-            {numReviews ?
+            {reviews ?
             <div id='reviews'>
                 {reviews.map((review) => {
                     return(
-                        <div className='review' id={review.id}>
+                        <div className='review' key={`${review.id}`}>
                             <h4>{review.User.firstName}</h4>
                             <div className='date'>
                                 {monthNames[new Date(review.createdAt).getMonth()]}
