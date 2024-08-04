@@ -90,12 +90,34 @@ const SpotDetails = () => {
             </div>
         </div>
 
-        <div id='text'>
-            <h2>Hosted by {owner.firstName} {owner.lastName}</h2>
-            <p>
-                {spot.description}
-            </p>
+        <div id='info-box'>
+
+            <div id='text'>
+                <h2>Hosted by {owner.firstName} {owner.lastName}</h2>
+                <p>
+                    {spot.description}
+                </p>
+            </div>
+
+            <div id='reserve-box'>
+                <div id='reserve-layout'>
+                    <div id='reserve-info'>
+                        <div >
+                            <span id='price'> ${spot.price.toFixed(2)} </span>
+                            <span>per night</span>
+                        </div>
+                        &ensp;&ensp;&ensp;&ensp;&ensp;
+                        <span id='reserve-review'>
+                            <FaStar/> {spot.avgStarRating.toFixed(1)}&ensp; &#8226; &ensp;{reviews.length} review{reviews.length > 1 ? 's' : null}
+                        </span>
+                    </div>
+                    <button id='reserve-button' className='red-button'>
+                        Reserve
+                    </button>
+                </div>
+            </div>
         </div>
+
         <hr></hr>
         <div id='review-info'>
 
