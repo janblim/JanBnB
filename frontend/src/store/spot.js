@@ -63,13 +63,6 @@ const updateSpot = (data) => {
     }
 }
 
-const postReview = (data) => {
-    return{
-        type: POSTREVIEW,
-        payload: data
-    }
-}
-
 // THUNKS
 
 
@@ -207,27 +200,6 @@ export const updateSpotThunk = (form, id) => async (dispatch) => {
     }
 }
 
-export const postReviewThunk = (id, review, rating) => async (dispatch) => {
-    try{
-        const res = await csrfFetch(`/api/spots/${id}/reviews`, {
-            method: 'POST',
-            body: JSON.stringify({
-                review,
-                stars: rating
-            })
-        })
-
-        if(res.ok){
-            const data = await res.json()
-            dispatch(postReview(data))
-        } else {
-            throw res
-        }
-    }
-    catch(e){
-        return e;
-    }
-}
 
 //Reducer (updates the state)
 
@@ -269,10 +241,6 @@ const spotsReducer = (state = initialState, action) => {
             return newState
         case UPDATESPOT:
             newState = {...state}
-            return newState
-        case POSTREVIEW:
-            newState = {...state}
-            newState.spot.reviews.push(action.payload)
             return newState
         default:
             return state;

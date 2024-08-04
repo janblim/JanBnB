@@ -4,7 +4,7 @@ import { useModal } from "../../context/Modal";
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import './AddReviewModal.css';
-import { postReviewThunk } from "../../store/spot";
+import { postReviewThunk } from "../../store/review";
 
 function AddReviewModal({id}){
     const dispatch = useDispatch();
@@ -39,7 +39,7 @@ return (
            <br></br>
            <div id='star-box'>
                 <ul id='stars'>
-                    {[...Array(5)].map((i) => {
+                    {[...Array(5).keys()].map((i) => {
                         const currentRating = i + 1;
                         return (
                             <li key={`${currentRating}-star`} >

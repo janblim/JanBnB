@@ -43,6 +43,28 @@ const SpotDetails = () => {
     }
 
 
+    const postReviewController = (reviews) => {
+        if(owner.id === user.id){ //if owner of spot is current user, return null
+            return null
+        }
+        for (const review of reviews){ //if any of reviews were written by current user, return null
+            if(review.userId === user.id){
+                return null
+            }
+        }
+        return ( //returns the postreview button only if previous two conditionals are false
+                <>
+                    <OpenModalButton
+                    buttonText='Post Your Review'
+                    modalComponent={<AddReviewModal id={id}/>}
+                    />
+                    {reviews.length ?
+                        null : <h4>Be the first to post a review!</h4>}
+                </>
+                )
+    }
+
+
   return spotImages && spot && reviews && owner && ( // all needed variable must be not null before this is returned
     <div id='main'>
         <h1>{spot.name}</h1>
@@ -83,19 +105,8 @@ const SpotDetails = () => {
                 <h2><FaStar/> New</h2>
             }
 
+            {postReviewController(reviews)}
 
-            {owner.id === user.id ?
-                null
-                :
-                <>
-                    <OpenModalButton
-                    buttonText='Post Your Review'
-                    modalComponent={<AddReviewModal id={id}/>}
-                    />
-                    {reviews ?
-                        null : <h4>Be the first to post a review!</h4>}
-                </>
-            }
         </div>
 
         <br></br>
