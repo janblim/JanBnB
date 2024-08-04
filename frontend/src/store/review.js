@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const GETSPOTREVIEWS = 'reviews/getReviews'
 const POSTREVIEW = 'reviews/postReview'
+const DELETEREVIEW = 'reviews/delete'
 
 const getSpotReviews = (data) => {
     return {
@@ -16,6 +17,15 @@ const postReview = (data) => {
         payload: data
     }
 }
+
+const deleteReview = (id) => {
+    return {
+        type: DELETEREVIEW,
+        payload: id
+    }
+}
+
+//Thunks
 
 export const getSpotReviewsThunk = (id) => async (dispatch) => {
     try{
@@ -32,7 +42,7 @@ export const getSpotReviewsThunk = (id) => async (dispatch) => {
     }
 }
 
-export const postReviewThunk = (id, review, rating) => async (dispatch) => {
+export const postReviewThunk = (id, review, rating, user) => async (dispatch) => {
     try{
         const res = await csrfFetch(`/api/spots/${id}/reviews`, {
             method: 'POST',
@@ -44,6 +54,7 @@ export const postReviewThunk = (id, review, rating) => async (dispatch) => {
 
         if(res.ok){
             const data = await res.json()
+            data.User = user
             dispatch(postReview(data))
         } else {
             throw res
@@ -53,6 +64,23 @@ export const postReviewThunk = (id, review, rating) => async (dispatch) => {
         return e;
     }
 }
+
+export const deleteReviewThunk = (id) => async (dispatch) => {
+    try{
+        const res = await csrfFetch(`/api/reviews/${id}`, {
+            method: 'DELETE'
+        })
+
+        if(res.ok){
+            dispatch(deleteReview(id))
+        }
+    }
+    catch(e){
+        return e;
+    }
+}
+
+//Reducer
 
 const initialState = {
     reviews: []
@@ -66,8 +94,12 @@ const reviewsReducer = (state = initialState, action) => {
             newState.reviews = action.payload.Reviews
             return newState
         case POSTREVIEW:
-            newState = {...state}
-            newState.reviews.push(action.payload.Reviews)
+            newState = {...state, reviews:[...state.reviews]}
+            newState.reviews.push(action.payload)
+            return newState
+        case DELETEREVIEW:
+            newState = {...state, reviews:[...state.reviews]}
+            newState.reviews.splice(newState.reviews.map(e => e.userId).indexOf(action.payload), 1)
             return newState
         default:
             return state;

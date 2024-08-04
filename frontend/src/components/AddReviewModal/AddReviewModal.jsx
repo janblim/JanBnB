@@ -6,10 +6,9 @@ import { FaRegStar } from "react-icons/fa";
 import './AddReviewModal.css';
 import { postReviewThunk } from "../../store/review";
 
-function AddReviewModal({id}){
+function AddReviewModal({id, user}){
     const dispatch = useDispatch();
     const { closeModal } = useModal();
-
     const [review, setReview] = useState('');
     const [rating, setRating] = useState(null);
     const [errors, setErrors] = useState({});
@@ -19,7 +18,7 @@ function AddReviewModal({id}){
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors({});
-            return dispatch(postReviewThunk(id, review, rating))
+            return dispatch(postReviewThunk(id, review, rating, user))
                 .then(closeModal)
                 .catch(async (res) => {
                     if (data && data.errors){

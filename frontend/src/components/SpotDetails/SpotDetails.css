@@ -104,6 +104,10 @@
 }
 
 #price{
-    font-size: 16pt;
+    font-size: 17pt;
     font-weight: bold;
+}
+
+#text {
+    padding-right: 30px;
 }

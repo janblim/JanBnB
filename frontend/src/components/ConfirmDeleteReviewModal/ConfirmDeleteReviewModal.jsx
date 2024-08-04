@@ -1,15 +1,15 @@
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import './ConfirmDeleteModal.css';
-import * as spotActions from '../../store/spot';
+import './ConfirmDeleteReviewModal.css';
+import { deleteReviewThunk } from "../../store/review";
 
-function ConfirmDeleteModal({id}){
+function ConfirmDeleteReviewModal({id}){
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
     const YesDeleteClick = (e, id) => {
         e.preventDefault();
-        dispatch(spotActions.deleteSpotThunk(id))
+        dispatch(deleteReviewThunk(id))
         .then(closeModal)
     }
 
@@ -17,8 +17,7 @@ return (
     <div id='delete-modal'>
             <h2>Confirm Delete</h2>
             <p>
-                Are you sure you want to remove this spot<br></br>
-                from the listings?
+                Are you sure you want to delete this review?
             </p>
 
             <button
@@ -26,17 +25,17 @@ return (
                 className='red-button'
                 onClick={(e) => YesDeleteClick(e, id)}
             >
-                Yes (Delete Spot)
+                Yes (Delete Review)
             </button>
             <br></br>
             <button
                 id='no-button'
                 onClick={closeModal}
             >
-                No (Keep Spot)
+                No (Keep Review)
             </button>
     </div>
 )
 }
 
-export default ConfirmDeleteModal;
+export default ConfirmDeleteReviewModal;

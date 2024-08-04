@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getOneSpotThunk } from '../../store/spot';
 import './SpotDetails.css'
 import { useEffect } from 'react';
-import { useState } from 'react';
 import { FaStar } from "react-icons/fa";
 import AddReviewModal from '../AddReviewModal/AddReviewModal';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import { getSpotReviewsThunk } from '../../store/review';
+import ConfirmDeleteReviewModal from '../ConfirmDeleteReviewModal/ConfirmDeleteReviewModal';
 
 const SpotDetails = () => {
 
@@ -18,14 +18,12 @@ const SpotDetails = () => {
     const spotImages = useSelector((state) => state.spotState.spot.SpotImages)
     const owner = useSelector((state) => state.spotState.spot.Owner)
     const reviews = useSelector((state) => state.reviewState.reviews)
-    const [deletedReview, setDeletedReview] = useState(false);
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
     useEffect(() => {
-        dispatch(getOneSpotThunk(id))
-            .then(dispatch(getSpotReviewsThunk(id)))
-            .then(setDeletedReview(false))
-    }, [dispatch, id]);
+        dispatch(getSpotReviewsThunk(id))
+            .then(dispatch(getOneSpotThunk(id)))
+    }, [dispatch, ConfirmDeleteReviewModal, id]);
 
     const starRating = (stars) => {
         return (
@@ -42,13 +40,21 @@ const SpotDetails = () => {
         )
     }
 
+    const avgRating = () => {
+        let sum = 0
+        for(const review of reviews ){
+            sum = sum + review.stars
+        }
+        return ((sum/reviews.length).toFixed(1))
+    }
+
 
     const postReviewController = (reviews) => {
         if(owner.id === user.id){ //if owner of spot is current user, return null
             return null
         }
         for (const review of reviews){ //if any of reviews were written by current user, return null
-            if(review.userId === user.id){
+            if(review?.userId === user.id){
                 return null
             }
         }
@@ -56,12 +62,17 @@ const SpotDetails = () => {
                 <>
                     <OpenModalButton
                     buttonText='Post Your Review'
-                    modalComponent={<AddReviewModal id={id}/>}
+                    modalComponent={<AddReviewModal id={id} user={user}/>}
                     />
                     {reviews.length ?
                         null : <h4>Be the first to post a review!</h4>}
                 </>
                 )
+    }
+
+    const comingSoon = (e) => {
+        e.preventDefault();
+            window.alert('Feature Coming Soon...')
     }
 
 
@@ -108,10 +119,19 @@ const SpotDetails = () => {
                         </div>
                         &ensp;&ensp;&ensp;&ensp;&ensp;
                         <span id='reserve-review'>
-                            <FaStar/> {spot.avgStarRating.toFixed(1)}&ensp; &#8226; &ensp;{reviews.length} review{reviews.length > 1 ? 's' : null}
+                            <FaStar/>
+                            &ensp;
+                            {reviews.length ?
+                                <>
+                                {avgRating()}&ensp; &#8226; &ensp;
+                                {reviews.length}&ensp;review{reviews.length > 1  ? 's' : null}
+                                </>
+                                :
+                                <>New</>
+                            }
                         </span>
                     </div>
-                    <button id='reserve-button' className='red-button'>
+                    <button onClick={(e) => {comingSoon(e)}} id='reserve-button' className='red-button'>
                         Reserve
                     </button>
                 </div>
@@ -121,8 +141,8 @@ const SpotDetails = () => {
         <hr></hr>
         <div id='review-info'>
 
-            {spot.avgStarRating ?
-                <h2><FaStar/> {spot.avgStarRating.toFixed(1)}&ensp; &#8226; &ensp;{reviews.length} review{reviews.length > 1 ? 's' : null} </h2>
+            {reviews.length ?
+                <h2><FaStar/> {avgRating()}&ensp; &#8226; &ensp;{reviews.length} review{reviews.length > 1 ? 's' : null} </h2>
                 :
                 <h2><FaStar/> New</h2>
             }
@@ -134,33 +154,41 @@ const SpotDetails = () => {
         <br></br>
 
         <div id='review-box'>
-            {reviews ?
+
             <div id='reviews'>
                 {reviews.map((review) => {
-                    return(
-                        <div className='review' key={`${review.id}`}>
-                            <h4>{review.User.firstName}</h4>
-                            <div id='date-and-stars'>
-                                <div>
-                                    {starRating(review.stars)}
+                        return(
+                            <div className='review' key={`${review.id}`}>
+                                <h4>{review.User.firstName}</h4>
+                                <div id='date-and-stars'>
+                                    <div>
+                                        {starRating(review.stars)}
+                                    </div>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <div className='date'>
+                                        {monthNames[new Date(review.createdAt).getMonth()]}
+                                        &nbsp;
+                                        {new Date(review.createdAt).getFullYear()}
+                                    </div>
                                 </div>
-                                &nbsp;&nbsp;&nbsp;
-                                <div className='date'>
-                                    {monthNames[new Date(review.createdAt).getMonth()]}
-                                    &nbsp;
-                                    {new Date(review.createdAt).getFullYear()}
-                                </div>
+                                <br></br>
 
+                                    <div>{review.review}</div>
+
+                                <br></br>
+
+                                    {review.userId === user.id ?
+
+                                    <OpenModalButton
+                                    buttonText='Delete'
+                                    modalComponent={<ConfirmDeleteReviewModal id={review.id}/>}
+                                    />
+                                    : null}
                             </div>
-                            <br></br>
-                            <div>{review.review}</div>
-                        </div>
-                    )
-                })}
+                        )
+                    }
+                )}
             </div>
-            :
-            null
-            }
         </div>
     </div>
   );
