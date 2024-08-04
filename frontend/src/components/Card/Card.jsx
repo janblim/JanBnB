@@ -8,7 +8,7 @@ const Card = ({id, name, preview, city, state, rating, price}) => {
 
     const navigate = useNavigate();
     price = price.toFixed(2) //adds two decimal places
-
+    rating = rating.toFixed(1)
 
     const goToSpotDetails = (e, id) => {
         e.stopPropagation();

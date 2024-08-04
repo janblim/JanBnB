@@ -48,3 +48,12 @@
     font-size: 14pt
 
 }
+
+#star-rating {
+    display: flex;
+    flex-direction: row;
+}
+#date-and-stars{
+    display: flex;
+    flex-direction: row;
+}

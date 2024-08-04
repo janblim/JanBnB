@@ -27,6 +27,22 @@ const SpotDetails = () => {
             .then(setDeletedReview(false))
     }, [dispatch, id]);
 
+    const starRating = (stars) => {
+        return (
+           <div id='star-rating'>
+            {
+                [...Array(stars).keys()].map((i) => { //creates array of number of stars for rating
+                    return (
+                        <div key={`${i}-star`}>
+                        <FaStar/>
+                    </div>
+                )})
+            }
+            </div>
+        )
+    }
+
+
   return spotImages && spot && reviews && owner && ( // all needed variable must be not null before this is returned
     <div id='main'>
         <h1>{spot.name}</h1>
@@ -62,7 +78,7 @@ const SpotDetails = () => {
         <div id='review-info'>
 
             {spot.avgStarRating ?
-                <h2><FaStar/> {spot.avgStarRating}&ensp; &#8226; &ensp;{reviews.length} review{reviews.length > 1 ? 's' : null} </h2>
+                <h2><FaStar/> {spot.avgStarRating.toFixed(1)}&ensp; &#8226; &ensp;{reviews.length} review{reviews.length > 1 ? 's' : null} </h2>
                 :
                 <h2><FaStar/> New</h2>
             }
@@ -91,10 +107,17 @@ const SpotDetails = () => {
                     return(
                         <div className='review' key={`${review.id}`}>
                             <h4>{review.User.firstName}</h4>
-                            <div className='date'>
-                                {monthNames[new Date(review.createdAt).getMonth()]}
-                                &nbsp;
-                                {new Date(review.createdAt).getFullYear()}
+                            <div id='date-and-stars'>
+                                <div>
+                                    {starRating(review.stars)}
+                                </div>
+                                &nbsp;&nbsp;&nbsp;
+                                <div className='date'>
+                                    {monthNames[new Date(review.createdAt).getMonth()]}
+                                    &nbsp;
+                                    {new Date(review.createdAt).getFullYear()}
+                                </div>
+
                             </div>
                             <br></br>
                             <div>{review.review}</div>

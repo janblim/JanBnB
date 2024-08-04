@@ -39,7 +39,7 @@ return (
            <br></br>
            <div id='star-box'>
                 <ul id='stars'>
-                    {[...Array(5)].map((star, i) => {
+                    {[...Array(5)].map((i) => {
                         const currentRating = i + 1;
                         return (
                             <li key={`${currentRating}-star`} >
