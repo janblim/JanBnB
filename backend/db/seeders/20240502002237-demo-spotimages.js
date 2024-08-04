@@ -110,6 +110,31 @@ module.exports = {
         url: 'https://janbnb.s3.us-east-2.amazonaws.com/techiebath.jpg',
         preview: false
       },
+      {
+        spotId: 5,
+        url: 'https://janbnb.s3.us-east-2.amazonaws.com/americaexterior.jpg',
+        preview: true
+      },
+      {
+        spotId: 5,
+        url: 'https://janbnb.s3.us-east-2.amazonaws.com/americanabed.jpg',
+        preview: false
+      },
+      {
+        spotId: 5,
+        url: 'https://janbnb.s3.us-east-2.amazonaws.com/americanadining.jpg',
+        preview: false
+      },
+      {
+        spotId: 5,
+        url: 'https://janbnb.s3.us-east-2.amazonaws.com/americanaliving.jpg',
+        preview: false
+      },
+      {
+        spotId: 5,
+        url: 'https://janbnb.s3.us-east-2.amazonaws.com/americanapatio.jpg',
+        preview: false
+      },
     ], { validate: true });
   },
 

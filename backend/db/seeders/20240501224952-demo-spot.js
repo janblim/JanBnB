@@ -58,6 +58,18 @@ module.exports = {
         description: `You couldn't get a more perfect location for this cozy, quiet, comfy, well-appointed cottage: just blocks from Mountain View's bustling downtown area centered on Castro Street, and a 5 minute walk to Caltrain and VTA. Perfect for visiting G00ogel and other local tech companies. That's right -- no separate cleaning fees, no checkout chores! On your way out, just lock the door and have a safe trip! Guests have complete and sole access to the entire one-bedroom cottage and the side yard. Other things to note: That's right -- just like a hotel, we don't charge a separate cleaning fee or expect you to do an onerous list of check-out tasks. On your way out, just lock the door, and have a safe trip!`,
         price: 150
       },
+      {
+        ownerId: 2,
+        address: '1776 Americana Lane',
+        city: 'Manchester',
+        state: 'Indiana',
+        country: 'USA',
+        lat: 50.72332,
+        lng: -56.3245,
+        name: 'Old American',
+        description: `Everything you need to feel right at home. The first floor master bedroom as well as a full bath provide privacy for a relaxing family get away. Three bedrooms up stairs with a spacious full bath make a perfect set up for family and friends to have privacy during your stay. A private office on the second floor is a great space for those who need to get a little work done. Central House is nestled in a quiet neighborhood with a relaxing front porch, perfect for enjoying your morning coffee. Also enjoy the cute fenced back yard, complete with patio & fire pit for outdoor enjoyment.`,
+        price: 230
+      },
 
     ], { validate: true });
   },
