@@ -29,3 +29,9 @@ textarea {
 header {
     font-size: 14pt;
 }
+
+.error {
+    color: red;
+    font-size: 12pt;
+    padding-left: 5px;
+}

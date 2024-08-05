@@ -23,7 +23,7 @@ const SpotDetails = () => {
     useEffect(() => {
         dispatch(getSpotReviewsThunk(id))
             .then(dispatch(getOneSpotThunk(id)))
-    }, [dispatch, ConfirmDeleteReviewModal, id]);
+    }, [dispatch, id]);
 
     const starRating = (stars) => {
         return (
@@ -50,6 +50,9 @@ const SpotDetails = () => {
 
 
     const postReviewController = (reviews) => {
+        if(!user){
+            return null
+        }
         if(owner.id === user.id){ //if owner of spot is current user, return null
             return null
         }
@@ -177,7 +180,7 @@ const SpotDetails = () => {
 
                                 <br></br>
 
-                                    {review.userId === user.id ?
+                                    {review.userId === user?.id ?
 
                                     <OpenModalButton
                                     buttonText='Delete'

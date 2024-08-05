@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { FaStar } from "react-icons/fa";
@@ -13,23 +13,42 @@ function AddReviewModal({id, user}){
     const [rating, setRating] = useState(null);
     const [errors, setErrors] = useState({});
     const [hover, setHover] = useState(null);
+    const [showErrors, setShowErrors] = useState(false)
 
+
+    useEffect(() => { //for dynamic error handling
+        const newErrors = {};
+        if(!review){
+          newErrors.review = 'Review text is required';
+        }
+        if(!rating){
+          newErrors.rating = 'Star rating is required';
+        }
+        if(rating < 1 || rating > 5){
+            newErrors.rating = 'Star rating is required';
+        }
+        setErrors(newErrors);
+      }, [review, rating])
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if(Object.values(errors).length){
+            setShowErrors(true)
+            return
+        }
         setErrors({});
-            return dispatch(postReviewThunk(id, review, rating, user))
+        return dispatch(postReviewThunk(id, review, rating, user))
                 .then(closeModal)
-                .catch(async (res) => {
-                    if (data && data.errors){
-                        setErrors(data.errors)
-                    }
-                });
+
     }
 
 return (
     <div id='review-modal'>
         <h2>How was your stay?</h2>
+
+        {errors.review && showErrors? <label className='error'>{errors.review}</label> : null}
+        {errors.rating && showErrors? <label className='error'>{errors.rating}</label> : null}
+
         <form id='review-form' onSubmit={handleSubmit}>
            <textarea id='review' rows='10' cols='55' type='text'
            placeholder='Leave your review here...'
@@ -66,7 +85,7 @@ return (
                     Stars
                 </div>
             </div>
-            {errors.credential && <p>{errors.credential}</p>}
+
             <br></br>
             <button
             className={review && rating ? 'red-button' : 'red-button-disabled'}

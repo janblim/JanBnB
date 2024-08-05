@@ -10,7 +10,6 @@ const SPOTIMAGE = 'spots/image'
 const OWNERSPOTS = 'spots/owner'
 const DELETESPOT = 'spots/delete'
 const UPDATESPOT = 'spots/update'
-const POSTREVIEW = 'spots/review'
 
 // Action creators ()
 
@@ -90,7 +89,7 @@ export const getOneSpotThunk = (id) => async(dispatch) => {
             const data = await spot.json()
             dispatch(getOneSpot(data))
         } else {
-            throw res
+            throw spot
         }
     }
     catch(e){

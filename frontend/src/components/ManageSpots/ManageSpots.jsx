@@ -18,7 +18,6 @@ const ManageSpots = () => {
 
     useEffect( () => {
         dispatch(getAllUserSpotsThunk())
-        .then(console.log(userSpotsArr))
         .then(() => setIsLoaded(true))
         }, [userSpots, dispatch]);
 
