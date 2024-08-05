@@ -11,7 +11,7 @@ function LoginFormModal(){
     //variables
     const [credential, setCredential] = useState('');
     const [password, setPassword] = useState('');
-    const [errors, setErrors] = useState({}); //set as empty object
+    const [errors, setErrors] = useState(''); //only error is message invalid credentials
 
     // if (sessionUser){ //if there is a session user, go to '/'
     //     return (<Navigate to="/" replace={true}/>);
@@ -19,19 +19,20 @@ function LoginFormModal(){
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setErrors({}); //empties errors
+            setErrors(''); //empties errors
             return dispatch(sessionActions.login({credential, password}))
                .then(closeModal)
                .catch(async (res) => {
                     const data = await res.json();
-                    if (data && data.errors){ //(?.) 'optional chaining', shortcircuts as null. Very nice!
-                        setErrors(data.errors)
+                    if (data?.message){
+                        setErrors(data.message);
+                        console.log(errors)
                     }
                });
     };
 
     return (
-        <>
+        <div id='login-box'>
             <h1>Log In</h1>
             <form onSubmit={handleSubmit}>
                 <label>
@@ -52,12 +53,15 @@ function LoginFormModal(){
                         required
                     />
                 </label>
-            {errors.credential && <p>{errors.credential}</p>}
-            <button type='submit'>
+            {errors && <p className='error'>{errors}</p>}
+            <button
+                id='login-button'
+                className={credential && password ? 'red-button' : 'red-button-disabled'}
+                type='submit'>
                 Log In
             </button>
             </form>
-        </>
+        </div>
     )
 }
 

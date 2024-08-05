@@ -2,6 +2,16 @@ form {
     margin: 20px 0;
     width: 490px;
     padding: 10px;
-    border: 1px solid black;
     flex-direction: column
+}
+
+#signup-form-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#signup-button{
+    height: 50px;
+    width: 460px
 }
