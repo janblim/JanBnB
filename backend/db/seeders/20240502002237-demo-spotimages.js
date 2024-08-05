@@ -135,6 +135,31 @@ module.exports = {
         url: 'https://janbnb.s3.us-east-2.amazonaws.com/americanapatio.jpg',
         preview: false
       },
+      {
+        spotId: 6,
+        url: 'https://janbnb.s3.us-east-2.amazonaws.com/engexterior.jpg',
+        preview: true
+      },
+      {
+        spotId: 6,
+        url: 'https://janbnb.s3.us-east-2.amazonaws.com/engbed.jpg',
+        preview: false
+      },
+      {
+        spotId: 6,
+        url: 'https://janbnb.s3.us-east-2.amazonaws.com/engkitchen.jpg',
+        preview: false
+      },
+      {
+        spotId: 6,
+        url: 'https://janbnb.s3.us-east-2.amazonaws.com/engliving.jpg',
+        preview: false
+      },
+      {
+        spotId: 6,
+        url: 'https://janbnb.s3.us-east-2.amazonaws.com/engpatio.jpg',
+        preview: false
+      },
     ], { validate: true });
   },
 

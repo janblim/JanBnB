@@ -23,6 +23,24 @@ module.exports = {
         stars: 4
       },
       {
+        spotId: 1,
+        userId: 4,
+        review: `We had a absolutely wonder-filled stay in this tiny little cottage of a place. 'Twas a lark! A veritable spree! An unmitigated success! We will surely stay here again, if fortune permits, and methinks she shall!`,
+        stars: 5
+      },
+      {
+        spotId: 1,
+        userId: 5,
+        review: `Civilized society feels that manners are of more importance than morals, and the highest respectability is of less value than the possession of a good chef. Even the cardinal virtues cannot atone for cold entrees, nor an irreproachable private life for a bad dinner and poor company.`,
+        stars: 3
+      },
+      {
+        spotId: 1,
+        userId: 6,
+        review: `To be good according to the vulgar standard of goodness is quite easy. It merely requires a certain amount of sordid terror, a certain lack of imaginative thought, and a certain low passion for middle-class respectability.`,
+        stars: 3
+      },
+      {
         spotId: 2,
         userId: 1,
         review: `I really loved my room there. It was perfect. The place is sandwiched between the French, Quarter and Frenchmen Street, so if you're visiting and want to spend time in those two areas, it's about as convenient location as you could get, while still being out of all the madness and noise. The hosts were responsive, and the room was beautifully cleaned and appointed with more of an antique style, with access to the balcony. There is also a kitchen in the main part of the house for guests to use where you can store drinks in the fridge and make coffee in the morning, and even cook a little snacks or meals. Really great stay for the money!`,
