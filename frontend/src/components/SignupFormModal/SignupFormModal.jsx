@@ -37,6 +37,9 @@ function SignupFormModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if(Object.values(errors).length){
+      throw new Error ('there are errors in the form')
+  } else {
     if (password === confirmPassword) {
       setErrors({});
       return dispatch(
@@ -59,6 +62,7 @@ function SignupFormModal() {
     return setErrors({
       confirmPassword: "Confirm Password field must be the same as the Password field"
     });
+  }
   };
 
   return (

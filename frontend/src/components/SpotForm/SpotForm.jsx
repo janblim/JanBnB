@@ -139,7 +139,7 @@ const SpotForm = () => {
       if(!lat){
         newErrors.lat = 'Latitude is required';
       }
-      if(lat < -90 || lng > 90){
+      if(lat < -90 || lat > 90){
         newErrors.lat = "Latitude must be within -90 and 90"
       }
 
