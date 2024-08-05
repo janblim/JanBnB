@@ -21,11 +21,14 @@ function AddReviewModal({id, user}){
         if(!review){
           newErrors.review = 'Review text is required';
         }
+        if(review.length < 5){
+            newErrors.rating = 'Review must be 5 characters or more'
+        }
         if(!rating){
           newErrors.rating = 'Star rating is required';
         }
         if(rating < 1 || rating > 5){
-            newErrors.rating = 'Star rating is required';
+            newErrors.rating = 'Star rating must be between 1 and 5';
         }
         setErrors(newErrors);
       }, [review, rating])

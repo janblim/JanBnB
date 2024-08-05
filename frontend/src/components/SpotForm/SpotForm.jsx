@@ -103,34 +103,76 @@ const SpotForm = () => {
             image4
         } = images;
 
-
+        //country
       if(!country){
         newErrors.country = 'Country is required';
       }
+      if(country.length > 254){
+        newErrors.country = 'Country must be shorter than 255 characters';
+      }
+
+      //adress
       if(!address){
         newErrors.address = 'Address is required';
       }
+      if(address.length > 254){
+        newErrors.address = 'Address must be shorter than 255 characters';
+      }
+
+      //city
       if(!city){
         newErrors.city = 'City is required';
       }
+      if(city.length > 254){
+        newErrors.city = 'City must be shorter than 255 characters';
+      }
+
+      //state
       if(!state){
         newErrors.state = 'State is required';
       }
+      if(state.length > 254){
+        newErrors.state = 'State must be shorter than 255 characters';
+      }
+
+      //lat
       if(!lat){
         newErrors.lat = 'Latitude is required';
       }
+      if(lat < -90 || lng > 90){
+        newErrors.lat = "Latitude must be within -90 and 90"
+      }
+
+      //lng
       if(!lng){
         newErrors.lng = 'Longitude is required';
       }
+      if(lng < -180 || lng > 180){
+        newErrors.lng = 'Longitude must be within -180 and 180'
+      }
+
+      //description
       if(description?.length < 30){
         newErrors.description = 'Description needs a minimum of 30 characters'
       }
+
+      //name
       if(!name){
         newErrors.name = 'Name is required'
       }
+      if(name.length > 50){
+        newErrors.name = "Name must be less than 50 characters"
+      }
+
+      //price
       if(!price){
         newErrors.price = 'Price is required'
       }
+      if(price < 0){
+        newErrors.price = 'Price must be a positive number'
+      }
+
+      //preview image
       if(!preview){
         newErrors.preview = "Preview image is required"
       }

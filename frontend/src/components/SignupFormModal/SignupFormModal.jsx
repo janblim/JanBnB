@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import * as sessionActions from '../../store/session';
@@ -15,6 +15,25 @@ function SignupFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
+  useEffect(() => { //for dynamic error handling
+    const newErrors = {};
+    if(email.length > 254){
+      newErrors.email = 'Email must be shorter than 255 characters';
+    }
+    if(username.length > 254){
+      newErrors.username = 'Username must be shorter than 255 character';
+    }
+    if(firstName.length > 254){
+      newErrors.firstName = 'First name must be shorter than 255 characters';
+    }
+    if(lastName.length > 254){
+      newErrors.lastName = 'Last name must be shorter than 255 characters';
+    }
+    if(password.length > 254){
+      newErrors.password = 'Password must be shorter than 255 characters';
+    }
+    setErrors(newErrors);
+  }, [email, username, firstName, lastName, password])
 
   const handleSubmit = (e) => {
     e.preventDefault();
