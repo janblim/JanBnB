@@ -17,6 +17,7 @@ function Layout(){ //this puts it all together...
   const [isLoaded, setIsLoaded] = useState(false); //slice of state that checks if user has been loaded
 
   useEffect(() => {
+    document.title = 'janbnb'
     dispatch(sessionActions.restoreUser()).then(()=>{
       setIsLoaded(true) //sets isLoaded to true
     });
