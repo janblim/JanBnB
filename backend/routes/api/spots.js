@@ -579,7 +579,6 @@ router.delete(
 
 router.get(
     '/:spotId/reviews',
-    requireAuth,
     async (req, res) => {
         const spotId = req.params.spotId;
 
