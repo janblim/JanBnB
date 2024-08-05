@@ -49,7 +49,7 @@ const UpdateForm = () => {
         e.preventDefault();
 
         if(Object.values(errors).length){
-            throw new Error ('there are errors in the form')
+            return
         } else {
 
             setSubmitted(true)

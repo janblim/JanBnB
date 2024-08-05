@@ -38,7 +38,7 @@ function SignupFormModal() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if(Object.values(errors).length){
-      throw new Error ('there are errors in the form')
+      return
   } else {
     if (password === confirmPassword) {
       setErrors({});
