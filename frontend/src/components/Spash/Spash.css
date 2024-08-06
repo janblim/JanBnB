@@ -2,6 +2,10 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    padding-top: 50px;
+    padding-top: 20px;
     padding-bottom: 50px;
+    max-width: 1400px;
+}
+.card {
+    height: 360px;
 }

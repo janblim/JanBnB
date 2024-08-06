@@ -14,6 +14,7 @@ function SignupFormModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+  const [showErrors, setShowErrors] = useState(false)
 
   useEffect(() => { //for dynamic error handling
     const newErrors = {};
@@ -37,6 +38,7 @@ function SignupFormModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setShowErrors(true)
     if(Object.values(errors).length){
       return
   } else {
@@ -79,7 +81,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.email && <p className='error'>{errors.email}</p>}
+        {errors.email && showErrors && <p className='error'>{errors.email}</p>}
         <label>
           Username
           <input
@@ -90,7 +92,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.username && <p className='error'>{errors.username}</p>}
+        {errors.username && showErrors && <p className='error'>{errors.username}</p>}
         <label>
           First Name
           <input
@@ -101,7 +103,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.firstName && <p className='error'>{errors.firstName}</p>}
+        {errors.firstName && showErrors &&<p className='error'>{errors.firstName}</p>}
         <label>
           Last Name
           <input
@@ -112,7 +114,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.lastName && <p className='error'>{errors.lastName}</p>}
+        {errors.lastName && showErrors && <p className='error'>{errors.lastName}</p>}
         <label>
           Password
           <input
@@ -123,7 +125,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.password && <p className='error'>{errors.password}</p>}
+        {errors.password && showErrors && <p className='error'>{errors.password}</p>}
         <label>
           Confirm Password
           <input
@@ -134,7 +136,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.confirmPassword && (
+        {errors.confirmPassword && showErrors && (
           <p className='error'>{errors.confirmPassword}</p>
         )}
         <button

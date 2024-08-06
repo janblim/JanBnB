@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import { useModal } from "../../context/Modal";
 import * as sessionActions from '../../store/session';
@@ -11,25 +11,43 @@ function LoginFormModal(){
     //variables
     const [credential, setCredential] = useState('');
     const [password, setPassword] = useState('');
-    const [errors, setErrors] = useState(''); //only error is message invalid credentials
-
+    const [errors, setErrors] = useState({}); //only error is message invalid credentials
+    const [showErrors, setShowErrors] = useState(false)
     // if (sessionUser){ //if there is a session user, go to '/'
     //     return (<Navigate to="/" replace={true}/>);
     // }
 
     const handleSubmit = (e) => {
         e.preventDefault();
+            setShowErrors(true)
+            if(Object.values(errors).length){
+                return
+            } else {
             setErrors(''); //empties errors
             return dispatch(sessionActions.login({credential, password}))
                .then(closeModal)
                .catch(async (res) => {
                     const data = await res.json();
-                    if (data?.message){
-                        setErrors(data.message);
-                        console.log(errors)
+                    if (data.message){
+                        const newError = {}
+                        newError.invalid = data.message
+                        setErrors(newError);
                     }
                });
+            }
     };
+
+    useEffect(() => { //for dynamic error handling
+        const newErrors = {};
+        if(credential.length < 4){
+          newErrors.credential = 'Username must be at least 4 characters';
+        }
+        if(password.length < 6){
+          newErrors.password = 'Password must be at least 6 characters';
+        }
+
+        setErrors(newErrors);
+      }, [credential, password])
 
     return (
         <div id='login-box'>
@@ -44,6 +62,7 @@ function LoginFormModal(){
                     required
                 />
                 </label>
+            {errors.credential && showErrors && <p className='error'>{errors.credential}</p>}
                 <label>
                     Password
                     <input
@@ -53,7 +72,8 @@ function LoginFormModal(){
                         required
                     />
                 </label>
-            {errors && <p className='error'>{errors}</p>}
+            {errors.password && showErrors && <p className='error'>{errors.password}</p>}
+            {errors.invalid && <p className='error'>{errors.invalid}</p>}
             <button
                 id='login-button'
                 className={credential && password ? 'red-button' : 'red-button-disabled'}

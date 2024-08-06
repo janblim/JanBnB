@@ -22,7 +22,7 @@ const Splash = () => {
         {Object.keys(spots).map((key) => {
             const spot = spots[key]
             return(
-                <div key={`${spot.id}-${spot.address}`}>
+                <div className='card' key={`${spot.id}-${spot.address}`}>
                     <span>
                         <Card
                         id={spot.id}
