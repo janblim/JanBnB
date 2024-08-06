@@ -171,39 +171,42 @@ const UpdateForm = () => {
         if(price < 0){
           newErrors.price = 'Price must be a positive number'
         }
+        if (price > 100000000000){
+          newErrors.price = 'Price must be less than $100,000,000,000'
+        }
 
+        //image 1
+        if(notImage(image1) && image1){
+          newErrors.image1 = "Image URL must end in .png, .jpg, or .jpeg"
+        }
+        if(image1.length > 249){
+          newErrors.image1 = 'image url must be shorter than 255 characters';
+        }
 
-      //image 1
-      if(notImage(image1) && image1){
-        newErrors.image1 = "Image URL must end in .png, .jpg, or .jpeg"
-      }
-      if(image1.length > 249){
-        newErrors.image1 = 'preview url must be shorter than 255 characters';
-      }
+        //image 2
+        if(notImage(image2) && image2){
+          newErrors.image2 = "Image URL must end in .png, .jpg, or .jpeg"
+        }
+        if(image2.length > 249){
+          newErrors.image2 = 'image url must be shorter than 255 characters';
+        }
 
-      //image 2
-      if(notImage(image2) && image2){
-        newErrors.image2 = "Image URL must end in .png, .jpg, or .jpeg"
-      }
-      if(image2.length > 249){
-        newErrors.image2 = 'image url must be shorter than 255 characters';
-      }
+        //image 3
+        if(notImage(image3) && image3){
+          newErrors.image3 = "Image URL must end in .png, .jpg, or .jpeg"
+        }
+        if(image3.length > 249){
+          newErrors.image3 = 'image url must be shorter than 255 characters';
+        }
 
-      //image 3
-      if(notImage(image3) && image3){
-        newErrors.image3 = "Image URL must end in .png, .jpg, or .jpeg"
-      }
-      if(image3.length > 249){
-        newErrors.image3 = 'image url must be shorter than 255 characters';
-      }
+        //image 4
+        if(notImage(image4) && image4){
+          newErrors.image4 = "Image URL must end in .png, .jpg, or .jpeg"
+        }
+        if(image4.length > 249){
+          newErrors.image4 = 'image url must be shorter than 255 characters';
+        }
 
-      //image 4
-      if(notImage(image4) && image4){
-        newErrors.image4 = "Image URL must end in .png, .jpg, or .jpeg"
-      }
-      if(image4.length > 249){
-        newErrors.image4 = 'image url must be shorter than 255 characters';
-      }
 
       setErrors(newErrors);
 

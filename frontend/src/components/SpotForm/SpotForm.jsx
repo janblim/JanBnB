@@ -171,6 +171,9 @@ const SpotForm = () => {
       if(price < 0){
         newErrors.price = 'Price must be a positive number'
       }
+      if (price > 100000000000){
+        newErrors.price = 'Price must be less than $100,000,000,000'
+      }
 
       //preview image
       if(!preview){
@@ -189,7 +192,7 @@ const SpotForm = () => {
         newErrors.image1 = "Image URL must end in .png, .jpg, or .jpeg"
       }
       if(image1.length > 249){
-        newErrors.image1 = 'preview url must be shorter than 255 characters';
+        newErrors.image1 = 'image url must be shorter than 255 characters';
       }
 
       //image 2
@@ -346,7 +349,7 @@ const SpotForm = () => {
                 <input type='text'
                 placeholder='Preview Image URL'
                 onChange={(e) => updateImage(e, 'preview')}></input>
-                {errors.url && submitted? <label className='error'>{errors.url}</label> : null}
+                {errors.preview && submitted? <label className='error'>{errors.preview}</label> : null}
 
                 <input type='text'
                 placeholder='Image URL'
