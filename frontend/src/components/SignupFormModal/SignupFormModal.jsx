@@ -29,8 +29,8 @@ function SignupFormModal() {
     if(lastName.length > 249){
       newErrors.lastName = 'Last name must be shorter than 255 characters';
     }
-    if(password.length > 249){
-      newErrors.password = 'Password must be shorter than 255 characters';
+    if(password.length < 5 || password.length > 249){
+      newErrors.password = 'Password must be between 5 and 255 characters';
     }
     setErrors(newErrors);
   }, [email, username, firstName, lastName, password])
