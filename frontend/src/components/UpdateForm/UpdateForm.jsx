@@ -107,7 +107,7 @@ const UpdateForm = () => {
         if(!country){
           newErrors.country = 'Country is required';
         }
-        if(country.length > 254){
+        if(country.length > 249){
           newErrors.country = 'Country must be shorter than 255 characters';
         }
 
@@ -115,7 +115,7 @@ const UpdateForm = () => {
         if(!address){
           newErrors.address = 'Address is required';
         }
-        if(address.length > 254){
+        if(address.length > 249){
           newErrors.address = 'Address must be shorter than 255 characters';
         }
 
@@ -123,7 +123,7 @@ const UpdateForm = () => {
         if(!city){
           newErrors.city = 'City is required';
         }
-        if(city.length > 254){
+        if(city.length > 249){
           newErrors.city = 'City must be shorter than 255 characters';
         }
 
@@ -131,7 +131,7 @@ const UpdateForm = () => {
         if(!state){
           newErrors.state = 'State is required';
         }
-        if(state.length > 254){
+        if(state.length > 249){
           newErrors.state = 'State must be shorter than 255 characters';
         }
 
