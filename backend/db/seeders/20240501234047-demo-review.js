@@ -32,7 +32,7 @@ module.exports = {
         spotId: 1,
         userId: 5,
         review: `Civilized society feels that manners are of more importance than morals, and the highest respectability is of less value than the possession of a good chef. Even the cardinal virtues cannot atone for cold entrees, nor an irreproachable private life for a bad dinner and poor company.`,
-        stars: 3
+        stars: 5
       },
       {
         spotId: 1,
@@ -57,6 +57,12 @@ module.exports = {
         userId: 4,
         review: `The mansion is charming and the outdoor courtyard was a great spot to meditate, eat lunch and relax after a hectic night of Mardi Gras parades. The room was as described- comfortable. The bathroom was modern and had all the amenities of a hotel. Sharing the main spaces was fine as the kitchen stayed clean and most other guests were in and out with a friendly nod. The hosts were responsive and I'd stay again.`,
         stars: 5
+      },
+      {
+        spotId: 2,
+        userId: 5,
+        review: `Life is a mauvais quart d'heure made up of exquisite moments. The world has always laughed at its own tragedies, that being the only way in which it has been able to bear them; consequently, whatever the world has treated seriously belongs to the comedy side of things. When one has never heard a man's name in the course of one's life it speaks volumes for him; he must be quite respectable. Anybody can write a three-volume novel. It merely requires a complete ignorance of both life and literature.`,
+        stars: 3
       },
       {
         spotId: 3,
