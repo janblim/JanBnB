@@ -20,8 +20,8 @@ function SignupFormModal() {
     if(email.length > 249){
       newErrors.email = 'Email must be shorter than 255 characters';
     }
-    if(username.length > 249){
-      newErrors.username = 'Username must be shorter than 255 character';
+    if(username.length < 5 || username.length > 249){
+      newErrors.username = 'Username must be between 5 and 255 characters';
     }
     if(firstName.length > 249){
       newErrors.firstName = 'First name must be shorter than 255 characters';
