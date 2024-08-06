@@ -95,7 +95,6 @@ const UpdateForm = () => {
         } = form; //destructure useState form
 
         const {
-            url,
             image1,
             image2,
             image3,
