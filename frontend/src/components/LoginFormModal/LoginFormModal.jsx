@@ -37,6 +37,26 @@ function LoginFormModal(){
             }
     };
 
+    const demoLogin = (e) => {
+        e.preventDefault();
+
+        return dispatch(sessionActions.login({
+            credential: 'demo@user.io',
+            password: 'password',
+          }))
+          .then(closeModal)
+          .catch(async (res) => {
+            const data = await res.json();
+            if(data.message){
+                const newError  = {}
+                newError.invalid = data.message
+                setErrors(newError);
+            }
+          })
+    }
+
+
+
     useEffect(() => { //for dynamic error handling
         const newErrors = {};
         if(credential.length < 4){
@@ -74,12 +94,14 @@ function LoginFormModal(){
                 </label>
             {errors.password && showErrors && <p className='error'>{errors.password}</p>}
             {errors.invalid && <p className='error'>{errors.invalid}</p>}
+
             <button
                 id='login-button'
                 className={credential && password ? 'red-button' : 'red-button-disabled'}
                 type='submit'>
                 Log In
             </button>
+            <button id='login-button' onClick={(e) => demoLogin(e)}>Demo Login</button>
             </form>
         </div>
     )

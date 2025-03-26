@@ -14,4 +14,6 @@ input {
 #login-button{
     width: 460px;
     height: 50px;
+    margin-bottom: 10px;
+    border-radius: 10px;
 }
